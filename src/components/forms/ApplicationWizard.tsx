@@ -2405,8 +2405,8 @@ export default function ApplicationWizard() {
                     required
                   >
                     <option value="">Select account status</option>
-                    <option value="Positive">Positive</option>
-                    <option value="Negative">Negative</option>
+                    <option value="positive">Positive</option>
+                    <option value="negative">Negative</option>
                   </select>
                   <p className="text-[11px] text-slate-500 mt-1">
                     Self-reported account balance status.
