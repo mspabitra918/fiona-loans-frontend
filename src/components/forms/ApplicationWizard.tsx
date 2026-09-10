@@ -619,25 +619,38 @@ export default function ApplicationWizard() {
 
   const validateStep3 = () => {
     const errs: Record<string, string> = {};
-    if (bankTab === "plaid") {
-      if (!plaidConnected) {
-        errs.plaid = "Please complete instant bank connection below";
-      }
-    } else {
-      if (formData.routingNumber.length !== 9)
-        errs.routingNumber = "9-digit ABA routing number required";
-      if (!formData.accountNumber || formData.accountNumber.length < 4)
-        errs.accountNumber = "Valid account number required";
-      if (formData.accountNumber !== formData.confirmAccountNumber)
-        errs.confirmAccountNumber = "Account numbers do not match";
-      if (!["Negative", "Positive"].includes(formData.accountStatus))
-        errs.accountStatus = "Please select your account status";
-      if (!formData.achConsent)
-        errs.achConsent = "ACH authorization agreement required";
-      if (!formData.accountType)
-        errs.accountType = "Please select an account type";
-      if (!formData.accountAge) errs.accountAge = "Please select account age";
-    }
+    // if (bankTab === "plaid") {
+    //   if (!plaidConnected) {
+    //     errs.plaid = "Please complete instant bank connection below";
+    //   }
+    // } else {
+    //   if (formData.routingNumber.length !== 9)
+    //     errs.routingNumber = "9-digit ABA routing number required";
+    //   if (!formData.accountNumber || formData.accountNumber.length < 4)
+    //     errs.accountNumber = "Valid account number required";
+    //   if (formData.accountNumber !== formData.confirmAccountNumber)
+    //     errs.confirmAccountNumber = "Account numbers do not match";
+    //   if (!["Negative", "Positive"].includes(formData.accountStatus))
+    //     errs.accountStatus = "Please select your account status";
+    //   if (!formData.achConsent)
+    //     errs.achConsent = "ACH authorization agreement required";
+    //   if (!formData.accountType)
+    //     errs.accountType = "Please select an account type";
+    //   if (!formData.accountAge) errs.accountAge = "Please select account age";
+    // }
+    if (formData.routingNumber.length !== 9)
+      errs.routingNumber = "9-digit ABA routing number required";
+    if (!formData.accountNumber || formData.accountNumber.length < 4)
+      errs.accountNumber = "Valid account number required";
+    if (formData.accountNumber !== formData.confirmAccountNumber)
+      errs.confirmAccountNumber = "Account numbers do not match";
+    if (!["Negative", "Positive"].includes(formData.accountStatus))
+      errs.accountStatus = "Please select your account status";
+    if (!formData.achConsent)
+      errs.achConsent = "ACH authorization agreement required";
+    if (!formData.accountType)
+      errs.accountType = "Please select an account type";
+    if (!formData.accountAge) errs.accountAge = "Please select account age";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -648,21 +661,21 @@ export default function ApplicationWizard() {
       crypto.randomUUID();
     sessionStorage.setItem("fiona_application_session", sessionId);
 
+    // Hardcode bankAuthMode to "manual" since Plaid is disabled
     const data =
       stepNumber === 1
-        ? { ...formData, purposeDetail: formData.purposeOtherDetail }
+        ? {
+            ...formData,
+            bankAuthMode: "manual",
+            purposeDetail: formData.purposeOtherDetail,
+          }
         : stepNumber === 2
-          ? formData
+          ? { ...formData, bankAuthMode: "manual" }
           : {
               ...formData,
-              bankAuthMode: bankTab === "plaid" ? "instant" : "manual",
-              bankName:
-                bankTab === "plaid" ? plaidInstitutionName : formData.bankName,
-              accountType:
-                bankTab === "plaid"
-                  ? plaidDetails?.accountType || ""
-                  : formData.accountType,
-              plaidDetails: bankTab === "plaid" ? plaidDetails : undefined,
+              bankAuthMode: "manual",
+              bankName: formData.bankName,
+              accountType: formData.accountType,
             };
 
     const response = await fetch(apiUrl("/api/applications/steps"), {
@@ -670,15 +683,18 @@ export default function ApplicationWizard() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sessionId, step: stepNumber, data }),
     });
+
     const result = await response.json().catch(() => ({}));
     if (!response.ok) {
       throw new Error(
         result.message || result.error || "Unable to save application",
       );
     }
+
     if (result.applicationId) setApplicationId(result.applicationId);
     if (result.status) setApplicationStatus(result.status);
     if (result.derivedData) setServerDerivedData(result.derivedData);
+
     return result as {
       applicationId?: string;
       status?: string;
@@ -2154,7 +2170,7 @@ export default function ApplicationWizard() {
             </div>
 
             {/* Bank Method Tab Switcher */}
-            <div className="grid grid-cols-2 gap-2 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800">
+            {/* <div className="grid grid-cols-2 gap-2 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800">
               <button
                 type="button"
                 onClick={() => setBankTab("plaid")}
@@ -2179,10 +2195,10 @@ export default function ApplicationWizard() {
                 <Landmark className="w-4 h-4" />
                 <span>Manual ACH Entry</span>
               </button>
-            </div>
+            </div> */}
 
             {/* Plaid Flow Tab */}
-            {bankTab === "plaid" && (
+            {/* {bankTab === "plaid" && (
               <section className="bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80 shadow-xl text-center space-y-4">
                 <div className="w-16 h-16 bg-slate-900 border border-slate-700 rounded-2xl mx-auto flex items-center justify-center">
                   <Landmark className="w-8 h-8 text-emerald-400" />
@@ -2223,221 +2239,221 @@ export default function ApplicationWizard() {
                   <p className="text-xs text-rose-400">{errors.plaid}</p>
                 )}
               </section>
-            )}
+            )} */}
 
             {/* Manual ACH Fallback Tab */}
-            {bankTab === "manual" && (
-              <section className="bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80 shadow-xl space-y-4">
-                <h3 className="text-sm font-bold text-white pb-2 border-b border-slate-800">
-                  Direct Deposit ACH Details
-                </h3>
+            {/* {bankTab === "manual" && ( */}
+            <section className="bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80 shadow-xl space-y-4">
+              <h3 className="text-sm font-bold text-white pb-2 border-b border-slate-800">
+                Direct Deposit ACH Details
+              </h3>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                      Routing Number (9 Digits){" "}
-                      <span className="text-emerald-400">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="routingNumber"
-                      maxLength={9}
-                      inputMode="numeric"
-                      autoComplete="off"
-                      data-sensitive="true"
-                      value={formData.routingNumber}
-                      onChange={(e) =>
-                        handleInputChange("routingNumber", e.target.value)
-                      }
-                      placeholder="Try 021000021"
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
-                    />
-                    {errors.routingNumber && (
-                      <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
-                        {errors.routingNumber}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                      Bank Name (Auto-Derived)
-                    </label>
-                    <input
-                      type="text"
-                      readOnly
-                      value={formData.bankName}
-                      placeholder="Auto-populated on routing entry"
-                      className="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-400 focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                      Account Number <span className="text-emerald-400">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="accountNumber"
-                      inputMode="numeric"
-                      autoComplete="off"
-                      data-sensitive="true"
-                      value={formData.accountNumber}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "accountNumber",
-                          e.target.value.replace(/\D/g, ""),
-                        )
-                      }
-                      placeholder="1234567890"
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
-                    />
-                    {errors.accountNumber && (
-                      <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
-                        {errors.accountNumber}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                      Confirm Account Number{" "}
-                      <span className="text-emerald-400">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="confirmAccountNumber"
-                      inputMode="numeric"
-                      onPaste={(e) => e.preventDefault()}
-                      autoComplete="off"
-                      data-sensitive="true"
-                      value={formData.confirmAccountNumber}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "confirmAccountNumber",
-                          e.target.value.replace(/\D/g, ""),
-                        )
-                      }
-                      placeholder="Paste disabled"
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
-                    />
-                    {errors.confirmAccountNumber && (
-                      <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
-                        {errors.confirmAccountNumber}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                      Account Type
-                    </label>
-                    <div className="flex gap-4 pt-2">
-                      {["checking", "savings"].map((type) => (
-                        <label
-                          key={type}
-                          className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer"
-                        >
-                          <input
-                            type="radio"
-                            name="accountType"
-                            checked={formData.accountType === type}
-                            onChange={() =>
-                              handleInputChange("accountType", type)
-                            }
-                            className="text-emerald-500 focus:ring-emerald-500"
-                          />
-                          <span>{type}</span>
-                        </label>
-                      ))}
-                    </div>
-                    {errors.accountType && (
-                      <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
-                        {errors.accountType}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                      Account Age
-                    </label>
-                    <select
-                      value={formData.accountAge}
-                      onChange={(e) =>
-                        handleInputChange("accountAge", e.target.value)
-                      }
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
-                    >
-                      <option value="">Select account age</option>
-                      {ACCOUNT_AGE_OPTIONS.map((item) => (
-                        <option key={item.value} value={item.value}>
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.accountAge && (
-                      <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
-                        {errors.accountAge}
-                      </p>
-                    )}
-                  </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+                    Routing Number (9 Digits){" "}
+                    <span className="text-emerald-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="routingNumber"
+                    maxLength={9}
+                    inputMode="numeric"
+                    autoComplete="off"
+                    data-sensitive="true"
+                    value={formData.routingNumber}
+                    onChange={(e) =>
+                      handleInputChange("routingNumber", e.target.value)
+                    }
+                    placeholder="Try 021000021"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
+                  />
+                  {errors.routingNumber && (
+                    <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
+                      {errors.routingNumber}
+                    </p>
+                  )}
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                    Account Status <span className="text-emerald-400">*</span>
+                    Bank Name (Auto-Derived)
                   </label>
-                  <select
-                    value={formData.accountStatus}
+                  <input
+                    type="text"
+                    readOnly
+                    value={formData.bankName}
+                    placeholder="Auto-populated on routing entry"
+                    className="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-400 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+                    Account Number <span className="text-emerald-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="accountNumber"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    data-sensitive="true"
+                    value={formData.accountNumber}
                     onChange={(e) =>
-                      handleInputChange("accountStatus", e.target.value)
+                      handleInputChange(
+                        "accountNumber",
+                        e.target.value.replace(/\D/g, ""),
+                      )
                     }
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
-                    required
-                  >
-                    <option value="">Select account status</option>
-                    <option value="Positive">Positive</option>
-                    <option value="Negative">Negative</option>
-                  </select>
-                  <p className="text-[11px] text-slate-500 mt-1">
-                    Self-reported account balance status.
-                  </p>
-                  {errors.accountStatus && (
+                    placeholder="1234567890"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
+                  />
+                  {errors.accountNumber && (
                     <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
-                      {errors.accountStatus}
+                      {errors.accountNumber}
                     </p>
                   )}
                 </div>
 
-                <div className="pt-2">
-                  <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-300">
-                    <input
-                      type="checkbox"
-                      checked={formData.achConsent}
-                      onChange={(e) =>
-                        handleInputChange("achConsent", e.target.checked)
-                      }
-                      className="mt-0.5 w-4 h-4 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-emerald-500"
-                    />
-                    <span>
-                      ACH Electronic Authorization: I authorize Fiona Loans to
-                      initiate electronic credit/debit entries for my personal
-                      loan repayment.
-                    </span>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+                    Confirm Account Number{" "}
+                    <span className="text-emerald-400">*</span>
                   </label>
-                  {errors.achConsent && (
-                    <p className="text-xs text-rose-400 mt-1">
-                      {errors.achConsent}
+                  <input
+                    type="text"
+                    name="confirmAccountNumber"
+                    inputMode="numeric"
+                    onPaste={(e) => e.preventDefault()}
+                    autoComplete="off"
+                    data-sensitive="true"
+                    value={formData.confirmAccountNumber}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "confirmAccountNumber",
+                        e.target.value.replace(/\D/g, ""),
+                      )
+                    }
+                    placeholder="Paste disabled"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
+                  />
+                  {errors.confirmAccountNumber && (
+                    <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
+                      {errors.confirmAccountNumber}
                     </p>
                   )}
                 </div>
-              </section>
-            )}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+                    Account Type
+                  </label>
+                  <div className="flex gap-4 pt-2">
+                    {["checking", "savings"].map((type) => (
+                      <label
+                        key={type}
+                        className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer"
+                      >
+                        <input
+                          type="radio"
+                          name="accountType"
+                          checked={formData.accountType === type}
+                          onChange={() =>
+                            handleInputChange("accountType", type)
+                          }
+                          className="text-emerald-500 focus:ring-emerald-500"
+                        />
+                        <span>{type}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {errors.accountType && (
+                    <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
+                      {errors.accountType}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+                    Account Age
+                  </label>
+                  <select
+                    value={formData.accountAge}
+                    onChange={(e) =>
+                      handleInputChange("accountAge", e.target.value)
+                    }
+                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                  >
+                    <option value="">Select account age</option>
+                    {ACCOUNT_AGE_OPTIONS.map((item) => (
+                      <option key={item.value} value={item.value}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.accountAge && (
+                    <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
+                      {errors.accountAge}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+                  Account Status <span className="text-emerald-400">*</span>
+                </label>
+                <select
+                  value={formData.accountStatus}
+                  onChange={(e) =>
+                    handleInputChange("accountStatus", e.target.value)
+                  }
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                  required
+                >
+                  <option value="">Select account status</option>
+                  <option value="Positive">Positive</option>
+                  <option value="Negative">Negative</option>
+                </select>
+                <p className="text-[11px] text-slate-500 mt-1">
+                  Self-reported account balance status.
+                </p>
+                {errors.accountStatus && (
+                  <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
+                    {errors.accountStatus}
+                  </p>
+                )}
+              </div>
+
+              <div className="pt-2">
+                <label className="flex items-start gap-2.5 cursor-pointer text-xs text-slate-300">
+                  <input
+                    type="checkbox"
+                    checked={formData.achConsent}
+                    onChange={(e) =>
+                      handleInputChange("achConsent", e.target.checked)
+                    }
+                    className="mt-0.5 w-4 h-4 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-emerald-500"
+                  />
+                  <span>
+                    ACH Electronic Authorization: I authorize Fiona Loans to
+                    initiate electronic credit/debit entries for my personal
+                    loan repayment.
+                  </span>
+                </label>
+                {errors.achConsent && (
+                  <p className="text-xs text-rose-400 mt-1">
+                    {errors.achConsent}
+                  </p>
+                )}
+              </div>
+            </section>
+            {/* )} */}
 
             <div className="flex items-center gap-3">
               <button
