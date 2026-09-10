@@ -1427,7 +1427,7 @@ export default function ApplicationWizard() {
                 </div>
               </div>
 
-              {["Rent", "Own with mortgage"].includes(
+              {["rent", "own_with_mortgage"].includes(
                 formData.housingStatus,
               ) && (
                 <div className="animate-fadeIn">
@@ -1542,9 +1542,9 @@ export default function ApplicationWizard() {
 
               {/* Conditional Employer Fields */}
               {[
-                "Employed — Full Time",
-                "Employed — Part Time",
-                "Self-Employed",
+                "employed_full_time",
+                "employed_part_time",
+                "self_employed",
               ].includes(formData.employmentStatus) && (
                 <div className="space-y-4 pt-2 border-t border-slate-800/80 animate-fadeIn">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1697,7 +1697,7 @@ export default function ApplicationWizard() {
                   )}
                 </div>
 
-                {formData.payFrequency !== "Irregular" && (
+                {formData.payFrequency !== "irregular" && (
                   <div>
                     <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
                       Next Pay Date <span className="text-emerald-400">*</span>
