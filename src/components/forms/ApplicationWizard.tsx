@@ -602,6 +602,12 @@ export default function ApplicationWizard() {
       errs.dlNumber = "Driver's License required";
     if (!formData.dlState) errs.dlState = "Please select the issuing state";
     if (!formData.dlExpiration) errs.dlExpiration = "Expiration date required";
+    if (
+      !formData.dlExpiration ||
+      new Date(formData.dlExpiration) < new Date()
+    ) {
+      errs.dlExpiration = "Expiration date must be in the future";
+    }
 
     if (!formData.hardCreditConsent)
       errs.hardCreditConsent =
@@ -631,6 +637,10 @@ export default function ApplicationWizard() {
       if (!formData.accountType)
         errs.accountType = "Please select an account type";
       if (!formData.accountAge) errs.accountAge = "Please select account age";
+      if (!formData.accountType)
+        errs.accountType = "Please select an account type";
+      if (!formData.accountStatus)
+        errs.accountStatus = "Please select an account status";
     }
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -2036,6 +2046,11 @@ export default function ApplicationWizard() {
                       </option>
                     ))}
                   </select>
+                  {errors.dlState && (
+                    <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
+                      {errors.dlState}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -2342,6 +2357,11 @@ export default function ApplicationWizard() {
                         </label>
                       ))}
                     </div>
+                    {errors.accountType && (
+                      <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
+                        {errors.accountType}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -2362,6 +2382,11 @@ export default function ApplicationWizard() {
                         </option>
                       ))}
                     </select>
+                    {errors.accountAge && (
+                      <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
+                        {errors.accountAge}
+                      </p>
+                    )}
                   </div>
                 </div>
 
