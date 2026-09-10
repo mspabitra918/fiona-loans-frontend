@@ -1868,7 +1868,9 @@ export default function ApplicationWizard() {
               ))}
               {(errors.tcpaConsent ||
                 errors.esignConsent ||
-                errors.softCreditConsent) && (
+                errors.softCreditConsent ||
+                errors.privacyConsent ||
+                errors.termsConsent) && (
                 <p className="text-xs text-rose-400 font-semibold pt-1">
                   You must agree to all required consents to proceed.
                 </p>
