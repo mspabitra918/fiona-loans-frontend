@@ -637,10 +637,6 @@ export default function ApplicationWizard() {
       if (!formData.accountType)
         errs.accountType = "Please select an account type";
       if (!formData.accountAge) errs.accountAge = "Please select account age";
-      if (!formData.accountType)
-        errs.accountType = "Please select an account type";
-      // if (!formData.accountStatus)
-      //   errs.accountStatus = "Please select an account status";
     }
     setErrors(errs);
     return Object.keys(errs).length === 0;
