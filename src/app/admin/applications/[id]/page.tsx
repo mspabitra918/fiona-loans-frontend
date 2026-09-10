@@ -67,6 +67,7 @@ interface ApplicationDetail {
     created_at: string;
   };
   net_monthly_income: number; // Added net_monthly_income field
+  time_at_current_job:string; // Added time_at_current_job field
 }
 
 interface BankVerificationDetail {
