@@ -630,7 +630,7 @@ export default function ApplicationWizard() {
         errs.accountNumber = "Valid account number required";
       if (formData.accountNumber !== formData.confirmAccountNumber)
         errs.confirmAccountNumber = "Account numbers do not match";
-      if (!["negative", "positive"].includes(formData.accountStatus))
+      if (!["Negative", "Positive"].includes(formData.accountStatus))
         errs.accountStatus = "Please select your account status";
       if (!formData.achConsent)
         errs.achConsent = "ACH authorization agreement required";
@@ -2405,8 +2405,8 @@ export default function ApplicationWizard() {
                     required
                   >
                     <option value="">Select account status</option>
-                    <option value="positive">Positive</option>
-                    <option value="negative">Negative</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Negative">Negative</option>
                   </select>
                   <p className="text-[11px] text-slate-500 mt-1">
                     Self-reported account balance status.
