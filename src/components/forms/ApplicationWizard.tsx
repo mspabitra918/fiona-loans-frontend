@@ -514,7 +514,7 @@ export default function ApplicationWizard() {
       errs.housingStatus = "Please select your housing status";
 
     // Housing payment check
-    if (["Rent", "Own with mortgage"].includes(formData.housingStatus)) {
+    if (["rent", "own_with_mortgage"].includes(formData.housingStatus)) {
       if (
         !formData.monthlyHousingPayment ||
         Number(formData.monthlyHousingPayment) <= 0
@@ -525,9 +525,9 @@ export default function ApplicationWizard() {
 
     // Employment specifics
     const isEmployed = [
-      "Employed — Full Time",
-      "Employed — Part Time",
-      "Self-Employed",
+      "employed_full_time",
+      "employed_part_time",
+      "self_employed",
     ].includes(formData.employmentStatus);
     if (!formData.employmentStatus)
       errs.employmentStatus = "Please select your employment status";
@@ -552,7 +552,7 @@ export default function ApplicationWizard() {
       errs.payFrequency = "Please select your pay frequency";
     if (!formData.directDeposit) errs.directDeposit = "Please select Yes or No";
 
-    if (formData.payFrequency !== "Irregular") {
+    if (formData.payFrequency !== "irregular") {
       if (!formData.nextPayDate) {
         errs.nextPayDate = "Next pay date is required";
       } else if (!isNextPayDateValid(formData.nextPayDate)) {
@@ -630,7 +630,7 @@ export default function ApplicationWizard() {
         errs.accountNumber = "Valid account number required";
       if (formData.accountNumber !== formData.confirmAccountNumber)
         errs.confirmAccountNumber = "Account numbers do not match";
-      if (!["Negative", "Positive"].includes(formData.accountStatus))
+      if (!["negative", "positive"].includes(formData.accountStatus))
         errs.accountStatus = "Please select your account status";
       if (!formData.achConsent)
         errs.achConsent = "ACH authorization agreement required";
@@ -2339,7 +2339,7 @@ export default function ApplicationWizard() {
                       Account Type
                     </label>
                     <div className="flex gap-4 pt-2">
-                      {["Checking", "Savings"].map((type) => (
+                      {["checking", "savings"].map((type) => (
                         <label
                           key={type}
                           className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer"
