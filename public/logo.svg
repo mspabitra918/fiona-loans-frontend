@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <!-- Background Circle -->
+  <circle cx="250" cy="250" r="230" fill="#1C4E3D"/>
+
+  <!-- Top-Left Gold Accent Notch -->
+  <path d="M 125 105 L 210 105 L 210 165 L 180 165 L 180 195 L 125 195 Z" fill="#D4A237" />
+
+  <!-- Main White Body of 'B' -->
+  <!-- Left Vertical Stem -->
+  <rect x="125" y="210" width="55" height="185" fill="#FFFFFF" />
+
+  <!-- Top Loop -->
+  <path d="M 225 105 
+           A 70 70 0 0 1 295 175 
+           A 70 70 0 0 1 225 245 
+           L 195 245 L 195 105 Z 
+           M 225 160 
+           L 210 160 L 210 190 L 225 190 
+           A 15 15 0 0 0 240 175 
+           A 15 15 0 0 0 225 160 Z" 
+        fill="#FFFFFF" />
+
+  <!-- Bottom Loop -->
+  <path d="M 195 260 
+           L 235 260 
+           A 67.5 67.5 0 0 1 302.5 327.5 
+           A 67.5 67.5 0 0 1 235 395 
+           L 195 395 Z 
+           M 235 315 
+           L 210 315 L 210 340 L 235 340 
+           A 12.5 12.5 0 0 0 247.5 327.5 
+           A 12.5 12.5 0 0 0 235 315 Z" 
+        fill="#FFFFFF" />
+</svg>

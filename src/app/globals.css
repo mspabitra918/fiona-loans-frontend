@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1b4d3e;
+  --color-primary-light: #2d7a5f;
+  --color-primary-dark: #0f3329;
+  --color-secondary: #d4a843;
+  --color-secondary-light: #e8c96e;
+  --color-accent: #3b82f6;
+  --color-surface: #f8faf9;
+  --color-surface-dark: #e8eeeb;
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #4a5568;
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-heading: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-light);
+  border-radius: 4px;
+}
+
+/* Form input focus styles */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.2);
+}
+
+/* Loan calculator slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: var(--color-surface-dark);
+  border-radius: 4px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Applicant flow: calm, paper-like styling for a high-trust financial form. */
+.application-shell {
+  /* background: #f3f1eb !important; */
+  background: white !important;
+  color: #1d2a25 !important;
+  border-radius: 1.5% !important;
+  box-shadow:
+    inset 0 0 0 1px #d9e0db,
+    0 12px 30px rgba(31, 54, 45, 0.07) !important;
+}
+
+.application-header {
+  background: #173b32;
+  color: #f8f7f1;
+}
+
+.application-brand {
+  color: #f8f7f1;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.application-kicker {
+  color: #8b9d94;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.application-header .application-kicker {
+  color: #b7c7bf;
+  margin-top: 0.15rem;
+}
+
+.application-progress-wrap {
+  background: #214d40;
+  color: #f8f7f1;
+}
+
+.application-title {
+  color: #f8f7f1;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.5rem, 3vw, 2.15rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  margin-top: 0.25rem;
+}
+
+.application-step-count {
+  color: #d8e4dd;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.application-progress-track {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  height: 0.35rem;
+  overflow: hidden;
+}
+
+.application-progress-fill {
+  background: #d7ad54;
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+  transition: width 300ms ease;
+}
+
+.application-progress-label {
+  color: #a9bbb1;
+  font-weight: 600;
+}
+
+.application-progress-label.is-active {
+  color: #fff3c9;
+}
+
+.application-shell main [class*="bg-slate-950"] {
+  background: #fffdfa !important;
+  border-color: #d9e0db !important;
+  box-shadow: 0 12px 30px rgba(31, 54, 45, 0.07) !important;
+}
+
+.application-shell main [class*="bg-slate-900"] {
+  background: #fffdfa !important;
+  border-color: #cdd8d2 !important;
+  color: #24352e !important;
+}
+
+.application-shell main [class*="text-white"],
+.application-shell main [class*="text-slate-100"],
+.application-shell main [class*="text-slate-200"],
+.application-shell main [class*="text-slate-300"] {
+  color: #294037 !important;
+}
+
+.application-shell main [class*="text-slate-400"],
+.application-shell main [class*="text-slate-500"] {
+  color: #66776f !important;
+}
+
+.application-shell main [class*="border-slate-800"],
+.application-shell main [class*="border-slate-700"] {
+  border-color: #d9e0db !important;
+}
+
+.application-shell main input:not([type="range"]),
+.application-shell main select,
+.application-shell main textarea {
+  background: #ffffff !important;
+  border-color: #cbd7d0 !important;
+  color: #20362c !important;
+}
+
+.application-shell main input::placeholder,
+.application-shell main textarea::placeholder {
+  color: #8a9891 !important;
+}
+
+.application-shell main label {
+  color: #476056 !important;
+}
+
+.application-shell main button[type="submit"] {
+  background: #d7ad54 !important;
+  color: #173b32 !important;
+  box-shadow: 0 10px 22px rgba(154, 116, 37, 0.18) !important;
+}
+
+.application-shell main button[type="submit"]:hover {
+  background: #e4bd68 !important;
+}
+
+@media (max-width: 640px) {
+  .application-shell main {
+    padding-top: 1.25rem;
+  }
+
+  .application-shell main section {
+    border-radius: 1rem !important;
+    padding: 1.1rem !important;
+  }
+}
+
+/* Step wizard progress */
+.step-active {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.step-completed {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.step-pending {
+  background-color: var(--color-surface-dark);
+  color: var(--color-text-secondary);
+}
