@@ -4,10 +4,10 @@ export const SITE_DESCRIPTION =
   "Fiona Loans is a direct personal loan provider offering competitive rates for debt consolidation, home improvement, medical expenses, and more. Apply online in minutes.";
 export const BUSINESS_EMAIL = "support@fionaloans.com";
 
-export const BUSINESS_PHONE = "(747) 208-0334";
+export const BUSINESS_PHONE = "(747) 200-5932";
 
 /** E.164 form of BUSINESS_PHONE, for use in `tel:` hrefs. */
-export const BUSINESS_PHONE_TEL = "+17472080334";
+export const BUSINESS_PHONE_TEL = "+17472005932";
 
 export const BUSINESS_ADDRESS = {
   street: "5101 Santa Monica Blvd Ste 8",
@@ -28,7 +28,7 @@ export const BUSINESS_HOURS = {
 /** Single-line business hours string used across header, footer, and contact pages. */
 export const BUSINESS_HOURS_LINE = `Mon - Fri: ${BUSINESS_HOURS.monday_friday}`;
 
-export const BUSINESS_TOLL_FREE = "(747) 208-0334";
+export const BUSINESS_TOLL_FREE = "(747) 200-5932";
 
 export const LOAN_LIMITS = {
   minAmount: 1000,
