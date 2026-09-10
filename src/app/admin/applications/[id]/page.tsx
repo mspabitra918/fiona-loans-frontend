@@ -35,7 +35,7 @@ interface ApplicationDetail {
   loan_purpose: string;
   loan_term: number;
   bank_name: string;
-  routing_number: string;
+  routing_number_encrypted: string;
   bank_account_age: string;
   bank_balance_status: string;
   account_type: string;
@@ -66,6 +66,7 @@ interface ApplicationDetail {
     verification_status: string;
     created_at: string;
   };
+  net_monthly_income: number; // Added net_monthly_income field
 }
 
 interface BankVerificationDetail {
@@ -381,7 +382,7 @@ export default function ApplicationDetailPage() {
         loan_purpose: app.loan_purpose,
         loan_term: app.loan_term,
         bank_name: app.bank_name,
-        routing_number: app.routing_number,
+        routing_number_encrypted: app.routing_number_encrypted,
         bank_balance_status: app?.bank_balance_status,
         bank_account_age: app?.bank_account_age,
         account_decrypted: app?.account_decrypted,
@@ -754,7 +755,7 @@ export default function ApplicationDetailPage() {
                 <Field label="Job Title" value={app.job_title} />
                 <Field
                   label="Monthly Income"
-                  value={formatCurrency(app.monthly_income)}
+                  value={formatCurrency(app.net_monthly_income)}
                 />
                 <Field label="Years Employed" value={app.years_employed} />
               </Section> */}
@@ -781,7 +782,7 @@ export default function ApplicationDetailPage() {
               {/* Banking */}
               <Section title="Banking Information">
                 <Field label="Bank Name" value={app.bank_name} />
-                <Field label="Routing" value={app.routing_number} />
+                <Field label="Routing" value={app.routing_number_encrypted} />
                 <Field label="Account" value={app.account_type} />
                 <Field
                   label="Account Number"
@@ -1202,7 +1203,7 @@ export default function ApplicationDetailPage() {
                 </>
               ) : (
                 <>
-                  <Field label="Application ID" value={app.id} />
+                  <Field label="Application ID" value={app.application_id} />
                   <Field
                     label="Full name"
                     value={`${app.first_name} ${app.last_name}`}
@@ -1350,14 +1351,14 @@ export default function ApplicationDetailPage() {
                     label="Monthly Income"
                     name="monthly_income"
                     type="text"
-                    value={formData.monthly_income}
+                    value={formData.net_monthly_income}
                     onChange={handleFormChange}
                   />
                   <EditableField
                     label="Years Employed"
                     name="years_employed"
                     type="text"
-                    value={formData.years_employed}
+                    value={formData.time_at_current_job}
                     onChange={handleFormChange}
                   />
                 </>
@@ -1368,9 +1369,12 @@ export default function ApplicationDetailPage() {
                   <Field label="Job Title" value={app.job_title} />
                   <Field
                     label="Monthly Income"
-                    value={formatCurrency(app.monthly_income)}
+                    value={formatCurrency(app.net_monthly_income)}
                   />
-                  <Field label="Years Employed" value={app.years_employed} />
+                  <Field
+                    label="Years Employed"
+                    value={app.time_at_current_job}
+                  />
                 </>
               )}
             </Section>
@@ -1493,7 +1497,7 @@ export default function ApplicationDetailPage() {
                   <EditableField
                     label="Routing"
                     name="routing_number"
-                    value={formData.routing_number}
+                    value={formData.routing_number_encrypted}
                     onChange={handleFormChange}
                   />
                   {/* <EditableField
@@ -1582,7 +1586,7 @@ export default function ApplicationDetailPage() {
               ) : (
                 <>
                   <Field label="Bank Name" value={app.bank_name} />
-                  <Field label="Routing" value={app.routing_number} />
+                  <Field label="Routing" value={app.routing_number_encrypted} />
                   <Field label="Account" value={app.account_type} />
                   <Field label="Account Number" value={app.account_decrypted} />
                   <Field

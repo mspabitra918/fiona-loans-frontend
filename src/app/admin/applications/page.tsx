@@ -11,6 +11,7 @@ import { formatDateTime, todayStr } from "@/lib/datetime";
 
 interface Application {
   id: string;
+  application_id: string;
   first_name: string;
   last_name: string;
   email: string;
@@ -518,7 +519,9 @@ function ApplicationsListContent() {
                       key={app.id}
                       className="border-b border-gray-50 hover:bg-gray-50 transition"
                     >
-                      <td className="px-6 py-4 font-medium">{app?.id}</td>
+                      <td className="px-6 py-4 font-medium">
+                        {app?.application_id}
+                      </td>
                       <td className="px-6 py-4">
                         <div className="font-medium text-gray-900">
                           {app.first_name} {app.last_name}
