@@ -10,10 +10,10 @@ export const BUSINESS_PHONE = "(747) 200-5932";
 export const BUSINESS_PHONE_TEL = "+17472005932";
 
 export const BUSINESS_ADDRESS = {
-  street: "5101 Santa Monica Blvd Ste 8",
-  city: "Los Angeles",
+  street: "22632 Golden Springs Dr Suite 315",
+  city: "Diamond Bar",
   state: "CA",
-  zip: "90029",
+  zip: "91765",
   country: "US",
 };
 

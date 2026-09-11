@@ -227,7 +227,7 @@ export default function PrivacyPolicyPage() {
                 <br />
                 {SITE_NAME}
                 <br />
-                5101 Santa Monica Blvd Ste 8, Los Angeles, CA 90029
+                22632 Golden Springs Dr Suite 315, Diamond Bar, CA 91765
               </p>
             </div>
           </div>
