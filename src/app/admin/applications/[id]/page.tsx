@@ -11,10 +11,125 @@ import {
   US_STATES,
 } from "@/lib/constants";
 import { formatDateTime } from "@/lib/datetime";
-import { ApplicationDetail } from "@/types/application";
 // encrypted;
 
-interface BankVerificationDetail {
+interface ApplicationDetail {
+  id: string;
+  session_id: string;
+  application_id: string;
+
+  // Existing fields...
+
+  // Applicant
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  middle_initial: string | null;
+  suffix: string | null;
+  date_of_birth: string;
+  street_address: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  country: string;
+
+  // Residence
+  apt_unit_suite: string | null;
+  time_at_current_address: string | null;
+  housing_status: string | null;
+  monthly_housing_payment: string | number | null;
+
+  // Employment & Income
+  employment_status: string | null;
+  primary_income_type: string | null;
+  employer_name: string | null;
+  job_title: string | null;
+  employer_phone: string | null;
+  time_at_current_job: string | null;
+  net_monthly_income: string | number | null;
+  pay_frequency: string | null;
+  next_pay_date: string | null;
+  direct_deposit: boolean | null;
+  additional_monthly_income: string | number | null;
+  additional_income_source: string | null;
+
+  // Loan
+  loan_amount: string | number;
+  loan_purpose: string;
+  loan_purpose_other_detail: string | null;
+  loan_term: number;
+
+  // Banking - manual OR instant verification
+  bank_name: string | null;
+  routing_number_encrypted?: string | null;
+  routing_number_hash?: string | null;
+  account_number_encrypted?: string | null;
+  account_type: string | null;
+  bank_account_age: string | null;
+  bank_balance_status: string | null;
+  bank_verification_completed: boolean;
+
+  // Sensitive values returned only when authorized
+  ssn_decrypted?: string;
+  dl_decrypted?: string;
+  account_decrypted?: string;
+
+  // Driver's license
+  dl_state: string | null;
+  dl_expiration_date: string | null;
+
+  // Consents
+  tcpa_consent: boolean;
+  esign_consent: boolean;
+  privacy_consent: boolean;
+  soft_credit_pull_consent: boolean;
+  hard_credit_pull_consent: boolean;
+  ach_authorization_consent: boolean;
+
+  // Marketing / attribution
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_content: string | null;
+  utm_term: string | null;
+
+  // Tracking
+  assisted_by_loan_agent: string | null;
+  ip_address: string | null;
+  user_agent: string | null;
+  device_fingerprint: string | null;
+  page_url: string | null;
+  referrer_url: string | null;
+  landing_page_first_touch: string | null;
+  jornaya_leadid: string | null;
+  trustedform_cert_url: string | null;
+
+  // Step timestamps
+  step1_started_at: string | null;
+  step1_submitted_at: string | null;
+  step2_submitted_at: string | null;
+  step3_submitted_at: string | null;
+  total_time_on_form: number;
+
+  // Status
+  status: string;
+  created_at: string;
+  updated_at: string;
+  reviewed_at: string | null;
+  funded_at: string | null;
+
+  // Plaid - optional, NOT required for manual verification
+  plaid_item_id: string | null;
+  plaid_account_id: string | null;
+  plaid_account_mask: string | null;
+  plaid_account_type: string | null;
+
+  // Bank verification
+  bankVerification?: BankVerification;
+}
+
+interface BankVerification {
   full_name: string;
   email: string;
   application_id: string;
@@ -24,6 +139,13 @@ interface BankVerificationDetail {
   account_type: string;
   verification_status: string;
   created_at: string;
+}
+
+interface ApplicationDetailResponse {
+  success: boolean;
+  application: ApplicationDetail;
+  bankVerification: BankVerification | null;
+  auditLog: unknown[];
 }
 
 interface AuditEntry {
@@ -262,7 +384,7 @@ export default function ApplicationDetailPage() {
 
   const [app, setApp] = useState<ApplicationDetail | null>(null);
   const [bankVerification, setBankVerification] =
-    useState<BankVerificationDetail | null>(null);
+    useState<BankVerification | null>(null);
   const [auditLog, setAuditLog] = useState<AuditEntry[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [showDecrypted, setShowDecrypted] = useState(false);
@@ -342,7 +464,7 @@ export default function ApplicationDetailPage() {
           account_type: bankVerification?.account_type ?? "",
           full_name: bankVerification?.full_name ?? "",
           email: bankVerification?.email ?? "",
-        } as BankVerificationDetail,
+        } as BankVerification,
       });
     }
   }, [edit, app, bankVerification]);
@@ -393,7 +515,7 @@ export default function ApplicationDetailPage() {
     setFormData((prev) => ({
       ...prev,
       bankVerification: {
-        ...(prev.bankVerification as BankVerificationDetail),
+        ...(prev.bankVerification as BankVerification),
         [name]: value,
       },
     }));
@@ -831,11 +953,7 @@ export default function ApplicationDetailPage() {
 
                 <Field
                   label="Routing Number"
-                  value={
-                    revealedSensitive?.routingNumber ||
-                    app.routing_number_encrypted ||
-                    "-"
-                  }
+                  value={app.routing_number_encrypted || "-"}
                 />
 
                 <Field label="Account Type" value={app.account_type || "-"} />
@@ -1758,11 +1876,7 @@ export default function ApplicationDetailPage() {
 
                     <Field
                       label="Routing Number"
-                      value={
-                        revealedSensitive?.routingNumber ||
-                        app.routing_number_encrypted ||
-                        "-"
-                      }
+                      value={app.routing_number_encrypted || "-"}
                     />
 
                     <Field
