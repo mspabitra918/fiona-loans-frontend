@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import {
   SITE_NAME,
   BUSINESS_EMAIL,
@@ -9,7 +8,6 @@ import {
   BUSINESS_HOURS_LINE,
   NAV_LINKS,
   LEGAL_LINKS,
-  LOAN_LIMITS,
 } from "@/lib/constants";
 
 export default function Footer() {
@@ -22,22 +20,15 @@ export default function Footer() {
           {/* Company Info */}
           <div>
             <div className="mb-4">
-              {/* <Image
-                src="/logo-white.png"
-                alt={SITE_NAME}
-                width={160}
-                height={40}
-              /> */}
-              <span className=" font-extrabold tracking-tight text-white text-3xl">
+              <span className="font-extrabold tracking-tight text-white text-3xl">
                 Fiona<span className="text-white font-normal"> Loans</span>
               </span>
             </div>
 
             <p className="text-white/70 text-sm leading-relaxed">
-              {SITE_NAME} is a direct lender providing personal loans to
-              borrowers in all 50 U.S. states, regardless of credit score. We
-              are committed to transparent lending practices and a single fixed
-              rate for every borrower.
+              Fiona Loans is a direct lender offering fixed-rate personal loans
+              to qualified borrowers across the United States. One rate for
+              every approved borrower, disclosed in full before you sign.
             </p>
           </div>
 
@@ -81,6 +72,14 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/state-licenses"
+                  className="text-white/70 hover:text-secondary transition-colors text-sm"
+                >
+                  State Licenses &amp; Disclosures
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -174,84 +173,39 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* APR Disclosure */}
-        <div className="mt-8 pt-8 border-t border-white/10">
+        {/* APR & Disclosures */}
+        <div className="mt-8 pt-8 border-t border-white/10 space-y-4">
           <p className="text-xs text-white/50 leading-relaxed">
-            {SITE_NAME} offers a fixed {LOAN_LIMITS.minAPR.toFixed(2)}% APR on
-            all personal loans. Loan amounts range from $
-            {LOAN_LIMITS.minAmount.toLocaleString()} to $
-            {LOAN_LIMITS.maxAmount.toLocaleString()} with terms from{" "}
-            {LOAN_LIMITS.minTerm} to {LOAN_LIMITS.maxTerm} months. Origination
-            fee: $0.00. Prepayment penalty: none. Representative example: a
-            $5,000 loan over 36 months at a fixed 10.00% APR has a monthly
-            payment of $161.34 and a total repayment of $5,808.09. {SITE_NAME}{" "}
-            is a direct lender serving all 50 U.S. states. All loans are subject
-            to completion of our application and phone-based underwriting
-            process.
+            Fiona Loans offers a fixed 10.00% APR on all personal loans. Loan
+            amounts range from $2,000 to $10,000 with terms of 12, 24, 36, or 48
+            months. Origination fee: $0.00. Application fee: $0.00. Prepayment
+            penalty: none. Representative example: a $5,000 loan repaid over 36
+            months at a fixed 10.00% APR has 36 monthly payments of $161.34 and
+            a total repayment of $5,808.24, of which $808.24 is interest. All
+            loans are subject to credit approval, identity and income
+            verification, and completion of our phone-based underwriting
+            process. Not all applicants will qualify.
+          </p>
+
+          <p className="text-xs text-white/50 leading-relaxed">
+            Fiona Loans is an equal opportunity lender and does not discriminate
+            on the basis of race, color, religion, national origin, sex, marital
+            status, age, disability, or receipt of public assistance. State
+            license information is available at{" "}
+            <Link
+              href="/state-licenses"
+              className="underline hover:text-white transition-colors"
+            >
+              State Licenses &amp; Disclosures
+            </Link>
+            .
           </p>
         </div>
 
-        {/* Trust Signals */}
-        {/* <div className="mt-8 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-center items-center gap-8">
-          <div className="flex items-center space-x-2 text-white/70">
-            <svg
-              className="w-5 h-5 text-secondary flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-              />
-            </svg>
-            <span className="text-sm font-medium">256-Bit SSL Encrypted</span>
-          </div>
-          <div className="flex items-center space-x-2 text-white/70">
-            <svg
-              className="w-5 h-5 text-secondary flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span className="text-sm font-medium">$0 Application Fees</span>
-          </div>
-          <div className="flex items-center space-x-2 text-white/70">
-            <svg
-              className="w-5 h-5 text-secondary flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 21V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2z"
-              />
-            </svg>
-            <span className="text-sm font-medium">
-              California-Based Direct Lender
-            </span>
-          </div>
-        </div> */}
-
         {/* Copyright */}
-        <div className="mt-6 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-white/50">
+        <div className="mt-6 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-white/50">
+          <p>
             &copy; {currentYear} {SITE_NAME}. All rights reserved.
-          </p>
-          <p className="text-xs text-white/50">
-            {SITE_NAME} | Nationwide Direct Lender
           </p>
         </div>
       </div>

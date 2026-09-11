@@ -5,23 +5,23 @@ import { formatCurrency } from "@/lib/utils";
 import { LOAN_LIMITS } from "@/lib/constants";
 
 export default function LoanCalculator() {
-  const [amount, setAmount] = useState(2000);
+  const [amount, setAmount] = useState(7500);
   const [term, setTerm] = useState(24);
 
   // 10% APR amortization
-  const monthlyRate = 0.10 / 12;
+  const monthlyRate = 0.1 / 12;
   const factor = Math.pow(1 + monthlyRate, term);
-  const monthlyPayment = amount * (monthlyRate * factor) / (factor - 1);
+  const monthlyPayment = (amount * (monthlyRate * factor)) / (factor - 1);
   const totalRepayment = monthlyPayment * term;
   const totalInterest = totalRepayment - amount;
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-surface-dark">
       <h2 className="text-2xl font-bold text-primary mb-2">
-        Loan Calculator
+        Calculate Your Monthly Payment
       </h2>
       <p className="text-sm text-text-secondary mb-6">
-        Fixed 10% APR on all personal loans.
+        Fixed 10.00% APR on all personal loans.
       </p>
 
       {/* Loan Amount */}
@@ -42,7 +42,7 @@ export default function LoanCalculator() {
           value={amount}
           onChange={(e) => setAmount(Number(e.target.value))}
           className="w-full"
-          aria-label="Loan amount"
+          aria-label="How much do you need?"
         />
         <div className="flex justify-between text-xs text-text-secondary mt-1">
           <span>{formatCurrency(LOAN_LIMITS.minAmount)}</span>
@@ -66,7 +66,7 @@ export default function LoanCalculator() {
           value={term}
           onChange={(e) => setTerm(Number(e.target.value))}
           className="w-full"
-          aria-label="Loan term in months"
+          aria-label="Choose your term"
         />
         <div className="flex justify-between text-xs text-text-secondary mt-1">
           <span>{LOAN_LIMITS.minTerm} mo</span>
@@ -77,7 +77,7 @@ export default function LoanCalculator() {
       {/* Results */}
       <div className="bg-surface rounded-xl p-6 space-y-4">
         <div className="flex justify-between items-center text-sm">
-          <span className="text-text-secondary">Fixed 10% APR</span>
+          <span className="text-text-secondary">Total Interest</span>
           <span className="font-semibold text-text-primary">
             {formatCurrency(totalInterest)}
           </span>
@@ -99,8 +99,10 @@ export default function LoanCalculator() {
         </div>
       </div>
 
-      <p className="text-xs text-text-secondary mt-4 text-center">
-        Fixed 10% APR. No hidden fees or balloon payments.
+      <p className="text-xs text-text-secondary mt-4 text-center leading-relaxed">
+        Fixed 10.00% APR. No origination fee and no balloon payment. Figures are
+        estimates — your final terms are disclosed in your loan agreement before
+        you sign anything.
       </p>
     </div>
   );

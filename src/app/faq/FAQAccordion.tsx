@@ -1,28 +1,26 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-import { FAQS } from "./faq-data";
+import { useState } from "react";
+import { FAQ_DATA, type FAQItem } from "./faq-data";
 
-function FAQItem({
-  question,
-  answer,
+function FAQAccordionItem({
+  item,
   isOpen,
   onToggle,
 }: {
-  question: string;
-  answer: ReactNode;
+  item: FAQItem;
   isOpen: boolean;
   onToggle: () => void;
 }) {
   return (
-    <div className="border border-surface-dark rounded-xl overflow-hidden">
+    <div className="border border-surface-dark rounded-xl overflow-hidden bg-white">
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-6 py-5 text-left bg-white hover:bg-surface/50 transition-colors"
+        className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-surface/50 transition-colors"
         aria-expanded={isOpen}
       >
-        <h3 className="text-lg font-semibold text-text-primary pr-4">
-          {question}
+        <h3 className="text-lg font-bold text-text-primary pr-4">
+          {item.question}
         </h3>
         <svg
           className={`w-5 h-5 text-primary flex-shrink-0 transition-transform duration-200 ${
@@ -41,8 +39,8 @@ function FAQItem({
         </svg>
       </button>
       {isOpen && (
-        <div className="px-6 pb-5 bg-white">
-          <p className="text-text-secondary leading-relaxed">{answer}</p>
+        <div className="px-6 pb-5 pt-1 text-text-secondary leading-relaxed text-base border-t border-surface-dark/40">
+          {item.answer}
         </div>
       )}
     </div>
@@ -50,18 +48,29 @@ function FAQItem({
 }
 
 export default function FAQAccordion() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openState, setOpenState] = useState<string | null>("0-0");
 
   return (
-    <div className="space-y-4">
-      {FAQS.map((faq, index) => (
-        <FAQItem
-          key={faq.question}
-          question={faq.question}
-          answer={faq.answer}
-          isOpen={openIndex === index}
-          onToggle={() => setOpenIndex(openIndex === index ? null : index)}
-        />
+    <div className="space-y-12">
+      {FAQ_DATA.map((group, groupIdx) => (
+        <div key={group.category} className="space-y-4">
+          <h2 className="text-2xl font-bold text-text-primary pb-2 border-b border-surface-dark">
+            {group.category}
+          </h2>
+          <div className="space-y-3">
+            {group.items.map((item, itemIdx) => {
+              const key = `${groupIdx}-${itemIdx}`;
+              return (
+                <FAQAccordionItem
+                  key={item.question}
+                  item={item}
+                  isOpen={openState === key}
+                  onToggle={() => setOpenState(openState === key ? null : key)}
+                />
+              );
+            })}
+          </div>
+        </div>
       ))}
     </div>
   );

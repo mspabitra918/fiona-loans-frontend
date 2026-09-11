@@ -1,24 +1,32 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FAQSchema, BreadcrumbSchema } from "@/components/ui/JsonLd";
-import { SITE_NAME } from "@/lib/constants";
-import { FAQS } from "./faq-data";
+import { BUSINESS_PHONE, BUSINESS_PHONE_TEL } from "@/lib/constants";
+import { FAQ_DATA } from "./faq-data";
 import FAQAccordion from "./FAQAccordion";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Personal Loan Frequently Asked Questions | Fiona Loans FAQ",
+    absolute: "Personal Loan FAQs — Rates, Credit, Funding Times | Fiona Loans",
   },
   description:
-    "Have questions about Fiona Loans? Find answers about our 10% APR, minimum and maximum loan amounts, credit score requirements, and 24-hour funding.",
+    "Answers on Fiona Loans personal loans: the fixed 10.00% APR, credit requirements, funding timelines, fees, early payoff, and the application process.",
+  keywords: [
+    "personal loan FAQ",
+    "fiona loans FAQ",
+    "personal loan credit score requirement",
+    "personal loan funding time",
+  ],
   alternates: { canonical: "/faq" },
 };
 
 export default function FAQPage() {
+  const allFaqs = FAQ_DATA.flatMap((category) => category.items);
+
   return (
     <>
       <FAQSchema
-        faqs={FAQS.map(({ question, plainAnswer }) => ({
+        faqs={allFaqs.map(({ question, plainAnswer }) => ({
           question,
           answer: plainAnswer,
         }))}
@@ -34,24 +42,33 @@ export default function FAQPage() {
       <section className="bg-gradient-to-br from-primary to-primary-dark text-white py-16 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl font-bold">
-            Frequently Asked Questions
+            Frequently Asked Questions About Personal Loans
           </h1>
-          <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
-            Find answers to common questions about {SITE_NAME} personal loans.
+          <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+            Everything we get asked about Fiona Loans personal loans. If your
+            question isn&apos;t here, call us at{" "}
+            <a
+              href={`tel:${BUSINESS_PHONE_TEL}`}
+              className="underline font-semibold hover:text-white"
+            >
+              {BUSINESS_PHONE}
+            </a>
+            .
           </p>
         </div>
       </section>
 
-      {/* FAQ Accordion */}
+      {/* FAQ Accordion Sections */}
       <section className="py-16 sm:py-24">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <FAQAccordion />
         </div>
       </section>
 
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-7">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
-          <div className="flex items-center justify-center gap-2 bg-surface rounded-lg py-3 px-4">
+      {/* Trust Badges */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="flex items-center justify-center gap-2 bg-surface rounded-lg py-3 px-4 border border-surface-dark">
             <svg
               className="w-5 h-5 text-primary flex-shrink-0"
               fill="none"
@@ -69,7 +86,7 @@ export default function FAQPage() {
               Secure 256-Bit SSL Encrypted
             </span>
           </div>
-          <div className="flex items-center justify-center gap-2 bg-surface rounded-lg py-3 px-4">
+          <div className="flex items-center justify-center gap-2 bg-surface rounded-lg py-3 px-4 border border-surface-dark">
             <svg
               className="w-5 h-5 text-primary flex-shrink-0"
               fill="none"
@@ -87,7 +104,7 @@ export default function FAQPage() {
               Serving All 50 U.S. States
             </span>
           </div>
-          <div className="flex items-center justify-center gap-2 bg-surface rounded-lg py-3 px-4">
+          <div className="flex items-center justify-center gap-2 bg-surface rounded-lg py-3 px-4 border border-surface-dark">
             <svg
               className="w-5 h-5 text-primary flex-shrink-0"
               fill="none"
@@ -98,7 +115,7 @@ export default function FAQPage() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
               />
             </svg>
             <span className="text-xs font-medium text-text-secondary">
@@ -109,12 +126,12 @@ export default function FAQPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-gradient-to-r from-primary to-primary-light py-16">
+      <section className="bg-gradient-to-r from-primary to-primary-light py-16 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white">
             Still Have Questions?
           </h2>
-          <p className="mt-4 text-white/80 text-lg">
+          <p className="mt-4 text-white/85 text-lg max-w-2xl mx-auto">
             Our team is here to help. Contact us or start your application
             today.
           </p>
@@ -122,13 +139,13 @@ export default function FAQPage() {
             <Link
               href="/apply"
               prefetch={false}
-              className="bg-secondary hover:bg-secondary-light text-primary-dark px-10 py-4 rounded-lg font-bold text-lg transition-all shadow-lg hover:shadow-xl inline-block"
+              className="bg-secondary hover:bg-secondary-light text-primary-dark px-10 py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl inline-block"
             >
               Apply Now
             </Link>
             <Link
               href="/contact"
-              className="border-2 border-white/30 hover:border-white/60 text-white px-10 py-4 rounded-lg font-semibold text-lg transition-all inline-block"
+              className="border-2 border-white/30 hover:border-white hover:bg-white/10 text-white px-10 py-4 rounded-xl font-semibold text-lg transition-all inline-block"
             >
               Contact Us
             </Link>

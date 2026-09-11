@@ -32,7 +32,7 @@ const requiredConsent = z.literal(true, {
 
 export const step1Schema = z
   .object({
-    loanAmount: z.number().int().min(1000).max(10000),
+    loanAmount: z.number().int().min(2000).max(10000),
     loanPurpose: z.enum(LOAN_PURPOSE_VALUES),
     purposeDetail: z.string().trim().min(3).max(120).optional(),
     loanTerm: z.enum(["12", "24", "36", "48"]),
@@ -303,7 +303,7 @@ export const employmentSchema = z.object({
 export const loanDetailsSchema = z.object({
   loanAmount: z
     .number()
-    .min(1000, "Minimum loan amount is $1,000")
+    .min(2000, "Minimum loan amount is $2,000")
     .max(50000, "Maximum loan amount is $50,000"),
   loanPurpose: z.enum(LOAN_PURPOSE_VALUES),
   loanTerm: z.number().refine((v) => [12, 24, 36, 48, 60].includes(v), {

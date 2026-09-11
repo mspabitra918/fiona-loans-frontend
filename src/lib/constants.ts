@@ -31,7 +31,7 @@ export const BUSINESS_HOURS_LINE = `Mon - Fri: ${BUSINESS_HOURS.monday_friday}`;
 export const BUSINESS_TOLL_FREE = "(747) 200-5932";
 
 export const LOAN_LIMITS = {
-  minAmount: 1000,
+  minAmount: 2000,
   maxAmount: 10000,
   minTerm: 12,
   maxTerm: 48,

@@ -985,7 +985,7 @@ export default function ApplicationWizard() {
                 </div>
                 <input
                   type="range"
-                  min="1000"
+                  min="2000"
                   max="10000"
                   step="500"
                   value={formData.loanAmount}
@@ -995,7 +995,7 @@ export default function ApplicationWizard() {
                   className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400"
                 />
                 <div className="flex justify-between text-xs text-slate-500 font-mono">
-                  <span>$1,000</span>
+                  <span>$2,000</span>
                   <span>$5,000</span>
                   <span>$10,000</span>
                 </div>

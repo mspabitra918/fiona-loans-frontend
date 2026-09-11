@@ -12,10 +12,16 @@ import {
 
 export const metadata: Metadata = {
   title: {
-    absolute: "How to Get a Personal Loan Fast | Fiona Loans Process",
+    absolute:
+      "How to Get a Personal Loan — Apply, Verify, Get Funded | Fiona Loans",
   },
   description:
-    "Learn how the Fiona Loans 3-step process works. Apply online, call for live underwriting and e-sign your agreement, then receive your funds within 24 hours.",
+    "How a Fiona Loans personal loan works: apply online in five minutes, complete underwriting on one phone call, and receive funds typically within one business day.",
+  keywords: [
+    "how to get a personal loan",
+    "personal loan application process",
+    "how long does it take to get a personal loan",
+  ],
   alternates: {
     canonical: "/how-it-works",
   },
@@ -24,89 +30,160 @@ export const metadata: Metadata = {
 const STEPS = [
   {
     step: "1",
-    title: "Apply Online",
-    timeline: "About 5 Minutes",
-
+    title: "Step 1 — Apply Online",
+    timeline: "About 5 minutes",
     image: "/images/how-it-works/apply-online.jpg",
     imageAlt:
       "Customer completing an online personal loan application on a laptop",
-
+    intro:
+      "Complete our secure online application with your loan amount, term, purpose, identity, employment, income, and banking details. We ask for your Social Security number so we can verify your identity and check your credit. When you submit, you'll receive an Application ID on screen and by email. Keep it — you'll need it to check your status.",
     details: [
       <>
-        <strong>Complete our secure online application</strong> in just a few
-        minutes to tell us about yourself and the amount you'd like to borrow.
+        <strong>100% online</strong> — no paperwork, faxing, or printing
+        required
       </>,
       <>
-        <strong>100% Online</strong> — no paperwork, faxing, or printing
-        required.
+        <strong>$0 upfront fees</strong> — no application or processing charges,
+        ever
       </>,
       <>
-        <strong>$0 Upfront Fees</strong> — there are never application or
-        processing charges.
+        <strong>Available nationwide</strong> — borrowers in all 50 U.S. states
+        are welcome to apply
       </>,
       <>
-        <strong>Available Nationwide</strong> — borrowers from all 50 U.S.
-        states are welcome to apply.
+        <strong>Instant Application ID</strong> — track your file from the
+        moment you submit
       </>,
     ],
+    prepNote:
+      "What to have ready: government-issued ID, Social Security number, employer name and phone, net monthly income, and your checking account routing and account numbers.",
   },
-
   {
     step: "2",
-    title: "Complete Live Underwriting",
-    timeline: "Immediate",
-
+    title: "Step 2 — Complete Live Underwriting",
+    timeline: "Same day",
     image: "/images/how-it-works/phone-underwriting.jpg",
     imageAlt:
       "Friendly Fiona Loans underwriting specialist assisting a customer over the phone",
-
+    intro: (
+      <>
+        Call us at{" "}
+        <a
+          href={`tel:${BUSINESS_PHONE_TEL}`}
+          className="font-semibold text-primary hover:underline"
+        >
+          {BUSINESS_PHONE}
+        </a>
+        . A specialist will verify your details, read your exact terms aloud —
+        amount, APR, term, monthly payment, and total of payments — answer your
+        questions, and help you electronically sign your agreement on the same
+        call.
+      </>
+    ),
     details: [
       <>
-        <strong>Human-First Underwriting</strong> — speak directly with one of
-        our underwriting specialists.
+        <strong>Human-first underwriting</strong> — you speak with a specialist,
+        not a decision engine
       </>,
       <>
-        <strong>Fixed {LOAN_LIMITS.minAPR}% APR</strong> — every approved
-        borrower receives the same transparent fixed interest rate.
+        <strong>Fixed 10.00% APR</strong> — every approved borrower receives the
+        same rate
       </>,
       <>
-        <strong>Review & E-Sign</strong> your loan agreement during your call.
+        <strong>Review and e-sign on the call</strong> — your full terms are
+        read to you before you sign
       </>,
       <>
-        <strong>No Prepayment Penalty</strong> — pay your loan off early at any
-        time without additional fees.
+        <strong>No prepayment penalty</strong> — pay the loan off early at any
+        time at no extra cost
       </>,
     ],
+    whyNote:
+      "Why by phone? Two reasons. It confirms you are the person who applied, which is the most effective fraud control available to a lender. And it means nobody signs a loan agreement without hearing the numbers from a human being first.",
+    holdingNote:
+      "This step is not automated and not optional. Your application sits in a holding state until it happens. If we don't hear from you, we'll send a short series of reminder emails and then stop contacting you.",
   },
-
   {
     step: "3",
-    title: "Receive Your Funds",
-    timeline: "Within 24 Hours",
-
+    title: "Step 3 — Receive Your Funds",
+    timeline: "Typically 1 business day",
     image: "/images/how-it-works/funds-deposited.jpg",
     imageAlt: "Customer checking their bank account after receiving loan funds",
-
+    intro:
+      "After your agreement is signed and your bank account is verified, your file goes to our funding team for final review and disbursement into the checking account you verified.",
     details: [
       <>
-        <strong>Direct Deposit</strong> into your eligible U.S. checking
-        account.
+        <strong>Direct deposit</strong> into your eligible U.S. checking account
       </>,
       <>
-        <strong>Funding Goal: 24 Hours</strong> after completing your loan
-        agreement.
+        <strong>$0 origination fee</strong> — you receive the full approved
+        amount, not a reduced one
       </>,
       <>
-        <strong>$0 Origination Fees</strong> — receive your full approved loan
-        amount.
+        <strong>Funding goal:</strong> one business day after your agreement is
+        complete
       </>,
       <>
-        <strong>Ongoing Customer Support</strong> whenever you need assistance.
+        <strong>Ongoing support</strong> — the same team is reachable after
+        funding, not only before
       </>,
     ],
+    prepNote:
+      "Funding timelines depend on your bank's processing schedule and on completion of verification. Most borrowers are funded within one to two business days.",
   },
 ];
+
+const TIMELINE_ROWS = [
+  { stage: "Application submitted", timing: "Minute 0" },
+  { stage: "Application ID emailed", timing: "Immediate" },
+  { stage: "Phone underwriting and e-signature", timing: "Same day" },
+  { stage: "Bank verification", timing: "Same day, usually instant" },
+  { stage: "Underwriting decision", timing: "Usually within one business day" },
+  { stage: "Funds disbursed", timing: "Typically next business day" },
+];
+
+const PROCESS_FAQS = [
+  {
+    question: "Do I have to call in?",
+    answer:
+      "Yes. It's how we verify your identity and how you hear your full terms before signing anything.",
+  },
+  {
+    question: "What if I miss the reminder emails?",
+    answer:
+      "They stop after a few days. Call us and we'll pick your file back up.",
+  },
+  {
+    question: "Can I apply more than once?",
+    answer:
+      "You can have one active application at a time; duplicates are blocked automatically. Declined applicants may reapply 90 days after the original submission date.",
+  },
+  {
+    question: "How do I check where my application stands?",
+    answer:
+      "Use our Loan Status page with your Application ID and the email address you applied with.",
+  },
+  {
+    question: "Can I change my loan amount after applying?",
+    answer:
+      "Discuss it on your underwriting call. Changes before signing are usually straightforward.",
+  },
+];
+
 export default function HowItWorksPage() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: PROCESS_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <>
       <BreadcrumbSchema
@@ -115,19 +192,26 @@ export default function HowItWorksPage() {
           { name: "How It Works", url: "/how-it-works" },
         ]}
       />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       {/* Hero */}
       <section className="bg-gradient-to-br from-primary to-primary-dark text-white py-16 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl font-bold">
-            Get Funded in 3 Simple Steps
+            How to Get a Personal Loan From Fiona Loans
           </h1>
-
-          <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
-            Apply online in minutes, complete your underwriting with one quick
-            phone call, and receive your funds in as little as 24 hours.
+          <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+            Three steps: apply online, complete underwriting by phone, receive
+            your funds. Most borrowers go from application to deposit in one to
+            two business days.
           </p>
         </div>
       </section>
+
       {/* Detailed Steps */}
       <section className="py-16 sm:py-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -137,13 +221,12 @@ export default function HowItWorksPage() {
                 key={item.step}
                 className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center"
               >
-                {/* Text */}
+                {/* Text Side */}
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
                   <div className="inline-flex items-center gap-3 mb-5">
                     <span className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold">
                       {item.step}
                     </span>
-
                     <span className="uppercase tracking-wide text-primary font-semibold text-sm">
                       {item.timeline}
                     </span>
@@ -153,40 +236,17 @@ export default function HowItWorksPage() {
                     {item.title}
                   </h2>
 
-                  {/* Step Description */}
-                  {item.step === "1" && (
-                    <p className="text-lg text-text-secondary leading-8 mb-8">
-                      Complete our secure online application to tell us about
-                      yourself, your income, and how much you'd like to borrow.
-                      It only takes a few minutes to get started.
-                    </p>
+                  <p className="text-lg text-text-secondary leading-8 mb-6">
+                    {item.intro}
+                  </p>
+
+                  {item.holdingNote && (
+                    <div className="mb-6 p-4 rounded-lg bg-surface border-l-4 border-primary text-sm text-text-secondary leading-relaxed">
+                      {item.holdingNote}
+                    </div>
                   )}
 
-                  {item.step === "2" && (
-                    <p className="text-lg text-text-secondary leading-8 mb-8">
-                      Call us at{" "}
-                      <a
-                        href={`tel:${BUSINESS_PHONE_TEL}`}
-                        className="font-semibold text-primary hover:underline"
-                      >
-                        {BUSINESS_PHONE}
-                      </a>{" "}
-                      to complete your underwriting with a live specialist.
-                      We'll review your loan terms, answer any questions, and
-                      help you electronically sign your agreement during the
-                      same call.
-                    </p>
-                  )}
-
-                  {item.step === "3" && (
-                    <p className="text-lg text-text-secondary leading-8 mb-8">
-                      Once your agreement has been completed, we begin final
-                      processing and work to deposit your approved loan directly
-                      into your bank account within 24 hours.
-                    </p>
-                  )}
-
-                  <ul className="space-y-4">
+                  <ul className="space-y-3 mb-6">
                     {item.details.map((detail, i) => (
                       <li
                         key={i}
@@ -203,14 +263,25 @@ export default function HowItWorksPage() {
                             clipRule="evenodd"
                           />
                         </svg>
-
                         <span>{detail}</span>
                       </li>
                     ))}
                   </ul>
+
+                  {item.whyNote && (
+                    <p className="text-sm text-text-secondary italic mb-4 leading-relaxed">
+                      {item.whyNote}
+                    </p>
+                  )}
+
+                  {item.prepNote && (
+                    <p className="text-sm text-text-primary font-medium bg-surface p-3 rounded-lg border border-surface-dark">
+                      {item.prepNote}
+                    </p>
+                  )}
                 </div>
 
-                {/* Lifestyle Image */}
+                {/* Image Side */}
                 <div
                   className={`${
                     index % 2 === 1 ? "lg:order-1" : ""
@@ -229,10 +300,82 @@ export default function HowItWorksPage() {
             ))}
           </div>
         </div>
-      </section>{" "}
-      {/* Trust Signals */}
-      <section className="bg-surface py-14 sm:py-16 border-y border-surface-dark">
+      </section>
+
+      {/* Section: How Long Does It Take To Get A Personal Loan */}
+      <section className="py-16 bg-surface border-y border-surface-dark">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-text-primary text-center mb-6">
+            How Long Does It Take to Get a Personal Loan?
+          </h2>
+          <p className="text-text-secondary text-lg leading-relaxed text-center mb-10">
+            The application itself takes about five minutes. Everything after
+            that depends on how quickly you complete the phone call — that's the
+            variable that determines your timeline, not our processing speed.
+          </p>
+
+          <div className="bg-white rounded-xl shadow-sm border border-surface-dark overflow-hidden">
+            <div className="p-4 bg-primary text-white font-semibold text-center sm:text-left">
+              A realistic sequence for someone who applies and calls the same
+              morning:
+            </div>
+            <table className="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-surface-dark bg-surface/50 text-text-primary font-bold">
+                  <th className="py-3 px-6">Stage</th>
+                  <th className="py-3 px-6">Timing</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-surface-dark text-text-secondary">
+                {TIMELINE_ROWS.map((row, idx) => (
+                  <tr key={idx} className="hover:bg-surface/30">
+                    <td className="py-3 px-6 font-medium text-text-primary">
+                      {row.stage}
+                    </td>
+                    <td className="py-3 px-6">{row.timing}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <p className="mt-6 text-sm text-text-secondary text-center">
+            Applicants who wait several days to call simply add that delay to
+            the front of the process. The fastest thing you can do to get funded
+            is pick up the phone.
+          </p>
+        </div>
+      </section>
+
+      {/* Section: What Happens After You're Funded */}
+      <section className="py-16 bg-white border-b border-surface-dark">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-text-primary text-center mb-6">
+            What Happens After You're Funded
+          </h2>
+          <div className="space-y-4 text-text-secondary leading-relaxed text-base">
+            <p>
+              Your first payment is due approximately 30 days after
+              disbursement, then monthly on the same date, automatically debited
+              from the account you verified.
+            </p>
+            <p>
+              You can pay extra or pay the loan off entirely at any point with
+              no penalty, and every additional dollar goes against your
+              principal. If you're ever going to miss a payment, call us before
+              the due date — that conversation is far more productive than the
+              one afterward.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Section: Why Borrowers Choose This Process */}
+      <section className="bg-surface py-14 sm:py-16 border-b border-surface-dark">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-text-primary text-center mb-10">
+            Why Borrowers Choose This Process
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 text-center">
             <div className="flex flex-col items-center">
               <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -250,14 +393,10 @@ export default function HowItWorksPage() {
                   />
                 </svg>
               </div>
-
-              <h3 className="font-bold text-text-primary">
-                Funding Goal Within 24 Hours
-              </h3>
-
+              <h3 className="font-bold text-text-primary">Fast Funding</h3>
               <p className="mt-2 text-sm text-text-secondary">
-                After completing your loan agreement, we work to fund approved
-                loans as quickly as possible.
+                After your agreement is complete, we work to fund approved loans
+                within one business day.
               </p>
             </div>
 
@@ -277,14 +416,10 @@ export default function HowItWorksPage() {
                   />
                 </svg>
               </div>
-
-              <h3 className="font-bold text-text-primary">
-                Fixed {LOAN_LIMITS.minAPR}% APR
-              </h3>
-
+              <h3 className="font-bold text-text-primary">Fixed 10% APR</h3>
               <p className="mt-2 text-sm text-text-secondary">
-                Every approved borrower receives the same transparent fixed
-                interest rate with no hidden surprises.
+                Every approved borrower receives the same fixed rate for the
+                life of the loan.
               </p>
             </div>
 
@@ -304,11 +439,9 @@ export default function HowItWorksPage() {
                   />
                 </svg>
               </div>
-
               <h3 className="font-bold text-text-primary">
                 Available Nationwide
               </h3>
-
               <p className="mt-2 text-sm text-text-secondary">
                 Serving qualified borrowers throughout all 50 U.S. states.
               </p>
@@ -316,6 +449,28 @@ export default function HowItWorksPage() {
           </div>
         </div>
       </section>
+
+      {/* Section: Process FAQ */}
+      <section className="py-16 bg-white border-b border-surface-dark">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-text-primary text-center mb-10">
+            Process FAQ
+          </h2>
+          <div className="divide-y divide-surface-dark border-y border-surface-dark">
+            {PROCESS_FAQS.map((faq) => (
+              <div key={faq.question} className="py-6">
+                <h3 className="text-lg font-bold text-text-primary mb-2">
+                  {faq.question}
+                </h3>
+                <p className="text-text-secondary leading-relaxed text-base">
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Bottom CTA */}
       <section className="bg-gradient-to-r from-primary to-primary-light py-16 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -323,10 +478,9 @@ export default function HowItWorksPage() {
             Ready to Get Started?
           </h2>
 
-          <p className="mt-4 text-lg text-white/85 max-w-2xl mx-auto">
-            Complete your online application today. When you're ready for Step
-            2, simply call our underwriting team and we'll guide you through the
-            remainder of the process.
+          <p className="mt-4 text-lg text-white/85 max-w-2xl mx-auto leading-relaxed">
+            Complete your online application today. When you're ready for step
+            two, call our underwriting team and we'll take you through the rest.
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
