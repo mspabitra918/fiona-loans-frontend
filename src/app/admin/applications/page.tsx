@@ -448,7 +448,7 @@ function ApplicationsListContent() {
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <span className="text-sm text-gray-500">Country:</span>
             <select
               value={country}
@@ -464,7 +464,7 @@ function ApplicationsListContent() {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
         </div>
 
         {/* Table */}

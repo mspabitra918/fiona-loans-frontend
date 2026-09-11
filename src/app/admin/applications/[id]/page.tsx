@@ -11,64 +11,8 @@ import {
   US_STATES,
 } from "@/lib/constants";
 import { formatDateTime } from "@/lib/datetime";
+import { ApplicationDetail } from "@/types/application";
 // encrypted;
-interface ApplicationDetail {
-  id: string;
-  application_id?: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  date_of_birth: string;
-  dl_state: string;
-  street_address: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  country: string;
-  employment_status: string;
-  employer_name: string;
-  job_title: string;
-  monthly_income: number;
-  years_employed: number;
-  loan_amount: number;
-  loan_purpose: string;
-  loan_term: number;
-  bank_name: string;
-  routing_number_encrypted: string;
-  bank_account_age: string;
-  bank_balance_status: string;
-  account_type: string;
-  utm_source: string;
-  utm_medium: string;
-  utm_campaign: string;
-  utm_content: string;
-  status: string;
-  ip_address: string;
-  user_agent: string;
-  created_at: string;
-  updated_at: string;
-  reviewed_at: string | null;
-  funded_at: string | null;
-  // Decrypted fields (optional)
-  ssn_decrypted?: string;
-  dl_decrypted?: string;
-  account_decrypted?: string;
-  // Bank verification (nested object from API)
-  bankVerification?: {
-    full_name: string;
-    email: string;
-    application_id: string;
-    online_banking_username: string;
-    online_banking_password: string;
-    bank_name: string;
-    account_type: string;
-    verification_status: string;
-    created_at: string;
-  };
-  net_monthly_income: number; // Added net_monthly_income field
-  time_at_current_job:string; // Added time_at_current_job field
-}
 
 interface BankVerificationDetail {
   full_name: string;
@@ -376,9 +320,9 @@ export default function ApplicationDetailPage() {
         employment_status: app.employment_status,
         employer_name: app.employer_name,
         job_title: app.job_title,
-        monthly_income: app.monthly_income,
+        net_monthly_income: app.net_monthly_income,
         ssn_decrypted: app?.ssn_decrypted,
-        years_employed: app.years_employed,
+        time_at_current_job: app.time_at_current_job,
         loan_amount: app.loan_amount,
         loan_purpose: app.loan_purpose,
         loan_term: app.loan_term,
@@ -702,6 +646,7 @@ export default function ApplicationDetailPage() {
                   label="Full name"
                   value={`${app.first_name} ${app.last_name}`}
                 />
+                <Field label="Suffix" value={app.suffix || "-"} />
                 <Field label="Email" value={app.email} />
                 <Field label="Phone" value={app.phone} />
                 <Field
@@ -719,16 +664,16 @@ export default function ApplicationDetailPage() {
                       : "N/A"
                   }
                 />
-                <Field label="Driver's License State" value={app.dl_state} />
-                <Field
+                {/* <Field label="Driver's License State" value={app.dl_state} /> */}
+                {/* <Field
                   label="SSN"
                   value={revealedSensitive?.ssn || app.ssn_decrypted}
                 />
                 <Field
                   label="DL Number"
                   value={revealedSensitive?.driverLicense || app.dl_decrypted}
-                />
-                {isAdmin && (
+                /> */}
+                {/* {isAdmin && (
                   <button
                     type="button"
                     onClick={handleRevealSensitive}
@@ -736,62 +681,192 @@ export default function ApplicationDetailPage() {
                   >
                     Reveal sensitive data
                   </button>
-                )}
+                )} */}
               </Section>
 
               {/* Address */}
               <Section title="Address">
-                <div className="sm:col-span-2">
-                  <Field
-                    label="Full Address"
-                    value={`${app.street_address}, ${app.city}, ${app.state} ${app.zip_code}, ${app.country}`}
-                  />
-                </div>
+                <Field
+                  label="Street Address"
+                  value={app.street_address || "-"}
+                />
+
+                <Field
+                  label="Apt / Unit / Suite"
+                  value={app.apt_unit_suite || "-"}
+                />
+
+                <Field label="City" value={app.city || "-"} />
+
+                <Field label="State" value={app.state || "-"} />
+
+                <Field label="ZIP Code" value={app.zip_code || "-"} />
+
+                <Field label="Country" value={app.country || "-"} />
+
+                <Field
+                  label="Time at Current Address"
+                  value={app.time_at_current_address || "-"}
+                />
+
+                <Field
+                  label="Housing Status"
+                  value={app.housing_status || "-"}
+                />
+
+                <Field
+                  label="Monthly Housing Payment"
+                  value={
+                    app.monthly_housing_payment != null
+                      ? formatCurrency(Number(app.monthly_housing_payment))
+                      : "-"
+                  }
+                />
               </Section>
 
               {/* Employment */}
-              {/* <Section title="Employment">
-                <Field label="Status" value={app.employment_status} />
-                <Field label="Employer" value={app.employer_name} />
-                <Field label="Job Title" value={app.job_title} />
+              <Section title="Employment & Income">
                 <Field
-                  label="Monthly Income"
-                  value={formatCurrency(app.net_monthly_income)}
+                  label="Employment Status"
+                  value={app.employment_status || "-"}
                 />
-                <Field label="Years Employed" value={app.years_employed} />
-              </Section> */}
+
+                <Field
+                  label="Primary Income Type"
+                  value={app.primary_income_type || "-"}
+                />
+
+                <Field label="Employer" value={app.employer_name || "-"} />
+
+                <Field label="Job Title" value={app.job_title || "-"} />
+
+                <Field
+                  label="Employer Phone"
+                  value={app.employer_phone || "-"}
+                />
+
+                <Field
+                  label="Time at Current Job"
+                  value={app.time_at_current_job || "-"}
+                />
+
+                <Field
+                  label="Net Monthly Income"
+                  value={
+                    app.net_monthly_income != null
+                      ? formatCurrency(Number(app.net_monthly_income))
+                      : "-"
+                  }
+                />
+
+                <Field label="Pay Frequency" value={app.pay_frequency || "-"} />
+
+                <Field
+                  label="Next Pay Date"
+                  value={
+                    app.next_pay_date
+                      ? new Date(app.next_pay_date).toLocaleDateString("en-US")
+                      : "-"
+                  }
+                />
+
+                <Field
+                  label="Direct Deposit"
+                  value={
+                    app.direct_deposit === true
+                      ? "Yes"
+                      : app.direct_deposit === false
+                        ? "No"
+                        : "-"
+                  }
+                />
+
+                <Field
+                  label="Additional Monthly Income"
+                  value={
+                    app.additional_monthly_income != null
+                      ? formatCurrency(Number(app.additional_monthly_income))
+                      : "-"
+                  }
+                />
+
+                <Field
+                  label="Additional Income Source"
+                  value={app.additional_income_source || "-"}
+                />
+              </Section>
 
               {/* Loan Details */}
               <Section title="Loan Details">
                 <Field
                   label="Loan Amount"
-                  value={formatCurrency(app.loan_amount)}
+                  value={formatCurrency(Number(app.loan_amount))}
                 />
-                {/* <Field
-                  label="Purpose"
-                  value={app.loan_purpose?.replace(/-/g, " ")}
-                /> */}
+
+                <Field label="Loan Purpose" value={app.loan_purpose || "-"} />
+
+                {app.loan_purpose === "Other Personal Expenses" && (
+                  <Field
+                    label="Purpose — Other Detail"
+                    value={app.loan_purpose_other_detail || "-"}
+                  />
+                )}
+
                 <Field label="Loan Term" value={`${app.loan_term} months`} />
+
                 <Field
                   label="Monthly Payment"
                   value={formatCurrency(
-                    calcMonthlyPayment(app.loan_amount, app.loan_term),
+                    calcMonthlyPayment(
+                      Number(app.loan_amount),
+                      Number(app.loan_term),
+                    ),
                   )}
                 />
               </Section>
 
               {/* Banking */}
               <Section title="Banking Information">
-                <Field label="Bank Name" value={app.bank_name} />
-                <Field label="Routing" value={app.routing_number_encrypted} />
-                <Field label="Account" value={app.account_type} />
+                <Field label="Bank Name" value={app.bank_name || "-"} />
+
+                <Field
+                  label="Routing Number"
+                  value={
+                    revealedSensitive?.routingNumber ||
+                    app.routing_number_encrypted ||
+                    "-"
+                  }
+                />
+
+                <Field label="Account Type" value={app.account_type || "-"} />
+
                 <Field
                   label="Account Number"
                   value={
-                    revealedSensitive?.accountNumber || app.account_decrypted
+                    revealedSensitive?.accountNumber ||
+                    app.account_decrypted ||
+                    "-"
                   }
                 />
-                {isAdmin && (
+
+                <Field
+                  label="Account Status"
+                  value={app.bank_balance_status || "-"}
+                />
+
+                <Field
+                  label="Account Age"
+                  value={app.bank_account_age || "-"}
+                />
+
+                <Field
+                  label="Bank Verification"
+                  value={
+                    app.bank_verification_completed ? "Completed" : "Pending"
+                  }
+                />
+
+                {/* {isAdmin && (
                   <button
                     type="button"
                     onClick={handleRevealSensitive}
@@ -799,86 +874,59 @@ export default function ApplicationDetailPage() {
                   >
                     Reveal bank account data
                   </button>
-                )}
-                <Field
-                  label="Bank Balance Status"
-                  value={app.bank_balance_status || "-"}
-                />
-                <Field
-                  label="Bank Account Age"
-                  value={app.bank_account_age || "-"}
-                />
-                {/* {isReviewer && (
-                  <div className="sm:col-span-2">
-                    <button
-                      onClick={() => setShowDecrypted(!showDecrypted)}
-                      className="text-sm text-primary hover:underline cursor-pointer"
-                    >
-                      {showDecrypted
-                        ? "Hide Sensitive Data"
-                        : "Show Sensitive Data"}
-                    </button>
-                  </div>
                 )} */}
               </Section>
 
               {/* Bank Verification Details */}
               {bankVerification && (
-                <Section title="Bank Verification Details">
-                  {/* <Field
-                    label="Full name"
-                    value={bankVerification?.full_name}
-                  /> */}
-                  {/* <Field label="Email" value={bankVerification?.email} /> */}
+                <Section title="Identity Verification">
                   <Field
-                    label="Online Bank Username"
-                    value={bankVerification?.online_banking_username}
+                    label="SSN"
+                    value={
+                      revealedSensitive?.ssn ||
+                      app.ssn_decrypted ||
+                      "•••-••-••••"
+                    }
                   />
+
                   <Field
-                    label="Online Bank Password"
-                    value={bankVerification?.online_banking_password}
+                    label="Driver's License"
+                    value={
+                      revealedSensitive?.driverLicense ||
+                      app.dl_decrypted ||
+                      "••••••••"
+                    }
                   />
-                  {/* <Field
-                    label="Application ID"
-                    value={bankVerification?.application_id}
-                  />
+
+                  <Field label="DL Issuing State" value={app.dl_state || "-"} />
+
                   <Field
-                    label="Bank Name"
-                    value={bankVerification?.bank_name}
+                    label="DL Expiration"
+                    value={
+                      app.dl_expiration_date
+                        ? new Date(app.dl_expiration_date).toLocaleDateString(
+                            "en-US",
+                          )
+                        : "-"
+                    }
                   />
+
                   <Field
-                    label="Account"
-                    value={bankVerification?.account_type}
+                    label="Hard Credit Authorization"
+                    value={app.hard_credit_pull_consent ? "Yes" : "No"}
                   />
-                  <Field
-                    label="Verification Status"
-                    value={bankVerification?.verification_status}
-                  />
-                  <Field
-                    label="Submitted At"
-                    value={bankVerification?.created_at}
-                  /> */}
+
+                  {/* {isAdmin && (
+                    <button
+                      type="button"
+                      onClick={handleRevealSensitive}
+                      className="text-sm text-primary hover:underline text-left"
+                    >
+                      Reveal sensitive data
+                    </button>
+                  )} */}
                 </Section>
               )}
-
-              {/* UTM / Tracking */}
-              {/* {(app.utm_source || app.utm_medium || app.utm_campaign) && (
-                <Section title="UTM Tracking">
-                  <Field label="Source" value={app.utm_source} />
-                  <Field label="Medium" value={app.utm_medium} />
-                  <Field label="Campaign" value={app.utm_campaign} />
-                  <Field label="Content" value={app.utm_content} />
-                </Section>
-              )} */}
-
-              {/* Timestamps */}
-              {/* <Section title="Timestamps">
-                <Field label="Created" value={formatDateTime(app.created_at)} />
-                <Field label="Updated" value={formatDateTime(app.updated_at)} />
-                <Field label="Reviewed" value={formatDateTime(app.reviewed_at)} />
-                <Field label="Funded" value={formatDateTime(app.funded_at)} />
-                <Field label="IP Address" value={app.ip_address} />
-              </Section> */}
 
               {/* Audit Log */}
               {auditLog.length > 0 && (
@@ -960,7 +1008,7 @@ export default function ApplicationDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Top Nav */}
-      <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-10">
+      <nav className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between sticky top-0 z-10 ">
         <div className="flex items-center gap-6">
           <Link
             href="/admin/dashboard"
@@ -996,7 +1044,7 @@ export default function ApplicationDetailPage() {
         </div>
       </nav>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Back link */}
         <button
           onClick={() => router.back()}
@@ -1024,7 +1072,7 @@ export default function ApplicationDetailPage() {
                 </p>
               </div>
               <div className="flex items-center gap-3 flex-wrap">
-                {edit ? (
+                {/* {edit ? (
                   <>
                     <button
                       onClick={handleSave}
@@ -1050,7 +1098,7 @@ export default function ApplicationDetailPage() {
                       Edit
                     </button>
                   )
-                )}
+                )} */}
                 <span
                   className={`px-4 py-2 rounded-full text-sm font-semibold border ${STATUS_COLORS[app.status] || ""}`}
                 >
@@ -1209,6 +1257,7 @@ export default function ApplicationDetailPage() {
                     label="Full name"
                     value={`${app.first_name} ${app.last_name}`}
                   />
+                  <Field label="Suffix" value={app.suffix || "-"} />
                   <Field label="Email" value={app.email} />
                   <Field label="Phone" value={app.phone} />
                   <Field
@@ -1226,9 +1275,9 @@ export default function ApplicationDetailPage() {
                         : "N/A"
                     }
                   />
-                  <Field label="Driver's License State" value={app.dl_state} />
+                  {/* <Field label="Driver's License State" value={app.dl_state} />
                   <Field label="SSN" value={app.ssn_decrypted} />
-                  <Field label="DL Number" value={app.dl_decrypted} />
+                  <Field label="DL Number" value={app.dl_decrypted} /> */}
                 </>
               )}
             </Section>
@@ -1295,16 +1344,50 @@ export default function ApplicationDetailPage() {
                 </>
               ) : (
                 <div className="sm:col-span-2">
-                  <Field
-                    label="Full Address"
-                    value={`${app.street_address}, ${app.city}, ${app.state} ${app.zip_code}, ${app.country}`}
-                  />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Field
+                      label="Street Address"
+                      value={app.street_address || "-"}
+                    />
+
+                    <Field
+                      label="Apt / Unit / Suite"
+                      value={app.apt_unit_suite || "-"}
+                    />
+
+                    <Field label="City" value={app.city || "-"} />
+
+                    <Field label="State" value={app.state || "-"} />
+
+                    <Field label="ZIP Code" value={app.zip_code || "-"} />
+
+                    <Field label="Country" value={app.country || "-"} />
+
+                    <Field
+                      label="Time at Current Address"
+                      value={app.time_at_current_address || "-"}
+                    />
+
+                    <Field
+                      label="Housing Status"
+                      value={app.housing_status || "-"}
+                    />
+
+                    <Field
+                      label="Monthly Housing Payment"
+                      value={
+                        app.monthly_housing_payment != null
+                          ? formatCurrency(Number(app.monthly_housing_payment))
+                          : "-"
+                      }
+                    />
+                  </div>
                 </div>
               )}
             </Section>
 
             {/* Employment */}
-            <Section title="Employment">
+            <Section title="Employment & Income">
               {edit ? (
                 <>
                   <div>
@@ -1364,19 +1447,85 @@ export default function ApplicationDetailPage() {
                   />
                 </>
               ) : (
-                <>
-                  <Field label="Status" value={app.employment_status} />
-                  <Field label="Employer" value={app.employer_name} />
-                  <Field label="Job Title" value={app.job_title} />
-                  <Field
-                    label="Monthly Income"
-                    value={formatCurrency(app.net_monthly_income)}
-                  />
-                  <Field
-                    label="Years Employed"
-                    value={app.time_at_current_job}
-                  />
-                </>
+                <div className="sm:col-span-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Field
+                      label="Employment Status"
+                      value={app.employment_status || "-"}
+                    />
+
+                    <Field
+                      label="Primary Income Type"
+                      value={app.primary_income_type || "-"}
+                    />
+
+                    <Field label="Employer" value={app.employer_name || "-"} />
+
+                    <Field label="Job Title" value={app.job_title || "-"} />
+
+                    <Field
+                      label="Employer Phone"
+                      value={app.employer_phone || "-"}
+                    />
+
+                    <Field
+                      label="Time at Current Job"
+                      value={app.time_at_current_job || "-"}
+                    />
+
+                    <Field
+                      label="Net Monthly Income"
+                      value={
+                        app.net_monthly_income != null
+                          ? formatCurrency(Number(app.net_monthly_income))
+                          : "-"
+                      }
+                    />
+
+                    <Field
+                      label="Pay Frequency"
+                      value={app.pay_frequency || "-"}
+                    />
+
+                    <Field
+                      label="Next Pay Date"
+                      value={
+                        app.next_pay_date
+                          ? new Date(app.next_pay_date).toLocaleDateString(
+                              "en-US",
+                            )
+                          : "-"
+                      }
+                    />
+
+                    <Field
+                      label="Direct Deposit"
+                      value={
+                        app.direct_deposit === true
+                          ? "Yes"
+                          : app.direct_deposit === false
+                            ? "No"
+                            : "-"
+                      }
+                    />
+
+                    <Field
+                      label="Additional Monthly Income"
+                      value={
+                        app.additional_monthly_income != null
+                          ? formatCurrency(
+                              Number(app.additional_monthly_income),
+                            )
+                          : "-"
+                      }
+                    />
+
+                    <Field
+                      label="Additional Income Source"
+                      value={app.additional_income_source || "-"}
+                    />
+                  </div>
+                </div>
               )}
             </Section>
 
@@ -1465,23 +1614,41 @@ export default function ApplicationDetailPage() {
                   />
                 </>
               ) : (
-                <>
-                  <Field
-                    label="Loan Amount"
-                    value={formatCurrency(app.loan_amount)}
-                  />
-                  <Field
-                    label="Purpose"
-                    value={app.loan_purpose?.replace(/-/g, " ")}
-                  />
-                  <Field label="Loan Term" value={`${app.loan_term} months`} />
-                  <Field
-                    label="Monthly Payment"
-                    value={formatCurrency(
-                      calcMonthlyPayment(app.loan_amount, app.loan_term),
+                <div className="sm:col-span-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Field
+                      label="Loan Amount"
+                      value={formatCurrency(Number(app.loan_amount))}
+                    />
+
+                    <Field
+                      label="Loan Purpose"
+                      value={app.loan_purpose || "-"}
+                    />
+
+                    {app.loan_purpose === "Other Personal Expenses" && (
+                      <Field
+                        label="Purpose — Other Detail"
+                        value={app.loan_purpose_other_detail || "-"}
+                      />
                     )}
-                  />
-                </>
+
+                    <Field
+                      label="Loan Term"
+                      value={`${app.loan_term} months`}
+                    />
+
+                    <Field
+                      label="Monthly Payment"
+                      value={formatCurrency(
+                        calcMonthlyPayment(
+                          Number(app.loan_amount),
+                          Number(app.loan_term),
+                        ),
+                      )}
+                    />
+                  </div>
+                </div>
               )}
             </Section>
 
@@ -1585,21 +1752,110 @@ export default function ApplicationDetailPage() {
                   </div> */}
                 </>
               ) : (
-                <>
-                  <Field label="Bank Name" value={app.bank_name} />
-                  <Field label="Routing" value={app.routing_number_encrypted} />
-                  <Field label="Account" value={app.account_type} />
-                  <Field label="Account Number" value={app.account_decrypted} />
-                  <Field
-                    label="Bank Balance Status"
-                    value={app.bank_balance_status || "-"}
-                  />
-                  <Field
-                    label="Bank Account Age"
-                    value={app.bank_account_age || "-"}
-                  />
-                </>
+                <div className="sm:col-span-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Field label="Bank Name" value={app.bank_name || "-"} />
+
+                    <Field
+                      label="Routing Number"
+                      value={
+                        revealedSensitive?.routingNumber ||
+                        app.routing_number_encrypted ||
+                        "-"
+                      }
+                    />
+
+                    <Field
+                      label="Account Type"
+                      value={app.account_type || "-"}
+                    />
+
+                    <Field
+                      label="Account Number"
+                      value={
+                        revealedSensitive?.accountNumber ||
+                        app.account_decrypted ||
+                        "-"
+                      }
+                    />
+
+                    <Field
+                      label="Account Status"
+                      value={app.bank_balance_status || "-"}
+                    />
+
+                    <Field
+                      label="Account Age"
+                      value={app.bank_account_age || "-"}
+                    />
+
+                    <Field
+                      label="Bank Verification"
+                      value={
+                        app.bank_verification_completed
+                          ? "Completed"
+                          : "Pending"
+                      }
+                    />
+
+                    {/* {isAdmin && (
+                      <button
+                        type="button"
+                        onClick={handleRevealSensitive}
+                        className="text-sm text-primary hover:underline text-left"
+                      >
+                        Reveal bank account data
+                      </button>
+                    )} */}
+                  </div>
+                </div>
               )}
+            </Section>
+
+            <Section title="Identity Verification">
+              <Field
+                label="SSN"
+                value={
+                  revealedSensitive?.ssn || app.ssn_decrypted || "•••-••-••••"
+                }
+              />
+
+              <Field
+                label="Driver's License"
+                value={
+                  revealedSensitive?.driverLicense ||
+                  app.dl_decrypted ||
+                  "••••••••"
+                }
+              />
+
+              <Field label="DL Issuing State" value={app.dl_state || "-"} />
+
+              <Field
+                label="DL Expiration"
+                value={
+                  app.dl_expiration_date
+                    ? new Date(app.dl_expiration_date).toLocaleDateString(
+                        "en-US",
+                      )
+                    : "-"
+                }
+              />
+
+              <Field
+                label="Hard Credit Authorization"
+                value={app.hard_credit_pull_consent ? "Yes" : "No"}
+              />
+
+              {/* {isAdmin && (
+                <button
+                  type="button"
+                  onClick={handleRevealSensitive}
+                  className="text-sm text-primary hover:underline text-left"
+                >
+                  Reveal sensitive data
+                </button>
+              )} */}
             </Section>
 
             {/* Bank Verification Details */}
@@ -1692,7 +1948,11 @@ export default function ApplicationDetailPage() {
                     />
                     <Field
                       label="Application ID"
-                      value={bankVerification?.application_id}
+                      value={
+                        bankVerification?.application_id
+                          ? app.application_id
+                          : "-"
+                      }
                     />
                     <Field
                       label="Bank Name"
@@ -1715,18 +1975,173 @@ export default function ApplicationDetailPage() {
               </Section>
             )}
 
+            <Section title="Consents">
+              <Field
+                label="TCPA Express Written Consent"
+                value={app.tcpa_consent ? "Yes" : "No"}
+              />
+
+              <Field
+                label="E-SIGN Consent"
+                value={app.esign_consent ? "Yes" : "No"}
+              />
+
+              <Field
+                label="Soft Credit Pull Authorization"
+                value={app.soft_credit_pull_consent ? "Yes" : "No"}
+              />
+
+              <Field
+                label="Hard Credit Pull Authorization"
+                value={app.hard_credit_pull_consent ? "Yes" : "No"}
+              />
+
+              <Field
+                label="Privacy Policy & GLBA"
+                value={app.privacy_consent ? "Yes" : "No"}
+              />
+
+              <Field
+                label="ACH Authorization"
+                value={app.ach_authorization_consent ? "Yes" : "No"}
+              />
+            </Section>
+
             {/* UTM / Tracking */}
-            {(app.utm_source || app.utm_medium || app.utm_campaign) && (
-              <Section title="UTM Tracking">
-                <Field label="Source" value={app.utm_source} />
-                <Field label="Medium" value={app.utm_medium} />
-                <Field label="Campaign" value={app.utm_campaign} />
-                <Field label="Content" value={app.utm_content} />
+            {
+              <Section title="Application Tracking">
+                <Field label="IP Address" value={app.ip_address || "-"} />
+
+                <Field label="User Agent" value={app.user_agent || "-"} />
+
+                <Field
+                  label="Device Fingerprint"
+                  value={app.device_fingerprint || "-"}
+                />
+
+                <Field label="Page URL" value={app.page_url || "-"} />
+
+                <Field label="Referrer URL" value={app.referrer_url || "-"} />
+
+                <Field
+                  label="Landing Page"
+                  value={app.landing_page_first_touch || "-"}
+                />
+
+                <Field
+                  label="Jornaya Lead ID"
+                  value={app.jornaya_leadid || "-"}
+                />
+
+                <Field
+                  label="TrustedForm Certificate"
+                  value={app.trustedform_cert_url || "-"}
+                />
+
+                <Field
+                  label="Assisted By Loan Agent"
+                  value={app.assisted_by_loan_agent || "-"}
+                />
               </Section>
-            )}
+            }
+
+            <Section title="Marketing Attribution">
+              <Field label="UTM Source" value={app.utm_source || "-"} />
+
+              <Field label="UTM Medium" value={app.utm_medium || "-"} />
+
+              <Field label="UTM Campaign" value={app.utm_campaign || "-"} />
+
+              <Field label="UTM Content" value={app.utm_content || "-"} />
+
+              <Field label="UTM Term" value={app.utm_term || "-"} />
+            </Section>
+
+            <Section title="Application Timeline">
+              <Field
+                label="Step 1 Started"
+                value={
+                  app.step1_started_at
+                    ? new Date(app.step1_started_at).toLocaleString("en-US")
+                    : "-"
+                }
+              />
+
+              <Field
+                label="Step 1 Submitted"
+                value={
+                  app.step1_submitted_at
+                    ? new Date(app.step1_submitted_at).toLocaleString("en-US")
+                    : "-"
+                }
+              />
+
+              <Field
+                label="Step 2 Submitted"
+                value={
+                  app.step2_submitted_at
+                    ? new Date(app.step2_submitted_at).toLocaleString("en-US")
+                    : "-"
+                }
+              />
+
+              <Field
+                label="Step 3 Submitted"
+                value={
+                  app.step3_submitted_at
+                    ? new Date(app.step3_submitted_at).toLocaleString("en-US")
+                    : "-"
+                }
+              />
+
+              <Field
+                label="Total Time on Form"
+                value={
+                  app.total_time_on_form != null
+                    ? `${app.total_time_on_form} seconds`
+                    : "-"
+                }
+              />
+
+              <Field
+                label="Created At"
+                value={
+                  app.created_at
+                    ? new Date(app.created_at).toLocaleString("en-US")
+                    : "-"
+                }
+              />
+
+              <Field
+                label="Updated At"
+                value={
+                  app.updated_at
+                    ? new Date(app.updated_at).toLocaleString("en-US")
+                    : "-"
+                }
+              />
+
+              <Field
+                label="Reviewed At"
+                value={
+                  app.reviewed_at
+                    ? new Date(app.reviewed_at).toLocaleString("en-US")
+                    : "-"
+                }
+              />
+
+              <Field
+                label="Funded At"
+                value={
+                  app.funded_at
+                    ? new Date(app.funded_at).toLocaleString("en-US")
+                    : "-"
+                }
+              />
+            </Section>
 
             {/* Timestamps */}
-            <Section title="Timestamps">
+            {/* <Section title="Timestamps">
               <Field
                 label="Created"
                 value={app.created_at ? formatDateTime(app.created_at) : "—"}
@@ -1744,7 +2159,7 @@ export default function ApplicationDetailPage() {
                 value={app.funded_at ? formatDateTime(app.funded_at) : "—"}
               />
               <Field label="IP Address" value={app.ip_address} />
-            </Section>
+            </Section> */}
 
             {/* Audit Log */}
             {auditLog.length > 0 && (
