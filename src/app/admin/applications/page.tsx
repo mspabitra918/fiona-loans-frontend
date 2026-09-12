@@ -516,7 +516,7 @@ function ApplicationsListContent() {
                 <tbody>
                   {applications.map((app) => (
                     <tr
-                      key={app.id}
+                      key={app.application_id}
                       className="border-b border-gray-50 hover:bg-gray-50 transition"
                     >
                       <td className="px-6 py-4 font-medium">
@@ -552,7 +552,7 @@ function ApplicationsListContent() {
                       </td>
                       <td className="px-6 py-4">
                         <Link
-                          href={`/admin/applications/${app.id}`}
+                          href={`/admin/applications/${app.application_id}`}
                           className="text-primary text-sm hover:underline"
                         >
                           View
