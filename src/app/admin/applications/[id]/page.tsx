@@ -996,45 +996,42 @@ export default function ApplicationDetailPage() {
               </Section>
 
               {/* Bank Verification Details */}
-              {bankVerification && (
-                <Section title="Identity Verification">
-                  <Field
-                    label="SSN"
-                    value={
-                      revealedSensitive?.ssn ||
-                      app.ssn_decrypted ||
-                      "•••-••-••••"
-                    }
-                  />
+              <Section title="Identity Verification">
+                <Field
+                  label="SSN"
+                  value={
+                    revealedSensitive?.ssn || app.ssn_decrypted || "•••-••-••••"
+                  }
+                />
 
-                  <Field
-                    label="Driver's License"
-                    value={
-                      revealedSensitive?.driverLicense ||
-                      app.dl_decrypted ||
-                      "••••••••"
-                    }
-                  />
+                <Field
+                  label="Driver's License"
+                  value={
+                    revealedSensitive?.driverLicense ||
+                    app.dl_decrypted ||
+                    "••••••••"
+                  }
+                />
 
-                  <Field label="DL Issuing State" value={app.dl_state || "-"} />
+                <Field label="DL Issuing State" value={app.dl_state || "-"} />
 
-                  <Field
-                    label="DL Expiration"
-                    value={
-                      app.dl_expiration_date
-                        ? new Date(app.dl_expiration_date).toLocaleDateString(
-                            "en-US",
-                          )
-                        : "-"
-                    }
-                  />
+                <Field
+                  label="DL Expiration"
+                  value={
+                    app.dl_expiration_date
+                      ? new Date(app.dl_expiration_date).toLocaleDateString(
+                          "en-US",
+                        )
+                      : "-"
+                  }
+                />
 
-                  <Field
-                    label="Hard Credit Authorization"
-                    value={app.hard_credit_pull_consent ? "Yes" : "No"}
-                  />
+                <Field
+                  label="Hard Credit Authorization"
+                  value={app.hard_credit_pull_consent ? "Yes" : "No"}
+                />
 
-                  {/* {isAdmin && (
+                {/* {isAdmin && (
                     <button
                       type="button"
                       onClick={handleRevealSensitive}
@@ -1043,8 +1040,7 @@ export default function ApplicationDetailPage() {
                       Reveal sensitive data
                     </button>
                   )} */}
-                </Section>
-              )}
+              </Section>
 
               {/* Audit Log */}
               {auditLog.length > 0 && (
