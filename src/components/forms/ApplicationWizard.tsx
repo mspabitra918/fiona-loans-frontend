@@ -49,6 +49,7 @@ import {
   PRIMARY_INCOME_TYPES,
   SUFFIXES,
   TIME_AT_ADDRESS,
+  TIME_AT_JOB,
   US_STATES,
   validateUSPhone,
 } from "@/types/application";
@@ -254,13 +255,13 @@ export default function ApplicationWizard() {
       estimatedMonthlyPayment: Math.round(pmt),
       paymentToIncome,
       jobTenureMonths:
-        formData.timeAtJob === "Under 3 months"
+        formData.timeAtJob === "under_3_months"
           ? 2
-          : formData.timeAtJob === "3–5 months"
+          : formData.timeAtJob === "3_5_months"
             ? 4
             : 18,
       residenceTenureMonths:
-        formData.timeAtAddress === "Under 6 months" ? 3 : 24,
+        formData.timeAtAddress === "under_6_months" ? 3 : 24,
     };
   }, [formData]);
 
@@ -1567,6 +1568,7 @@ export default function ApplicationWizard() {
                 "employed_full_time",
                 "employed_part_time",
                 "self_employed",
+                "active_military",
               ].includes(formData.employmentStatus) && (
                 <div className="space-y-4 pt-2 border-t border-slate-800/80 animate-fadeIn">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1646,7 +1648,7 @@ export default function ApplicationWizard() {
                         className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                       >
                         <option value="">Select Time at Current Job</option>
-                        {TIME_AT_ADDRESS.map((item) => (
+                        {TIME_AT_JOB.map((item) => (
                           <option key={item.value} value={item.value}>
                             {item.label}
                           </option>
@@ -2456,13 +2458,6 @@ export default function ApplicationWizard() {
             {/* )} */}
 
             <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => setStep(2)}
-                className="py-4 px-6 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-sm rounded-xl transition-all flex items-center gap-2"
-              >
-                <ArrowLeft className="w-4 h-4" /> Back to Step 2
-              </button>
               <button
                 type="submit"
                 disabled={isSubmitting}

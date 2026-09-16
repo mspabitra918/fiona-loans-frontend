@@ -282,6 +282,18 @@ export const TIME_AT_ADDRESS = [
   { label: "5+ years", value: "5_plus_years" },
 ] as const;
 
+// Time at current job has its own domain — it is NOT the same as TIME_AT_ADDRESS.
+// These values must match the loan_applications.time_at_current_job CHECK
+// constraint exactly, or the database rejects the step save.
+export const TIME_AT_JOB = [
+  { label: "Under 3 months", value: "under_3_months" },
+  { label: "3–5 months", value: "3_5_months" },
+  { label: "6–11 months", value: "6_11_months" },
+  { label: "1–2 years", value: "1_2_years" },
+  { label: "3–5 years", value: "3_5_years" },
+  { label: "5+ years", value: "5_plus_years" },
+] as const;
+
 export const HOUSING_STATUSES = [
   { label: "Rent", value: "rent" },
   { label: "Own with mortgage", value: "own_with_mortgage" },
@@ -297,6 +309,7 @@ export const EMPLOYMENT_STATUSES = [
   { label: "Employed — Full Time", value: "employed_full_time" },
   { label: "Employed — Part Time", value: "employed_part_time" },
   { label: "Self-Employed", value: "self_employed" },
+  { label: "Active-Military", value: "active_military" },
   { label: "Retired", value: "retired" },
   { label: "Disability", value: "disability" },
   { label: "Social Security", value: "social_security" },
