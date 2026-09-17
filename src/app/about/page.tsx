@@ -9,24 +9,6 @@ export const metadata: Metadata = {
   description:
     "Learn about Fiona Loans. We are a direct lender providing $2k-$10k personal loans with a fixed 10% APR to borrowers in all 50 states, regardless of credit score.",
   alternates: { canonical: "/about" },
-  icons: {
-    icon: "/logof.svg",
-    apple: "/logof.svg",
-  },
-  openGraph: {
-    title: "About Fiona Loans | Nationwide Direct Lender",
-    description:
-      "Learn about Fiona Loans. We are a direct lender providing $2k-$10k personal loans with a fixed 10% APR to borrowers in all 50 states, regardless of credit score.",
-    url: "/about",
-    images: [
-      {
-        url: "/logof.svg",
-        width: 800,
-        height: 600,
-        alt: `${SITE_NAME} Logo`,
-      },
-    ],
-  },
 };
 
 const PILLARS = [

@@ -9,10 +9,6 @@ export const metadata: Metadata = {
   title: "State Licenses & Disclosures",
   description: `${SITE_NAME} provides personal financing to residents in all 50 U.S. states. Review our general lending disclosure and state-specific licensing information.`,
   alternates: { canonical: "/state-licenses" },
-  icons: {
-    icon: "/logof.svg",
-    apple: "/logof.svg",
-  },
 };
 
 // Populated by legal counsel prior to launch.

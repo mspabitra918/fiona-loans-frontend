@@ -7,10 +7,6 @@ export const metadata: Metadata = {
   title: "Sitemap",
   description: `Browse every page on the ${SITE_NAME} website, including loan information, application pages, and legal disclosures.`,
   alternates: { canonical: "/site-map" },
-  icons: {
-    icon: "/logof.svg",
-    apple: "/logof.svg",
-  },
 };
 
 const SECTIONS: {

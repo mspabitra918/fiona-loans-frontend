@@ -18,10 +18,6 @@ export const metadata: Metadata = {
     "personal loan funding time",
   ],
   alternates: { canonical: "/faq" },
-  icons: {
-    icon: "/logof.svg",
-    apple: "/logof.svg",
-  },
 };
 
 export default function FAQPage() {

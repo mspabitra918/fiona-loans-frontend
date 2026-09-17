@@ -11,10 +11,6 @@ export const metadata = {
     index: false,
     follow: false,
   },
-  icons: {
-    icon: "/logof.svg",
-    apple: "/logof.svg",
-  },
 };
 
 export default function LoanStatusPage() {

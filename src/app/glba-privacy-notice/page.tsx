@@ -9,10 +9,6 @@ export const metadata: Metadata = {
   title: "Financial Privacy Notice (GLBA)",
   description: `What does ${SITE_NAME} do with your personal information? Read our Gramm-Leach-Bliley Act privacy notice covering what we collect, how we share it, and how we protect it.`,
   alternates: { canonical: "/glba-privacy-notice" },
-  icons: {
-    icon: "/logof.svg",
-    apple: "/logof.svg",
-  },
 };
 
 const COLLECTED = [

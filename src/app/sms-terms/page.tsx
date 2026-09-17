@@ -13,10 +13,6 @@ export const metadata: Metadata = {
   title: "SMS Text Messaging Terms",
   description: `${SITE_NAME} SMS and TCPA terms and conditions. Learn about message frequency, data rates, and how to opt out by texting STOP or get help by texting HELP.`,
   alternates: { canonical: "/sms-terms" },
-  icons: {
-    icon: "/logof.svg",
-    apple: "/logof.svg",
-  },
 };
 
 export default function SmsTermsPage() {

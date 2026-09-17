@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { BreadcrumbSchema } from "@/components/ui/JsonLd";
 import ApplicationWizard from "@/components/forms/ApplicationWizard";
-import { BUSINESS_PHONE, BUSINESS_PHONE_TEL, SITE_NAME } from "@/lib/constants";
+import { BUSINESS_PHONE, BUSINESS_PHONE_TEL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: {
@@ -10,24 +10,6 @@ export const metadata: Metadata = {
   description:
     "Start your Fiona Loans application today. Borrow up to $10k with a fixed 10% APR. All credit scores accepted. Submit your form and call for instant underwriting.",
   alternates: { canonical: "/apply" },
-  icons: {
-    icon: "/logof.svg",
-    apple: "/logof.svg",
-  },
-  openGraph: {
-    title: "Apply for a Personal Loan | Quick Application | Fiona Loans",
-    description:
-      "Start your Fiona Loans application today. Borrow up to $10k with a fixed 10% APR. All credit scores accepted. Submit your form and call for instant underwriting.",
-    url: "/apply",
-    images: [
-      {
-        url: "/logof.svg",
-        width: 800,
-        height: 600,
-        alt: `${SITE_NAME} Logo`,
-      },
-    ],
-  },
 };
 
 export default function ApplyPage() {

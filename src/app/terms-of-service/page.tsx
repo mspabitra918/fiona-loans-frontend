@@ -11,10 +11,6 @@ export const metadata: Metadata = {
   title: "Terms of Service",
   description: `Read the ${SITE_NAME} Terms of Service. Understand the terms and conditions governing the use of our website and lending services.`,
   alternates: { canonical: "/terms-of-service" },
-  icons: {
-    icon: "/logof.svg",
-    apple: "/logof.svg",
-  },
 };
 
 export default function TermsOfServicePage() {
