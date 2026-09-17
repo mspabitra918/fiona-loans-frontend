@@ -86,8 +86,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
         <FinancialServiceSchema />
-        <link rel="icon" href="/logo.svg" />
-        <link rel="apple-touch-icon" href="/logo.svg" />
+        <link rel="icon" href="/logof.svg" />
+        <link rel="apple-touch-icon" href="/logof.svg" />
       </head>
       <body className="min-h-screen flex flex-col">
         <GTMNoScript />
