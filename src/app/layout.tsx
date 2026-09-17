@@ -36,6 +36,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
+  icons: {
+    icon: "/loooogooo.png",
+    apple: "/loooogooo.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -43,11 +47,20 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} — Personal Loans from a Direct Lender`,
     description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: "/loooogooo.png",
+        width: 512,
+        height: 512,
+        alt: `${SITE_NAME} Logo`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE_NAME} — Personal Loans`,
     description: SITE_DESCRIPTION,
+    images: ["/loooogooo.png"],
   },
   robots: {
     index: true,
@@ -85,11 +98,9 @@ export default function RootLayout({
         />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
-        <FinancialServiceSchema />
-        <link rel="icon" href="/loooogooo.png" />
-        <link rel="apple-touch-icon" href="/loooogooo.png" />
       </head>
       <body className="min-h-screen flex flex-col">
+        <FinancialServiceSchema />
         <GTMNoScript />
         <GoogleTagManager />
         <GoogleAnalytics />
