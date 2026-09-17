@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "Fair Lending Statement",
   description: `${SITE_NAME}'s Fair Lending Statement. We are committed to equal opportunity lending and compliance with all fair lending laws.`,
   alternates: { canonical: "/fair-lending" },
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
 };
 
 export default function FairLendingPage() {

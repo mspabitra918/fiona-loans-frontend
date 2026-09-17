@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   title: "Electronic Signature and Delivery Consent",
   description: `${SITE_NAME} E-Sign consent disclosure. Learn how we deliver loan agreements and disclosures electronically under the federal E-SIGN Act, and how to withdraw consent.`,
   alternates: { canonical: "/e-sign-consent" },
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
 };
 
 export default function ESignConsentPage() {

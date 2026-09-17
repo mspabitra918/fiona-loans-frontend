@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/how-it-works",
   },
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
 };
 
 const STEPS = [

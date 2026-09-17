@@ -36,6 +36,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
+  // Favicons configured via Next.js Metadata API
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -72,24 +77,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
-      <head>
-        <link
-          rel="preconnect"
-          href="https://api.fionaloans.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preconnect"
-          href="https://www.googletagmanager.com"
-          crossOrigin="anonymous"
-        />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        <link rel="dns-prefetch" href="https://connect.facebook.net" />
-        <FinancialServiceSchema />
-        <link rel="icon" href="/logof.svg" />
-        <link rel="apple-touch-icon" href="/logof.svg" />
-      </head>
       <body className="min-h-screen flex flex-col">
+        <FinancialServiceSchema />
         <GTMNoScript />
         <GoogleTagManager />
         <GoogleAnalytics />

@@ -17,6 +17,10 @@ export const metadata: Metadata = {
     "no prepayment penalty personal loan",
   ],
   alternates: { canonical: "/rates-and-fees" },
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
 };
 
 const PAYMENT_MATRIX = [

@@ -7,6 +7,7 @@ import {
   BUSINESS_PHONE_TEL,
   BUSINESS_ADDRESS,
   BUSINESS_HOURS_LINE,
+  SITE_NAME,
 } from "@/lib/constants";
 import { CiCircleCheck } from "react-icons/ci";
 
@@ -17,6 +18,24 @@ export const metadata: Metadata = {
   description:
     "Get in touch with Fiona Loans. Call us to complete your underwriting process, or reach out via email or mail. View our business hours and full contact details.",
   alternates: { canonical: "/contact" },
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
+  openGraph: {
+    title: "Contact Fiona Loans | Customer Support & Underwriting",
+    description:
+      "Get in touch with Fiona Loans. Call us to complete your underwriting process, or reach out via email or mail. View our business hours and full contact details.",
+    url: "/contact",
+    images: [
+      {
+        url: "/logof.svg",
+        width: 800,
+        height: 600,
+        alt: `${SITE_NAME} Logo`,
+      },
+    ],
+  },
 };
 
 export default function ContactPage() {

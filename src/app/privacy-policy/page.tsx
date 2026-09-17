@@ -6,6 +6,23 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description: `Read ${SITE_NAME}'s Privacy Policy. Learn how we collect, use, and protect your personal information in compliance with GLBA and applicable privacy laws.`,
   alternates: { canonical: "/privacy-policy" },
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
+  openGraph: {
+    title: `Privacy Policy | ${SITE_NAME}`,
+    description: `Read ${SITE_NAME}'s Privacy Policy. Learn how we collect, use, and protect your personal information in compliance with GLBA and applicable privacy laws.`,
+    url: "/privacy-policy",
+    images: [
+      {
+        url: "/logof.svg",
+        width: 800,
+        height: 600,
+        alt: `${SITE_NAME} Logo`,
+      },
+    ],
+  },
 };
 
 export default function PrivacyPolicyPage() {

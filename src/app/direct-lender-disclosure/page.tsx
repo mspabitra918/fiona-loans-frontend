@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "Direct Lender Disclosure",
   description: `${SITE_NAME} Direct Lender Disclosure. We are a direct lender — not a broker, marketplace, or lead generator. Learn what this means for you.`,
   alternates: { canonical: "/direct-lender-disclosure" },
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
 };
 
 export default function DirectLenderDisclosurePage() {

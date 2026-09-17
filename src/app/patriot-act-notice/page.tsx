@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: "USA PATRIOT Act / Customer Identification Program Notice",
   description: `Important information about procedures for opening a new account with ${SITE_NAME}. Federal law requires us to obtain, verify, and record information that identifies each applicant.`,
   alternates: { canonical: "/patriot-act-notice" },
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
 };
 
 export default function PatriotActNoticePage() {

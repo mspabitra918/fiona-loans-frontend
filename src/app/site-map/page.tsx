@@ -7,29 +7,35 @@ export const metadata: Metadata = {
   title: "Sitemap",
   description: `Browse every page on the ${SITE_NAME} website, including loan information, application pages, and legal disclosures.`,
   alternates: { canonical: "/site-map" },
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
 };
 
-const SECTIONS: { heading: string; links: { href: string; label: string }[] }[] =
-  [
-    {
-      heading: "Main Pages",
-      links: [
-        { href: "/", label: "Home" },
-        { href: "/apply", label: "Apply Now" },
-        { href: "/how-it-works", label: "How It Works" },
-        { href: "/rates-and-fees", label: "Rates, Fees & Repayment Terms" },
-        { href: "/about", label: "About Us" },
-        { href: "/faq", label: "FAQ" },
-        { href: "/contact", label: "Contact Us" },
-        { href: "/loan-status", label: "Loan Status" },
-      ],
-    },
-    {
-      heading: "Legal & Compliance",
-      // `/site-map` is this page — no need to link it to itself.
-      links: LEGAL_LINKS.filter((link) => link.href !== "/site-map"),
-    },
-  ];
+const SECTIONS: {
+  heading: string;
+  links: { href: string; label: string }[];
+}[] = [
+  {
+    heading: "Main Pages",
+    links: [
+      { href: "/", label: "Home" },
+      { href: "/apply", label: "Apply Now" },
+      { href: "/how-it-works", label: "How It Works" },
+      { href: "/rates-and-fees", label: "Rates, Fees & Repayment Terms" },
+      { href: "/about", label: "About Us" },
+      { href: "/faq", label: "FAQ" },
+      { href: "/contact", label: "Contact Us" },
+      { href: "/loan-status", label: "Loan Status" },
+    ],
+  },
+  {
+    heading: "Legal & Compliance",
+    // `/site-map` is this page — no need to link it to itself.
+    links: LEGAL_LINKS.filter((link) => link.href !== "/site-map"),
+  },
+];
 
 export default function SiteMapPage() {
   return (

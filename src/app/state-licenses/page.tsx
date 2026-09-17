@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: "State Licenses & Disclosures",
   description: `${SITE_NAME} provides personal financing to residents in all 50 U.S. states. Review our general lending disclosure and state-specific licensing information.`,
   alternates: { canonical: "/state-licenses" },
+  icons: {
+    icon: "/logof.svg",
+    apple: "/logof.svg",
+  },
 };
 
 // Populated by legal counsel prior to launch.
@@ -30,7 +34,9 @@ export default function StateLicensesPage() {
 
       <section className="bg-gradient-to-br from-primary to-primary-dark text-white py-12 sm:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold">State Licenses &amp; Disclosures</h1>
+          <h1 className="text-4xl font-bold">
+            State Licenses &amp; Disclosures
+          </h1>
           <p className="mt-3 text-white/70">
             Lending regulations and licensing by state
           </p>
