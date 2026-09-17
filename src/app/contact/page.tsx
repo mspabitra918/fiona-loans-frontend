@@ -17,24 +17,6 @@ export const metadata: Metadata = {
   description:
     "Get in touch with Fiona Loans. Call us to complete your underwriting process, or reach out via email or mail. View our business hours and full contact details.",
   alternates: { canonical: "/contact" },
-  icons: {
-    icon: "/logof.svg",
-    apple: "/logof.svg",
-  },
-  openGraph: {
-    title: "Contact Fiona Loans | Customer Support & Underwriting",
-    description:
-      "Get in touch with Fiona Loans. Call us to complete your underwriting process, or reach out via email or mail. View our business hours and full contact details.",
-    url: "/contact",
-    images: [
-      {
-        url: "/logof.svg",
-        width: 800,
-        height: 600,
-        alt: `${SITE_NAM} Logo`,
-      },
-    ],
-  },
 };
 
 export default function ContactPage() {
