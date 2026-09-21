@@ -245,7 +245,7 @@ export default function LoanStatusForm() {
         </form>
 
         {/* Process Guarantee */}
-        <div className="mt-4 bg-surface rounded-lg p-4 border border-surface-dark">
+        {/* <div className="mt-4 bg-surface rounded-lg p-4 border border-surface-dark">
           <p className="text-sm text-text-secondary leading-relaxed">
             <strong className="text-text-primary">Our PST Commitment:</strong>{" "}
             Applications finalized by 2 PM PST are processed for next-day
@@ -258,7 +258,7 @@ export default function LoanStatusForm() {
             })}
             .
           </p>
-        </div>
+        </div> */}
 
         {/* Trust Signal Badges */}
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-xs text-text-secondary">
