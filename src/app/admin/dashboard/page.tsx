@@ -343,7 +343,7 @@ export default function AdminDashboard() {
                           </td>
                           <td className="px-6 py-4">
                             <Link
-                              href={`/admin/applications/${app.id}`}
+                              href={`/admin/applications/${app.application_id}`}
                               className="text-primary text-sm hover:underline"
                             >
                               View
