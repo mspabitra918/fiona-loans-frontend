@@ -388,27 +388,27 @@ export default function ApplicationWizard() {
     }
 
     // ABA Routing Number Lookup logic
-    if (field === "routingNumber") {
-      const cleaned = String(value).replace(/\D/g, "").slice(0, 9);
-      formattedValue = cleaned;
-      if (cleaned.length === 9) {
-        const foundBank =
-          BANK_LOOKUP[cleaned as keyof typeof BANK_LOOKUP] ||
-          "Federal Reserve Recognized Bank";
-        setFormData((prev) => ({
-          ...prev,
-          bankName: foundBank,
-          routingNumber: cleaned,
-        }));
-      } else {
-        setFormData((prev) => ({
-          ...prev,
-          bankName: "",
-          routingNumber: cleaned,
-        }));
-      }
-      return;
-    }
+    // if (field === "routingNumber") {
+    //   const cleaned = String(value).replace(/\D/g, "").slice(0, 9);
+    //   formattedValue = cleaned;
+    //   if (cleaned.length === 9) {
+    //     const foundBank =
+    //       BANK_LOOKUP[cleaned as keyof typeof BANK_LOOKUP] ||
+    //       "Federal Reserve Recognized Bank";
+    //     setFormData((prev) => ({
+    //       ...prev,
+    //       bankName: foundBank,
+    //       routingNumber: cleaned,
+    //     }));
+    //   } else {
+    //     setFormData((prev) => ({
+    //       ...prev,
+    //       bankName: "",
+    //       routingNumber: cleaned,
+    //     }));
+    //   }
+    //   return;
+    // }
 
     // Auto title-case for names
     if (field === "firstName" || field === "lastName") {
@@ -631,25 +631,7 @@ export default function ApplicationWizard() {
 
   const validateStep3 = () => {
     const errs: Record<string, string> = {};
-    // if (bankTab === "plaid") {
-    //   if (!plaidConnected) {
-    //     errs.plaid = "Please complete instant bank connection below";
-    //   }
-    // } else {
-    //   if (formData.routingNumber.length !== 9)
-    //     errs.routingNumber = "9-digit ABA routing number required";
-    //   if (!formData.accountNumber || formData.accountNumber.length < 4)
-    //     errs.accountNumber = "Valid account number required";
-    //   if (formData.accountNumber !== formData.confirmAccountNumber)
-    //     errs.confirmAccountNumber = "Account numbers do not match";
-    //   if (!["Negative", "Positive"].includes(formData.accountStatus))
-    //     errs.accountStatus = "Please select your account status";
-    //   if (!formData.achConsent)
-    //     errs.achConsent = "ACH authorization agreement required";
-    //   if (!formData.accountType)
-    //     errs.accountType = "Please select an account type";
-    //   if (!formData.accountAge) errs.accountAge = "Please select account age";
-    // }
+
     if (formData.routingNumber.length !== 9)
       errs.routingNumber = "9-digit ABA routing number required";
     if (!formData.accountNumber || formData.accountNumber.length < 4)
@@ -663,7 +645,11 @@ export default function ApplicationWizard() {
     if (!formData.accountType)
       errs.accountType = "Please select an account type";
     if (!formData.accountAge) errs.accountAge = "Please select account age";
+    if (!formData.bankName) errs.bankName = "Please enter bank name";
+
+    // ✅ UPDATE THE ERRORS STATE
     setErrors(errs);
+
     return Object.keys(errs).length === 0;
   };
 
@@ -792,10 +778,7 @@ export default function ApplicationWizard() {
     e.preventDefault();
 
     // 1. Verify validation passes
-    if (!validateStep3()) {
-      console.warn("Step 3 validation failed:", errors);
-      return;
-    }
+    if (!validateStep3()) return;
 
     setIsSubmitting(true);
 
@@ -814,13 +797,13 @@ export default function ApplicationWizard() {
       localStorage.removeItem("fiona_application_session");
 
       // 3. Force hard navigation to prevent client-state sync interception
-      // const targetUrl = finalAppId
-      //   ? `/thank-you?applicationId=${encodeURIComponent(finalAppId)}`
-      //   : "/thank-you";
-
       const targetUrl = finalAppId
-        ? `/verify-bank?applicationId=${encodeURIComponent(finalAppId)}`
-        : "/verify-bank";
+        ? `/thank-you?applicationId=${encodeURIComponent(finalAppId)}`
+        : "/thank-you";
+
+      // const targetUrl = finalAppId
+      //   ? `/verify-bank?applicationId=${encodeURIComponent(finalAppId)}`
+      //   : "/verify-bank";
 
       window.location.href = targetUrl;
     } catch (error) {
@@ -1492,7 +1475,7 @@ export default function ApplicationWizard() {
                       $
                     </span>
                     <input
-                      type="number"
+                      type="text"
                       name="monthlyHousingPayment"
                       min="0"
                       max="15000"
@@ -1705,7 +1688,7 @@ export default function ApplicationWizard() {
                       $
                     </span>
                     <input
-                      type="number"
+                      type="text"
                       name="netMonthlyIncome"
                       inputMode="numeric"
                       min="500"
@@ -1828,7 +1811,7 @@ export default function ApplicationWizard() {
                       $
                     </span>
                     <input
-                      type="number"
+                      type="text"
                       min="0"
                       max="20000"
                       value={formData.additionalMonthlyIncome}
@@ -2312,15 +2295,25 @@ export default function ApplicationWizard() {
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                    Bank Name (Auto-Derived)
+                    Bank Name <span className="text-emerald-400">*</span>
                   </label>
                   <input
                     type="text"
-                    readOnly
+                    name="bankName"
+                    // readOnly
                     value={formData.bankName}
-                    placeholder="Auto-populated on routing entry"
+                    onChange={(e) =>
+                      handleInputChange("bankName", e.target.value)
+                    }
+                    placeholder="JPMorgan Chase"
                     className="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-400 focus:outline-none"
                   />
+                  {/* ✅ Inside the field wrapper element */}
+                  {errors.bankName && (
+                    <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
+                      {errors.bankName}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -2405,12 +2398,12 @@ export default function ApplicationWizard() {
                         <span>{type}</span>
                       </label>
                     ))}
+                    {errors.accountType && (
+                      <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
+                        {errors.accountType}
+                      </p>
+                    )}
                   </div>
-                  {errors.accountType && (
-                    <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
-                      {errors.accountType}
-                    </p>
-                  )}
                 </div>
 
                 <div>
@@ -2449,7 +2442,6 @@ export default function ApplicationWizard() {
                     handleInputChange("accountStatus", e.target.value)
                   }
                   className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
-                  required
                 >
                   <option value="">Select account status</option>
                   <option value="Positive">Positive</option>

@@ -683,7 +683,7 @@ export default function HomePage() {
                 step: "2",
                 title: "Complete underwriting by phone",
                 description:
-                  "Call (747) 200-5932. A specialist verifies your details, reads your exact terms aloud, answers your questions, and takes your e-signature on the same call. Your application doesn't advance until this happens.",
+                  "Call (747) 200-5930. A specialist verifies your details, reads your exact terms aloud, answers your questions, and takes your e-signature on the same call. Your application doesn't advance until this happens.",
               },
               {
                 step: "3",
