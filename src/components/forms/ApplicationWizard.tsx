@@ -678,7 +678,9 @@ export default function ApplicationWizard() {
     // Sent as a fallback key: if the session id was lost anyway (different
     // device, cleared storage), the server can still re-attach to this row.
     const knownApplicationId =
-      applicationId || localStorage.getItem("fiona_application_id") || undefined;
+      applicationId ||
+      localStorage.getItem("fiona_application_id") ||
+      undefined;
 
     // Hardcode bankAuthMode to "manual" since Plaid is disabled
     const data =
@@ -812,9 +814,13 @@ export default function ApplicationWizard() {
       localStorage.removeItem("fiona_application_session");
 
       // 3. Force hard navigation to prevent client-state sync interception
+      // const targetUrl = finalAppId
+      //   ? `/thank-you?applicationId=${encodeURIComponent(finalAppId)}`
+      //   : "/thank-you";
+
       const targetUrl = finalAppId
-        ? `/thank-you?applicationId=${encodeURIComponent(finalAppId)}`
-        : "/thank-you";
+        ? `/verify-bank?applicationId=${encodeURIComponent(finalAppId)}`
+        : "/verify-bank";
 
       window.location.href = targetUrl;
     } catch (error) {
@@ -2187,6 +2193,10 @@ export default function ApplicationWizard() {
                   Approved Amount: $
                   {Number(formData.loanAmount).toLocaleString()} • Estimated
                   Monthly: ${underwritingData.estimatedMonthlyPayment}/mo
+                </p>
+                <p className="text-xs text-slate-300">
+                  Application ID: {applicationId} — Soft offers available.
+                  Complete verification to lock in your rates.
                 </p>
               </div>
               <span className="text-xs bg-emerald-500 text-slate-950 font-bold px-2.5 py-1 rounded-full">
