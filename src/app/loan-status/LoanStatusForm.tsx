@@ -23,12 +23,12 @@ const STATUS_CONFIG: Record<
   string,
   { label: string; color: string; bg: string; description: string }
 > = {
-  pending: {
-    label: "Pending Review",
-    color: "text-yellow-700",
-    bg: "bg-yellow-50 border-yellow-200",
+  prequalified: {
+    label: "Prequalified",
+    color: "text-green-700",
+    bg: "bg-green-50 border-green-200",
     description:
-      "Your application has been received and is waiting to be reviewed by our team.",
+      "Your application meets the initial criteria and has been prequalified.",
   },
   reviewing: {
     label: "Under Review",
