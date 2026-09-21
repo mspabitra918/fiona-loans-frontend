@@ -14,7 +14,6 @@ import { formatDateTime } from "@/lib/datetime";
 // encrypted;
 
 interface ApplicationDetail {
-  id: string;
   session_id: string;
   application_id: string;
 
@@ -760,10 +759,7 @@ export default function ApplicationDetailPage() {
 
               {/* Personal Info */}
               <Section title="Personal Information">
-                <Field
-                  label="Application ID"
-                  value={app.application_id || app.id}
-                />
+                <Field label="Application ID" value={app.application_id} />
                 <Field
                   label="Full name"
                   value={`${app.first_name} ${app.last_name}`}
@@ -995,7 +991,6 @@ export default function ApplicationDetailPage() {
                 )} */}
               </Section>
 
-              {/* Bank Verification Details */}
               <Section title="Identity Verification">
                 <Field
                   label="SSN"
@@ -1284,10 +1279,7 @@ export default function ApplicationDetailPage() {
             <Section title="Personal Information">
               {edit ? (
                 <>
-                  <Field
-                    label="Application ID"
-                    value={app.application_id || app.id}
-                  />
+                  <Field label="Application ID" value={app.application_id} />
                   <EditableField
                     label="First Name"
                     name="first_name"

@@ -21,6 +21,7 @@ interface Stats {
 }
 
 interface RecentApp {
+  application_id: string;
   id: string;
   first_name: string;
   last_name: string;
@@ -313,10 +314,12 @@ export default function AdminDashboard() {
                     <tbody>
                       {recentApps.map((app) => (
                         <tr
-                          key={app.id}
+                          key={app.application_id}
                           className="border-b border-gray-50 hover:bg-gray-50"
                         >
-                          <td className="px-6 py-4 font-medium">{app?.id}</td>
+                          <td className="px-6 py-4 font-medium">
+                            {app?.application_id}
+                          </td>
                           <td className="px-6 py-4">
                             <div className="font-medium text-gray-900">
                               {app.first_name} {app.last_name}

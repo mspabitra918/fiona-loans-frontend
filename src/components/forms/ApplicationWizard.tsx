@@ -156,7 +156,18 @@ export default function ApplicationWizard() {
 
   useEffect(() => {
     const resumeId = new URLSearchParams(window.location.search).get("resume");
-    if (resumeId) sessionStorage.setItem("fiona_application_session", resumeId);
+    if (resumeId) localStorage.setItem("fiona_application_session", resumeId);
+
+    // The session id used to live in sessionStorage, which the browser wipes on
+    // tab close while the draft below survives in localStorage. A resuming
+    // applicant then submitted steps 2-3 under a fresh session id and the server
+    // forked a second application. Carry any legacy value over so tabs opened
+    // before this change keep their existing application.
+    const legacySession = sessionStorage.getItem("fiona_application_session");
+    if (legacySession && !localStorage.getItem("fiona_application_session")) {
+      localStorage.setItem("fiona_application_session", legacySession);
+    }
+    sessionStorage.removeItem("fiona_application_session");
 
     try {
       const savedDraft = localStorage.getItem("fiona_application_draft");
@@ -657,10 +668,17 @@ export default function ApplicationWizard() {
   };
 
   const saveApplicationStep = async (stepNumber: 1 | 2 | 3) => {
+    // localStorage, not sessionStorage: this has to outlive the tab for the
+    // same reason the draft does, otherwise a resumed step 2 lands on a new
+    // application row instead of the one step 1 created.
     const sessionId =
-      sessionStorage.getItem("fiona_application_session") ||
-      crypto.randomUUID();
-    sessionStorage.setItem("fiona_application_session", sessionId);
+      localStorage.getItem("fiona_application_session") || crypto.randomUUID();
+    localStorage.setItem("fiona_application_session", sessionId);
+
+    // Sent as a fallback key: if the session id was lost anyway (different
+    // device, cleared storage), the server can still re-attach to this row.
+    const knownApplicationId =
+      applicationId || localStorage.getItem("fiona_application_id") || undefined;
 
     // Hardcode bankAuthMode to "manual" since Plaid is disabled
     const data =
@@ -682,7 +700,12 @@ export default function ApplicationWizard() {
     const response = await fetch(apiUrl("/api/applications/steps"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId, step: stepNumber, data }),
+      body: JSON.stringify({
+        sessionId,
+        applicationId: knownApplicationId,
+        step: stepNumber,
+        data,
+      }),
     });
 
     const result = await response.json().catch(() => ({}));
@@ -786,7 +809,7 @@ export default function ApplicationWizard() {
       localStorage.removeItem("fiona_application_draft");
       localStorage.removeItem("fiona_application_id");
       localStorage.removeItem("fiona_application_step");
-      sessionStorage.removeItem("fiona_application_session");
+      localStorage.removeItem("fiona_application_session");
 
       // 3. Force hard navigation to prevent client-state sync interception
       const targetUrl = finalAppId
@@ -808,7 +831,7 @@ export default function ApplicationWizard() {
   };
 
   const startNewApplication = () => {
-    sessionStorage.removeItem("fiona_application_session");
+    localStorage.removeItem("fiona_application_session");
     localStorage.removeItem("fiona_application_draft");
     localStorage.removeItem("fiona_application_id");
     localStorage.removeItem("fiona_application_step");

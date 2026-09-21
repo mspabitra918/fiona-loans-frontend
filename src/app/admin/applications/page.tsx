@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 import { formatDateTime, todayStr } from "@/lib/datetime";
 
 interface Application {
-  id: string;
   application_id: string;
   first_name: string;
   last_name: string;
