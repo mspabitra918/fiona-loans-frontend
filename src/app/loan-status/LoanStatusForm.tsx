@@ -51,6 +51,21 @@ const STATUS_CONFIG: Record<
     description:
       "Unfortunately, your application was not approved at this time. Please contact us for more details.",
   },
+  declined_hd: {
+    label: "Declined - HD",
+    color: "text-red-700",
+    bg: "bg-red-50 border-red-200",
+    description:
+      "Unfortunately, your application was declined. Please contact us for more details.",
+  },
+
+  declined_pb: {
+    label: "Declined - PB",
+    color: "text-red-700",
+    bg: "bg-red-50 border-red-200",
+    description:
+      "Unfortunately, your application was declined. Please contact us for more details.",
+  },
   funded: {
     label: "Funded",
     color: "text-emerald-700",

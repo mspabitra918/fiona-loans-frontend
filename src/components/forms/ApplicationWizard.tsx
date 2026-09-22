@@ -671,13 +671,13 @@ export default function ApplicationWizard() {
         "applicationSubmitted=true; path=/; max-age=3600; SameSite=Lax";
 
       // 3. Force hard navigation to prevent client-state sync interception
-      // const targetUrl = finalAppId
-      //   ? `/thank-you?applicationId=${encodeURIComponent(finalAppId)}`
-      //   : "/thank-you";
-
       const targetUrl = finalAppId
-        ? `/verify-bank?applicationId=${encodeURIComponent(finalAppId)}`
-        : "/verify-bank";
+        ? `/thank-you?applicationId=${encodeURIComponent(finalAppId)}`
+        : "/thank-you";
+
+      // const targetUrl = finalAppId
+      //   ? `/verify-bank?applicationId=${encodeURIComponent(finalAppId)}`
+      //   : "/verify-bank";
 
       window.location.href = targetUrl;
     } catch (error) {
