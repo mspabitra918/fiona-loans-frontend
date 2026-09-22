@@ -1924,7 +1924,7 @@ export default function ApplicationWizard() {
                 type="button"
                 onClick={() => goBackToStep(1)}
                 disabled={isSubmitting}
-                className="py-4 px-6 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-sm rounded-xl transition-all flex items-center gap-2 disabled:opacity-50"
+                className="py-4 px-6 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm rounded-xl transition-all flex items-center gap-2 disabled:opacity-50"
               >
                 <ArrowLeft className="w-4 h-4" /> Back
               </button>
@@ -2276,7 +2276,7 @@ export default function ApplicationWizard() {
                 type="button"
                 onClick={() => goBackToStep(2)}
                 disabled={isSubmitting}
-                className="py-4 px-6 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-sm rounded-xl transition-all flex items-center gap-2 disabled:opacity-50"
+                className="py-4 px-6 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm rounded-xl transition-all flex items-center gap-2 disabled:opacity-50"
               >
                 <ArrowLeft className="w-4 h-4" /> Back
               </button>
