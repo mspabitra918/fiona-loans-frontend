@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { apiUrl } from "@/lib/api";
 import { usePlaidLink } from "react-plaid-link";
 import {
@@ -18,12 +18,10 @@ import {
   Sparkles,
   Info,
   ChevronDown,
-  Check,
   Terminal,
   RefreshCw,
   Database,
   ExternalLink,
-  ShieldCheck,
   FileText,
   DollarSign,
   Briefcase,
@@ -58,9 +56,6 @@ export default function ApplicationWizard() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showPrequalAnimation, setShowPrequalAnimation] = useState(false);
-  const [showUnderwritingAnimation, setShowUnderwritingAnimation] =
-    useState(false);
   const [showAdminDrawer, setShowAdminDrawer] = useState(false);
   const [ssnVisible, setSsnVisible] = useState(false);
   const [bankTab, setBankTab] = useState("plaid"); // 'plaid' or 'manual'
@@ -76,18 +71,6 @@ export default function ApplicationWizard() {
     accountType: string;
   } | null>(null);
   const [applicationStatus, setApplicationStatus] = useState<string>("draft");
-  const [serverDerivedData, setServerDerivedData] = useState<{
-    applicantAge: number | null;
-    grossAnnualIncome: number;
-    totalMonthlyIncome: number;
-    debtToIncomeRatio: number;
-    disposableIncome: number;
-    paymentToIncomeRatio: number;
-    jobTenureMonths: number;
-    residenceTenureMonths: number;
-    estimatedInstallment: number;
-  } | null>(null);
-
   // Form Fields State
   const [formData, setFormData] = useState({
     // Step 1
@@ -152,57 +135,36 @@ export default function ApplicationWizard() {
   });
 
   const [errors, setErrors] = useState<Record<string, string | null>>({});
-  const [draftHydrated, setDraftHydrated] = useState(false);
+
+  // Funnel timing used to come from whichever step save was running. The
+  // application is now written once, at the end, so the client is the only
+  // thing that still knows when each step was finished.
+  const stepTimestamps = useRef({
+    step1StartedAt: new Date().toISOString(),
+    step1SubmittedAt: "",
+    step2SubmittedAt: "",
+  });
 
   useEffect(() => {
-    const resumeId = new URLSearchParams(window.location.search).get("resume");
-    if (resumeId) localStorage.setItem("fiona_application_session", resumeId);
-
-    // The session id used to live in sessionStorage, which the browser wipes on
-    // tab close while the draft below survives in localStorage. A resuming
-    // applicant then submitted steps 2-3 under a fresh session id and the server
-    // forked a second application. Carry any legacy value over so tabs opened
-    // before this change keep their existing application.
-    const legacySession = sessionStorage.getItem("fiona_application_session");
-    if (legacySession && !localStorage.getItem("fiona_application_session")) {
-      localStorage.setItem("fiona_application_session", legacySession);
+    // The application is filled in one sitting and posted once, so nothing is
+    // kept in browser storage — the form lives in React state, which survives
+    // moving between steps and is simply gone on a reload. Purge the keys older
+    // builds wrote so no applicant data is left sitting in localStorage.
+    for (const key of [
+      "fiona_application_draft",
+      "fiona_application_step",
+      "fiona_application_started",
+      "fiona_application_session",
+      "fiona_application_id",
+    ]) {
+      try {
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+      } catch {
+        // Blocked storage means there is nothing stale to clear either.
+      }
     }
-    sessionStorage.removeItem("fiona_application_session");
-
-    try {
-      const savedDraft = localStorage.getItem("fiona_application_draft");
-      if (savedDraft)
-        setFormData((previous) => ({ ...previous, ...JSON.parse(savedDraft) }));
-      const savedApplicationId = localStorage.getItem("fiona_application_id");
-      if (savedApplicationId) setApplicationId(savedApplicationId);
-      const savedStep = localStorage.getItem("fiona_application_step");
-      if (savedStep) setStep(Math.min(3, Math.max(1, Number(savedStep))));
-    } catch {
-      localStorage.removeItem("fiona_application_draft");
-    }
-    setDraftHydrated(true);
   }, []);
-
-  useEffect(() => {
-    // Do not re-save draft if the form is in the middle of submitting or already finished
-    if (!draftHydrated || isSubmitting) return;
-
-    const {
-      ssn,
-      confirmSsn,
-      dlNumber,
-      accountNumber,
-      confirmAccountNumber,
-      routingNumber,
-      ...safeDraft
-    } = formData;
-
-    localStorage.setItem("fiona_application_draft", JSON.stringify(safeDraft));
-    if (applicationId) {
-      localStorage.setItem("fiona_application_id", applicationId);
-    }
-    localStorage.setItem("fiona_application_step", String(step));
-  }, [applicationId, draftHydrated, formData, isSubmitting, step]);
 
   // Filter available terms based on loan amount
   const availableTerms = useMemo(() => {
@@ -276,19 +238,9 @@ export default function ApplicationWizard() {
     };
   }, [formData]);
 
-  const underwritingData = serverDerivedData
-    ? {
-        applicantAge: serverDerivedData.applicantAge,
-        totalMonthlyIncome: serverDerivedData.totalMonthlyIncome,
-        grossAnnualEst: serverDerivedData.grossAnnualIncome,
-        dti: String(serverDerivedData.debtToIncomeRatio),
-        disposableIncome: serverDerivedData.disposableIncome,
-        paymentToIncome: String(serverDerivedData.paymentToIncomeRatio),
-        jobTenureMonths: serverDerivedData.jobTenureMonths,
-        residenceTenureMonths: serverDerivedData.residenceTenureMonths,
-        estimatedMonthlyPayment: serverDerivedData.estimatedInstallment,
-      }
-    : derivedData;
+  // Underwriting figures are computed here on the client; the server only
+  // sees them once, with the completed application.
+  const underwritingData = derivedData;
 
   const createPlaidLinkToken = async () => {
     try {
@@ -386,29 +338,6 @@ export default function ApplicationWizard() {
           : `${match[1]}-${match[2]}${match[3] ? `-${match[3]}` : ""}`;
       }
     }
-
-    // ABA Routing Number Lookup logic
-    // if (field === "routingNumber") {
-    //   const cleaned = String(value).replace(/\D/g, "").slice(0, 9);
-    //   formattedValue = cleaned;
-    //   if (cleaned.length === 9) {
-    //     const foundBank =
-    //       BANK_LOOKUP[cleaned as keyof typeof BANK_LOOKUP] ||
-    //       "Federal Reserve Recognized Bank";
-    //     setFormData((prev) => ({
-    //       ...prev,
-    //       bankName: foundBank,
-    //       routingNumber: cleaned,
-    //     }));
-    //   } else {
-    //     setFormData((prev) => ({
-    //       ...prev,
-    //       bankName: "",
-    //       routingNumber: cleaned,
-    //     }));
-    //   }
-    //   return;
-    // }
 
     // Auto title-case for names
     if (field === "firstName" || field === "lastName") {
@@ -653,125 +582,66 @@ export default function ApplicationWizard() {
     return Object.keys(errs).length === 0;
   };
 
-  const saveApplicationStep = async (stepNumber: 1 | 2 | 3) => {
-    // localStorage, not sessionStorage: this has to outlive the tab for the
-    // same reason the draft does, otherwise a resumed step 2 lands on a new
-    // application row instead of the one step 1 created.
-    const sessionId =
-      localStorage.getItem("fiona_application_session") || crypto.randomUUID();
-    localStorage.setItem("fiona_application_session", sessionId);
+  // The whole wizard is one payload. Steps 1 and 2 only ask the server whether
+  // this applicant may proceed; nothing is written until handleFinalSubmit,
+  // which creates the application in a single transaction or not at all.
+  const applicationPayload = () => ({
+    ...formData,
+    // Plaid is disabled, so funding is always a manually entered account.
+    bankAuthMode: "manual",
+    purposeDetail: formData.purposeOtherDetail,
+  });
 
-    // Sent as a fallback key: if the session id was lost anyway (different
-    // device, cleared storage), the server can still re-attach to this row.
-    const knownApplicationId =
-      applicationId ||
-      localStorage.getItem("fiona_application_id") ||
-      undefined;
-
-    // Hardcode bankAuthMode to "manual" since Plaid is disabled
-    const data =
-      stepNumber === 1
-        ? {
-            ...formData,
-            bankAuthMode: "manual",
-            purposeDetail: formData.purposeOtherDetail,
-          }
-        : stepNumber === 2
-          ? { ...formData, bankAuthMode: "manual" }
-          : {
-              ...formData,
-              bankAuthMode: "manual",
-              bankName: formData.bankName,
-              accountType: formData.accountType,
-            };
-
-    const response = await fetch(apiUrl("/api/applications/steps"), {
+  const postJson = async (path: string, body: unknown) => {
+    const response = await fetch(apiUrl(path), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId,
-        applicationId: knownApplicationId,
-        step: stepNumber,
-        data,
-      }),
+      body: JSON.stringify(body),
     });
 
     const result = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(
-        result.message || result.error || "Unable to save application",
-      );
+      const failure = new Error(
+        result.message ||
+          result.error ||
+          "Unable to continue. Please try again.",
+      ) as Error & { status?: string };
+      failure.status = result.status;
+      throw failure;
     }
 
-    if (result.applicationId) setApplicationId(result.applicationId);
-    if (result.status) setApplicationStatus(result.status);
-    if (result.derivedData) setServerDerivedData(result.derivedData);
-
-    return result as {
-      applicationId?: string;
-      status?: string;
-      derivedData?: typeof serverDerivedData;
-    };
+    return result;
   };
 
-  const handleNextStep1 = async (e: React.FormEvent<HTMLFormElement>) => {
+  const goBackToStep = (target: 1 | 2) => {
+    // Safe to move backwards: nothing is sent or persisted until the final
+    // submit, so a reopened step is simply re-validated on the way forward.
+    setErrors((previous) => ({ ...previous, submit: null }));
+    setStep(target);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Steps 1 and 2 never touch the network. They validate what was typed and
+  // move on; the server first hears about this applicant at handleFinalSubmit,
+  // which runs every eligibility gate and writes the row in one transaction.
+  const handleNextStep1 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateStep1()) return;
 
-    setIsSubmitting(true);
-    try {
-      const result = await saveApplicationStep(1);
-      setIsSubmitting(false);
-      if (result.status === "declined") {
-        setStep(4);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
-      }
-      setShowPrequalAnimation(true);
-      setTimeout(() => {
-        setShowPrequalAnimation(false);
-        setStep(2);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, 2200);
-    } catch (error) {
-      setIsSubmitting(false);
-      setErrors((previous) => ({
-        ...previous,
-        submit:
-          error instanceof Error ? error.message : "Unable to save application",
-      }));
-    }
+    stepTimestamps.current.step1SubmittedAt = new Date().toISOString();
+    setErrors((previous) => ({ ...previous, submit: null }));
+    setStep(2);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleNextStep2 = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleNextStep2 = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateStep2()) return;
 
-    setIsSubmitting(true);
-    try {
-      const result = await saveApplicationStep(2);
-      setIsSubmitting(false);
-      if (result.status === "declined") {
-        setStep(4);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
-      }
-      setShowUnderwritingAnimation(true);
-      setTimeout(() => {
-        setShowUnderwritingAnimation(false);
-        setStep(3);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, 2400);
-    } catch (error) {
-      setIsSubmitting(false);
-      setErrors((previous) => ({
-        ...previous,
-        submit:
-          error instanceof Error
-            ? error.message
-            : "Unable to save identity verification",
-      }));
-    }
+    stepTimestamps.current.step2SubmittedAt = new Date().toISOString();
+    setErrors((previous) => ({ ...previous, submit: null }));
+    setStep(3);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleFinalSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -783,71 +653,53 @@ export default function ApplicationWizard() {
     setIsSubmitting(true);
 
     try {
-      const result = await saveApplicationStep(3);
-      const finalAppId = result?.applicationId || applicationId;
+      // The only write in the whole flow: all three steps, one transaction.
+      const result = (await postJson("/api/applications/submit", {
+        sessionId: crypto.randomUUID(),
+        data: {
+          ...applicationPayload(),
+          ...stepTimestamps.current,
+        },
+      })) as { applicationId?: string; status?: string };
+
+      const finalAppId = result.applicationId || "";
+      if (finalAppId) setApplicationId(finalAppId);
+      if (result.status) setApplicationStatus(result.status);
 
       // 1. Set the cookie required by your middleware (valid for 1 hour)
       document.cookie =
         "applicationSubmitted=true; path=/; max-age=3600; SameSite=Lax";
 
-      // 2. Clear all storage items right before redirect
-      localStorage.removeItem("fiona_application_draft");
-      localStorage.removeItem("fiona_application_id");
-      localStorage.removeItem("fiona_application_step");
-      localStorage.removeItem("fiona_application_session");
-
       // 3. Force hard navigation to prevent client-state sync interception
-      // const targetUrl = finalAppId
-      //   ? `/thank-you?applicationId=${encodeURIComponent(finalAppId)}`
-      //   : "/thank-you";
-
       const targetUrl = finalAppId
-        ? `/verify-bank?applicationId=${encodeURIComponent(finalAppId)}`
-        : "/verify-bank";
+        ? `/thank-you?applicationId=${encodeURIComponent(finalAppId)}`
+        : "/thank-you";
+
+      // const targetUrl = finalAppId
+      //   ? `/verify-bank?applicationId=${encodeURIComponent(finalAppId)}`
+      //   : "/verify-bank";
 
       window.location.href = targetUrl;
     } catch (error) {
       setIsSubmitting(false);
       console.error("Submission failed:", error);
+
+      // The gates all run at submit now, so this is where a decline surfaces.
+      if ((error as { status?: string })?.status === "declined") {
+        setApplicationStatus("declined");
+        setStep(4);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
       setErrors((previous) => ({
         ...previous,
         submit:
           error instanceof Error
             ? error.message
-            : "Unable to save bank details",
+            : "Unable to submit your application",
       }));
     }
-  };
-
-  const startNewApplication = () => {
-    localStorage.removeItem("fiona_application_session");
-    localStorage.removeItem("fiona_application_draft");
-    localStorage.removeItem("fiona_application_id");
-    localStorage.removeItem("fiona_application_step");
-    setFormData((previous) => {
-      const values = previous as Record<string, string | number | boolean>;
-      return Object.fromEntries(
-        Object.keys(values).map((key) => [
-          key,
-          key === "loanAmount"
-            ? 5000
-            : key === "loanTerm"
-              ? "36"
-              : typeof values[key] === "boolean"
-                ? false
-                : "",
-        ]),
-      ) as typeof previous;
-    });
-    setApplicationId("");
-    setApplicationStatus("draft");
-    setServerDerivedData(null);
-    setPlaidConnected(false);
-    setPlaidInstitutionName("");
-    setPlaidDetails(null);
-    setErrors({});
-    setStep(1);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -901,66 +753,10 @@ export default function ApplicationWizard() {
       </div>
       {/* Main Content Area */}
       <main className="max-w-5xl mx-auto px-4 pt-8 pb-12 sm:px-8">
-        {/* Soft-pull Pre-qual Transition Loader */}
-        {showPrequalAnimation && (
-          <div className="my-16 text-center space-y-6 py-12 bg-slate-950/80 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-md">
-            <div className="relative w-20 h-20 mx-auto">
-              <div className="absolute inset-0 rounded-full border-4 border-emerald-500/20 animate-ping"></div>
-              <div className="w-20 h-20 rounded-full border-4 border-t-emerald-400 border-r-teal-400 border-b-slate-800 border-l-slate-800 animate-spin flex items-center justify-center">
-                <Sparkles className="w-8 h-8 text-emerald-400 animate-pulse" />
-              </div>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2">
-                Analyzing Pre-Qualification Offers...
-              </h3>
-              <p className="text-sm text-slate-400 max-w-md mx-auto">
-                Checking lender matrix for $
-                {Number(formData.loanAmount).toLocaleString()} loan request
-                without affecting your credit score.
-              </p>
-            </div>
-            <div className="flex items-center justify-center gap-2 text-xs text-emerald-400 font-mono">
-              <CheckCircle2 className="w-4 h-4" /> Application ID Generated:{" "}
-              {applicationId}
-            </div>
-          </div>
-        )}
-
-        {/* Underwriting Hard Check Transition Loader */}
-        {showUnderwritingAnimation && (
-          <div className="my-16 text-center space-y-6 py-12 bg-slate-950/80 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-md">
-            <div className="relative w-20 h-20 mx-auto">
-              <div className="w-20 h-20 rounded-full border-4 border-t-emerald-400 border-r-teal-400 border-b-slate-800 border-l-slate-800 animate-spin flex items-center justify-center">
-                <ShieldCheck className="w-8 h-8 text-emerald-400" />
-              </div>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2">
-                Verifying Identity & Final Underwriting...
-              </h3>
-              <p className="text-sm text-slate-400 max-w-md mx-auto">
-                Running Bureau SSN Cross-Check & MLA Covered Borrower
-                Verification...
-              </p>
-            </div>
-            <div className="flex justify-center gap-4 text-xs text-slate-400">
-              <span className="flex items-center gap-1">
-                <Lock className="w-3.5 h-3.5 text-emerald-400" /> Encrypted
-                Session
-              </span>
-              <span className="flex items-center gap-1">
-                <Check className="w-3.5 h-3.5 text-emerald-400" /> DL Pattern
-                Verified
-              </span>
-            </div>
-          </div>
-        )}
-
         {/* ========================================================================= */}
         {/* STEP 1 FORM — Loan Request, Contact, Residence, Income                     */}
         {/* ========================================================================= */}
-        {!showPrequalAnimation && !showUnderwritingAnimation && step === 1 && (
+        {step === 1 && (
           <form
             onSubmit={handleNextStep1}
             onBlurCapture={(event) => {
@@ -1909,11 +1705,7 @@ export default function ApplicationWizard() {
               disabled={isSubmitting}
               className="w-full py-4 bg-linear-to-r from-emerald-500 to-teal-400 text-slate-950 font-extrabold text-base rounded-xl shadow-xl shadow-emerald-500/20 hover:from-emerald-400 hover:to-teal-300 transition-all flex items-center justify-center gap-2"
             >
-              <span>
-                {isSubmitting
-                  ? "Processing..."
-                  : "See Pre-Qualified Loan Offers"}
-              </span>
+              <span>{isSubmitting ? "Checking..." : "Next"}</span>
               {isSubmitting ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : (
@@ -1926,7 +1718,7 @@ export default function ApplicationWizard() {
         {/* ========================================================================= */}
         {/* STEP 2 FORM — Identity Verification (SSN & Driver's License)              */}
         {/* ========================================================================= */}
-        {!showPrequalAnimation && !showUnderwritingAnimation && step === 2 && (
+        {step === 2 && (
           <form
             onSubmit={handleNextStep2}
             onBlurCapture={(event) => {
@@ -1942,8 +1734,8 @@ export default function ApplicationWizard() {
                   Soft-Pull Pre-Qualification Passed!
                 </h3>
                 <p className="text-xs text-slate-300">
-                  Application ID: {applicationId} — Soft offers available.
-                  Complete verification to lock in your rates.
+                  Soft offers available. Complete verification to lock in your
+                  rates.
                 </p>
               </div>
             </div>
@@ -2128,23 +1920,20 @@ export default function ApplicationWizard() {
             </section>
 
             <div className="flex items-center gap-3">
-              {/* <button
+              <button
                 type="button"
-                onClick={() => setStep(1)}
-                className="py-4 px-6 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-sm rounded-xl transition-all flex items-center gap-2"
+                onClick={() => goBackToStep(1)}
+                disabled={isSubmitting}
+                className="py-4 px-6 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-sm rounded-xl transition-all flex items-center gap-2 disabled:opacity-50"
               >
-                <ArrowLeft className="w-4 h-4" /> Back to Step 1
-              </button> */}
+                <ArrowLeft className="w-4 h-4" /> Back
+              </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="flex-1 py-4 bg-linear-to-r from-emerald-500 to-teal-400 text-slate-950 font-extrabold text-base rounded-xl shadow-xl shadow-emerald-500/20 hover:from-emerald-400 hover:to-teal-300 transition-all flex items-center justify-center gap-2"
               >
-                <span>
-                  {isSubmitting
-                    ? "Verifying..."
-                    : "Verify Identity & Run Underwriting"}
-                </span>
+                <span>{isSubmitting ? "Checking..." : "Next"}</span>
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
                 ) : (
@@ -2158,7 +1947,7 @@ export default function ApplicationWizard() {
         {/* ========================================================================= */}
         {/* STEP 3 FORM — Bank & Funding Connection                                    */}
         {/* ========================================================================= */}
-        {!showPrequalAnimation && !showUnderwritingAnimation && step === 3 && (
+        {step === 3 && (
           <form
             onSubmit={handleFinalSubmit}
             onBlurCapture={(event) => {
@@ -2178,8 +1967,8 @@ export default function ApplicationWizard() {
                   Monthly: ${underwritingData.estimatedMonthlyPayment}/mo
                 </p>
                 <p className="text-xs text-slate-300">
-                  Application ID: {applicationId} — Soft offers available.
-                  Complete verification to lock in your rates.
+                  Soft offers available. Complete verification to lock in your
+                  rates.
                 </p>
               </div>
               <span className="text-xs bg-emerald-500 text-slate-950 font-bold px-2.5 py-1 rounded-full">
@@ -2484,14 +2273,20 @@ export default function ApplicationWizard() {
 
             <div className="flex items-center gap-3">
               <button
+                type="button"
+                onClick={() => goBackToStep(2)}
+                disabled={isSubmitting}
+                className="py-4 px-6 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-sm rounded-xl transition-all flex items-center gap-2 disabled:opacity-50"
+              >
+                <ArrowLeft className="w-4 h-4" /> Back
+              </button>
+              <button
                 type="submit"
                 disabled={isSubmitting}
                 className="flex-1 py-4 bg-linear-to-r from-emerald-500 to-teal-400 text-slate-950 font-extrabold text-base rounded-xl shadow-xl shadow-emerald-500/20 hover:from-emerald-400 hover:to-teal-300 transition-all flex items-center justify-center gap-2"
               >
                 <span>
-                  {isSubmitting
-                    ? "Finalizing..."
-                    : "Finalize & Authorize Loan Deposit"}
+                  {isSubmitting ? "Submitting..." : "Submit Application"}
                 </span>
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
@@ -2526,12 +2321,14 @@ export default function ApplicationWizard() {
             </div>
 
             <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl text-left space-y-3 font-mono text-xs">
-              <div className="flex justify-between border-b border-slate-800 pb-2">
-                <span className="text-slate-400">Application ID:</span>
-                <span className="text-emerald-400 font-bold">
-                  {applicationId}
-                </span>
-              </div>
+              {applicationId && (
+                <div className="flex justify-between border-b border-slate-800 pb-2">
+                  <span className="text-slate-400">Application ID:</span>
+                  <span className="text-emerald-400 font-bold">
+                    {applicationId}
+                  </span>
+                </div>
+              )}
               <div className="flex justify-between border-b border-slate-800 pb-2">
                 <span className="text-slate-400">Requested Amount:</span>
                 <span className="text-white">
