@@ -446,13 +446,33 @@ export default function ApplicationWizard() {
     if (phoneError) errs.mobilePhone = phoneError;
 
     // DOB Check (>=18)
+    // 1. Ensure the user entered a full 10-character date (MM/DD/YYYY)
     if (!formData.dob) {
       errs.dob = "Date of birth required";
-    } else if (
-      underwritingData.applicantAge !== null &&
-      underwritingData.applicantAge < 18
-    ) {
-      errs.dob = "Must be at least 18 years old";
+    } else if (formData.dob.length < 10) {
+      errs.dob = "Please enter a complete date (MM/DD/YYYY)";
+    } else {
+      const currentYear = new Date().getFullYear();
+      const year = parseInt(formData.dob.split("/")[2], 10);
+
+      // 2. Reject unreasonable birth years (e.g., year before 1900 or future year)
+      if (year < 1900 || year > currentYear) {
+        errs.dob = "Please enter a valid birth year";
+      }
+      // 3. Reject under 18
+      else if (
+        underwritingData.applicantAge !== null &&
+        underwritingData.applicantAge < 18
+      ) {
+        errs.dob = "Must be at least 18 years old";
+      }
+      // 4. Reject over 120 (or your underwriting limit)
+      else if (
+        underwritingData.applicantAge !== null &&
+        underwritingData.applicantAge > 120
+      ) {
+        errs.dob = "Please enter a valid age";
+      }
     }
 
     // Address
