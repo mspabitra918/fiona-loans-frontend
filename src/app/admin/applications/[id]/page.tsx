@@ -184,7 +184,7 @@ const STATUS_COLORS: Record<string, string> = {
   // verification_deposit_1: "bg-blue-100 text-blue-800 border-blue-200",
   // verification_deposit_2: "bg-blue-100 text-blue-800 border-blue-200",
   funded: "bg-purple-100 text-purple-800 border-purple-200",
-  declined: "bg-red-100 text-red-800 border-red-200",
+  // declined: "bg-red-100 text-red-800 border-red-200",
   declined_pb: "bg-red-100 text-red-800 border-red-200",
   declined_hd: "bg-red-100 text-red-800 border-red-200",
   bank_reverification: "bg-amber-100 text-amber-800 border-amber-200",
@@ -199,7 +199,7 @@ const ALL_STATUSES = [
   // "verification_deposit_1",
   // "verification_deposit_2",
   "funded",
-  "declined",
+  // "declined",
   "declined_pb",
   "declined_hd",
   "bank_reverification",
@@ -228,10 +228,10 @@ const QUICK_STATUS_ACTIONS = [
     value: "declined_hd",
     label: "Declined - HD",
   },
-  {
-    value: "declined",
-    label: "Declined",
-  },
+  // {
+  //   value: "declined",
+  //   label: "Declined",
+  // },
 ];
 
 function formatStatusLabel(status: string) {
@@ -606,7 +606,7 @@ export default function ApplicationDetailPage() {
   };
 
   const REVIEWER_ONLY_ACTIONS = [
-    "declined",
+    // "declined",
     "declined_pb",
     "declined_hd",
     "bank_reverification",
