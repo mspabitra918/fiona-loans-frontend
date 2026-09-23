@@ -284,7 +284,7 @@ export default function VerifyBankPage() {
           </div>
 
           <Link
-            href="/loan-status"
+            href={`/loan-status?applicationId=${appInfo?.applicationId}&email=${appInfo?.email}`}
             className="block w-full bg-primary hover:bg-primary-dark text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             Check Loan Status

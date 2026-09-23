@@ -672,7 +672,7 @@ export default function ApplicationWizard() {
 
       // 3. Force hard navigation to prevent client-state sync interception
       const targetUrl = finalAppId
-        ? `/thank-you?applicationId=${encodeURIComponent(finalAppId)}`
+        ? `/thank-you?email=${formData.email}&applicationId=${encodeURIComponent(finalAppId)}`
         : "/thank-you";
 
       // const targetUrl = finalAppId

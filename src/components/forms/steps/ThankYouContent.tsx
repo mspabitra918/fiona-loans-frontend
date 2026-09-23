@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 export default function ThankYouContent() {
   const searchParams = useSearchParams();
   const applicationId = searchParams.get("applicationId");
+  const email = searchParams.get("email");
 
   return (
     <main className="min-h-screen bg-[#f8fafc] flex items-center justify-center px-4 py-10">
@@ -106,7 +107,7 @@ export default function ThankYouContent() {
             {/* Actions */}
             <div className="mt-7 space-y-3">
               <a
-                href="/loan-status"
+                href={`/loan-status?applicationId=${applicationId}&email=${email}`}
                 className="flex items-center justify-center w-full rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 px-6 transition-all duration-200 shadow-lg shadow-slate-900/10"
               >
                 Check Loan Status

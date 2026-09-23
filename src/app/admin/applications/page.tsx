@@ -32,7 +32,7 @@ const STATUS_COLORS: Record<string, string> = {
   bank_verification_pending: "bg-yellow-100 text-yellow-800",
   // reviewing: "bg-blue-100 text-blue-800",
   bank_verification_completed: "bg-green-100 text-green-800",
-  // declined: "bg-red-100 text-red-800",
+  declined: "bg-red-100 text-red-800",
   declined_pb: "bg-red-100 text-red-800",
   declined_hd: "bg-red-100 text-red-800",
   funded: "bg-purple-100 text-purple-800",
@@ -48,7 +48,7 @@ const STATUSES = [
   // "bank_verification_pending",
   // "reviewing",
   // "bank_verification_completed",
-  // "declined",
+  "declined",
   "declined_pb",
   "declined_hd",
   "funded",
@@ -543,7 +543,7 @@ function ApplicationsListContent() {
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[app.status] || ""}`}
                         >
-                          {app.status}
+                          {app?.status.toUpperCase()}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
