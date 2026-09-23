@@ -51,6 +51,7 @@ import {
   US_STATES,
   validateUSPhone,
 } from "@/types/application";
+import { SSNInput } from "./SSNInput";
 
 export default function ApplicationWizard() {
   const router = useRouter();
@@ -135,6 +136,22 @@ export default function ApplicationWizard() {
   });
 
   const [errors, setErrors] = useState<Record<string, string | null>>({});
+
+  // Inside your component:
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  // Determine what text to render inside the input
+  const displayValue = () => {
+    if (!formData.ssn) return "";
+
+    // Show real numbers if field is currently focused OR if eye icon is ON
+    if (isFocused || ssnVisible) {
+      return formData.ssn;
+    }
+
+    // Otherwise show XXX-XX-XXXX when clicked away/blurred
+    return maskSSNFull(formData.ssn);
+  };
 
   // Funnel timing used to come from whichever step save was running. The
   // application is now written once, at the end, so the client is the only
@@ -702,6 +719,70 @@ export default function ApplicationWizard() {
     }
   };
 
+  const formatDateOfBirth = (value: string): string => {
+    // 1. Remove non-numeric characters
+    const digits = value.replace(/\D/g, "");
+
+    // 2. Extract parts
+    let month = digits.slice(0, 2);
+    let day = digits.slice(2, 4);
+    const year = digits.slice(4, 8);
+
+    // 3. Enforce MM limits (Month cannot exceed 12 or start with 2-9 if single digit typed wrong)
+    if (month.length === 1 && parseInt(month, 10) > 1) {
+      month = `0${month}`;
+    } else if (month.length === 2) {
+      const monthNum = parseInt(month, 10);
+      if (monthNum > 12) month = "12";
+      if (monthNum === 0) month = "01";
+    }
+
+    // 4. Enforce DD limits (Day cannot exceed 31)
+    if (day.length === 1 && parseInt(day, 10) > 3) {
+      day = `0${day}`;
+    } else if (day.length === 2) {
+      const dayNum = parseInt(day, 10);
+      if (dayNum > 31) day = "31";
+      if (dayNum === 0) day = "01";
+    }
+
+    // 5. Construct MM/DD/YYYY string dynamically
+    if (digits.length <= 2) {
+      return month;
+    }
+    if (digits.length <= 4) {
+      return `${month}/${day}`;
+    }
+    return `${month}/${day}/${year}`;
+  };
+
+  // Formats input dynamically as: 123-45-6789
+  // Format raw input as 123-45-6789 as typed
+  const formatSSN = (value: string): string => {
+    const digits = value.replace(/\D/g, "").slice(0, 9);
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 5) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+    return `${digits.slice(0, 3)}-${digits.slice(3, 5)}-${digits.slice(5)}`;
+  };
+
+  // Mask full input into literal "XXX-XX-XXXX" characters
+  const maskSSN = (value: string): string => {
+    const digits = value.replace(/\D/g, "");
+    if (digits.length === 0) return "";
+    if (digits.length <= 3) return "X".repeat(digits.length);
+    if (digits.length <= 5) return `XXX-${"X".repeat(digits.length - 3)}`;
+    return "XXX-XX-XXXX";
+  };
+
+  // Masks every digit into fixed XXX-XX-XXXX format when blurred
+  const maskSSNFull = (value: string): string => {
+    const digits = value.replace(/\D/g, "");
+    if (digits.length === 0) return "";
+    if (digits.length <= 3) return "X".repeat(digits.length);
+    if (digits.length <= 5) return `XXX-${"X".repeat(digits.length - 3)}`;
+    return "XXX-XX-XXXX";
+  };
+
   return (
     <div className="application-shell min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-emerald-500 selection:text-slate-950 pb-16">
       <div className="application-progress-wrap">
@@ -885,7 +966,6 @@ export default function ApplicationWizard() {
                   <input
                     type="text"
                     maxLength={120}
-                    placeholder="Brief description of loan purpose (3–120 characters)"
                     value={formData.purposeOtherDetail}
                     onChange={(e) =>
                       handleInputChange("purposeOtherDetail", e.target.value)
@@ -923,7 +1003,6 @@ export default function ApplicationWizard() {
                     onChange={(e) =>
                       handleInputChange("firstName", e.target.value)
                     }
-                    placeholder="Jane"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                   />
                   {errors.firstName && (
@@ -947,7 +1026,6 @@ export default function ApplicationWizard() {
                         e.target.value.toUpperCase(),
                       )
                     }
-                    placeholder="A"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 uppercase text-center"
                   />
                 </div>
@@ -964,7 +1042,6 @@ export default function ApplicationWizard() {
                     onChange={(e) =>
                       handleInputChange("lastName", e.target.value)
                     }
-                    placeholder="Doe"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                   />
                   {errors.lastName && (
@@ -1008,7 +1085,6 @@ export default function ApplicationWizard() {
                     onChange={(e) =>
                       handleInputChange("email", e.target.value.toLowerCase())
                     }
-                    placeholder="jane.doe@example.com"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                   />
                   {errors.email && (
@@ -1033,7 +1109,6 @@ export default function ApplicationWizard() {
                         e.target.value.toLowerCase(),
                       )
                     }
-                    placeholder="jane.doe@example.com"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                   />
                   {errors.confirmEmail && (
@@ -1059,7 +1134,6 @@ export default function ApplicationWizard() {
                     onChange={(e) =>
                       handleInputChange("mobilePhone", e.target.value)
                     }
-                    placeholder="(555) 000-0000"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                   />
                   {errors.mobilePhone && (
@@ -1074,10 +1148,14 @@ export default function ApplicationWizard() {
                     Date of Birth <span className="text-emerald-400">*</span>
                   </label>
                   <input
-                    type="date"
+                    type="text"
                     name="dob"
                     value={formData.dob}
-                    onChange={(e) => handleInputChange("dob", e.target.value)}
+                    // onChange={(e) => handleInputChange("dob", e.target.value)}
+                    onChange={(e) => {
+                      const formattedDate = formatDateOfBirth(e.target.value);
+                      handleInputChange("dob", formattedDate);
+                    }}
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                   />
                   {errors.dob && (
@@ -1110,7 +1188,6 @@ export default function ApplicationWizard() {
                     onChange={(e) =>
                       handleInputChange("streetAddress", e.target.value)
                     }
-                    placeholder="123 Main Street"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                   />
                   {errors.streetAddress && (
@@ -1130,7 +1207,6 @@ export default function ApplicationWizard() {
                     onChange={(e) =>
                       handleInputChange("aptUnit", e.target.value)
                     }
-                    placeholder="Apt 4B"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                   />
                 </div>
@@ -1145,7 +1221,6 @@ export default function ApplicationWizard() {
                     type="text"
                     value={formData.city}
                     onChange={(e) => handleInputChange("city", e.target.value)}
-                    placeholder="Los Angeles"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                   />
                   {errors.city && (
@@ -1195,7 +1270,6 @@ export default function ApplicationWizard() {
                         e.target.value.replace(/\D/g, ""),
                       )
                     }
-                    placeholder="90210"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                   />
                   {errors.zipCode && (
@@ -1282,7 +1356,6 @@ export default function ApplicationWizard() {
                           e.target.value,
                         )
                       }
-                      placeholder="1200"
                       className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-8 pr-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                     />
                   </div>
@@ -1391,7 +1464,6 @@ export default function ApplicationWizard() {
                         onChange={(e) =>
                           handleInputChange("employerName", e.target.value)
                         }
-                        placeholder="Acme Corporation"
                         className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                       />
                       {errors.employerName && (
@@ -1411,7 +1483,6 @@ export default function ApplicationWizard() {
                         onChange={(e) =>
                           handleInputChange("jobTitle", e.target.value)
                         }
-                        placeholder="Software Engineer"
                         className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                       />
                       {errors.jobTitle && (
@@ -1434,7 +1505,6 @@ export default function ApplicationWizard() {
                         onChange={(e) =>
                           handleInputChange("employerPhone", e.target.value)
                         }
-                        placeholder="(555) 000-0000"
                         className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                       />
                       {errors.employerPhone && (
@@ -1493,7 +1563,6 @@ export default function ApplicationWizard() {
                       onChange={(e) =>
                         handleInputChange("netMonthlyIncome", e.target.value)
                       }
-                      placeholder="4500"
                       className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-8 pr-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                     />
                   </div>
@@ -1617,7 +1686,6 @@ export default function ApplicationWizard() {
                           e.target.value,
                         )
                       }
-                      placeholder="0"
                       className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-8 pr-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                     />
                   </div>
@@ -1637,7 +1705,6 @@ export default function ApplicationWizard() {
                           e.target.value,
                         )
                       }
-                      placeholder="e.g. Consulting, Investments"
                       className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500"
                     />
                   </div>
@@ -1760,31 +1827,10 @@ export default function ApplicationWizard() {
                     Social Security Number (SSN){" "}
                     <span className="text-emerald-400">*</span>
                   </label>
-                  <div className="relative">
-                    <input
-                      type={ssnVisible ? "text" : "password"}
-                      name="ssn"
-                      maxLength={11}
-                      inputMode="numeric"
-                      autoComplete="off"
-                      data-sensitive="true"
-                      value={formData.ssn}
-                      onChange={(e) => handleInputChange("ssn", e.target.value)}
-                      placeholder="XXX-XX-XXXX"
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-3.5 pr-10 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setSsnVisible(!ssnVisible)}
-                      className="absolute right-3 top-3 text-slate-500 hover:text-slate-300"
-                    >
-                      {ssnVisible ? (
-                        <EyeOff className="w-4 h-4" />
-                      ) : (
-                        <Eye className="w-4 h-4" />
-                      )}
-                    </button>
-                  </div>
+                  <SSNInput
+                    formData={formData}
+                    handleInputChange={handleInputChange}
+                  />
                   {errors.ssn && (
                     <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
                       {errors.ssn}
@@ -1796,20 +1842,11 @@ export default function ApplicationWizard() {
                   <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
                     Confirm SSN <span className="text-emerald-400">*</span>
                   </label>
-                  <input
-                    type="password"
+                  <SSNInput
                     name="confirmSsn"
-                    maxLength={11}
-                    inputMode="numeric"
-                    autoComplete="off"
-                    data-sensitive="true"
-                    onPaste={(e) => e.preventDefault()}
-                    value={formData.confirmSsn}
-                    onChange={(e) =>
-                      handleInputChange("confirmSsn", e.target.value)
-                    }
-                    placeholder="Paste disabled"
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
+                    allowPaste={false}
+                    formData={formData}
+                    handleInputChange={handleInputChange}
                   />
                   {errors.confirmSsn && (
                     <p className="text-red-500 text-xs mt-1 ml-1 font-medium">
@@ -1838,7 +1875,6 @@ export default function ApplicationWizard() {
                         e.target.value.toUpperCase(),
                       )
                     }
-                    placeholder="D1234567"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500 uppercase"
                   />
                   {errors.dlNumber && (
@@ -1956,7 +1992,7 @@ export default function ApplicationWizard() {
             }}
             className="space-y-6 animate-fadeIn"
           >
-            <div className="bg-emerald-950/40 border border-emerald-500/40 p-4 rounded-xl flex items-center justify-between">
+            {/* <div className="bg-emerald-950/40 border border-emerald-500/40 p-4 rounded-xl flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-bold text-white">
                   Underwriting Approved!
@@ -1974,7 +2010,7 @@ export default function ApplicationWizard() {
               <span className="text-xs bg-emerald-500 text-slate-950 font-bold px-2.5 py-1 rounded-full">
                 Approved
               </span>
-            </div>
+            </div> */}
 
             {/* Bank Method Tab Switcher */}
             {/* <div className="grid grid-cols-2 gap-2 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800">
@@ -2072,7 +2108,6 @@ export default function ApplicationWizard() {
                     onChange={(e) =>
                       handleInputChange("routingNumber", e.target.value)
                     }
-                    placeholder="Try 021000021"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
                   />
                   {errors.routingNumber && (
@@ -2094,7 +2129,6 @@ export default function ApplicationWizard() {
                     onChange={(e) =>
                       handleInputChange("bankName", e.target.value)
                     }
-                    placeholder="JPMorgan Chase"
                     className="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-400 focus:outline-none"
                   />
                   {/* ✅ Inside the field wrapper element */}
@@ -2124,7 +2158,6 @@ export default function ApplicationWizard() {
                         e.target.value.replace(/\D/g, ""),
                       )
                     }
-                    placeholder="1234567890"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
                   />
                   {errors.accountNumber && (
@@ -2153,7 +2186,6 @@ export default function ApplicationWizard() {
                         e.target.value.replace(/\D/g, ""),
                       )
                     }
-                    placeholder="Paste disabled"
                     className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:outline-none focus:border-emerald-500"
                   />
                   {errors.confirmAccountNumber && (
