@@ -385,6 +385,8 @@ export default function ApplicationDetailPage() {
   const { user, loading, logout, isReviewer, isAdmin } = useAdminAuth();
   const { adminFetch } = useAdminApi();
 
+  const [isDownloading, setIsDownloading] = useState(false);
+
   const [app, setApp] = useState<ApplicationDetail | null>(null);
   const [bankVerification, setBankVerification] =
     useState<BankVerification | null>(null);
@@ -605,6 +607,54 @@ export default function ApplicationDetailPage() {
     }
   };
 
+  const handleDownloadLoanAgreement = async () => {
+    setIsDownloading(true);
+    try {
+      const res = await adminFetch(
+        `/api/admin/applications/${encodeURIComponent(id)}/download-loan-agreement`,
+      );
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || "Failed to download loan agreement");
+      }
+
+      // 1. Convert response stream into a Blob object
+      const blob = await res.blob();
+
+      // 2. Extract filename from Content-Disposition header if available
+      let filename =
+        `${app?.first_name || "Borrower"}_${app?.last_name || ""}_LOAN_AGREEMENT.pdf`.replace(
+          /\s+/g,
+          "_",
+        );
+      const contentDisposition = res.headers.get("Content-Disposition");
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename="?([^"]+)"?/);
+        if (match && match[1]) {
+          filename = match[1];
+        }
+      }
+
+      // 3. Create a temporary URL and anchor tag to trigger the browser download
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+
+      // 4. Clean up DOM and memory
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Download failed");
+      setDeleteConfirm(false);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   const REVIEWER_ONLY_ACTIONS = [
     // "declined",
     "declined_pb",
@@ -732,6 +782,61 @@ export default function ApplicationDetailPage() {
                   </div>
                 </div>
               )}
+
+              <div className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                <div>
+                  <h3 className="text-base font-semibold text-slate-800">
+                    {app.first_name} {app.last_name}
+                  </h3>
+                  <p className="text-sm text-slate-500">
+                    Application ID:{" "}
+                    <span className="font-mono">{app.application_id}</span>
+                  </p>
+                </div>
+
+                <button
+                  onClick={handleDownloadLoanAgreement}
+                  disabled={isDownloading}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-800 disabled:opacity-60 disabled:cursor-not-allowed transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  {isDownloading ? (
+                    <>
+                      {/* Animated Loading Spinner */}
+                      <svg
+                        className="w-4 h-4 animate-spin text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      <span>Downloading...</span>
+                    </>
+                  ) : (
+                    <>
+                      {/* PDF Document Icon */}
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M4 18h12a2 2 0 002-2V6l-4-4H4a2 2 0 00-2 2v12a2 2 0 002 2zm0-14h7v3h3v9H4V4z" />
+                      </svg>
+                      <span>
+                        Download {app.first_name} {app.last_name} Loan Agreement
+                      </span>
+                    </>
+                  )}
+                </button>
+              </div>
 
               {/* Personal Info */}
               <Section title="Personal Information">
@@ -1293,6 +1398,61 @@ export default function ApplicationDetailPage() {
                 </div> */}
               </div>
             )}
+
+            <div className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+              <div>
+                <h3 className="text-base font-semibold text-slate-800">
+                  {app.first_name} {app.last_name}
+                </h3>
+                <p className="text-sm text-slate-500">
+                  Application ID:{" "}
+                  <span className="font-mono">{app.application_id}</span>
+                </p>
+              </div>
+
+              <button
+                onClick={handleDownloadLoanAgreement}
+                disabled={isDownloading}
+                className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-800 disabled:opacity-60 disabled:cursor-not-allowed transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                {isDownloading ? (
+                  <>
+                    {/* Animated Loading Spinner */}
+                    <svg
+                      className="w-4 h-4 animate-spin text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <span>Downloading...</span>
+                  </>
+                ) : (
+                  <>
+                    {/* PDF Document Icon */}
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                      <path d="M4 18h12a2 2 0 002-2V6l-4-4H4a2 2 0 00-2 2v12a2 2 0 002 2zm0-14h7v3h3v9H4V4z" />
+                    </svg>
+                    <span>
+                      Download {app.first_name} {app.last_name} Loan Agreement
+                    </span>
+                  </>
+                )}
+              </button>
+            </div>
 
             {/* Personal Info */}
             <Section title="Personal Information">

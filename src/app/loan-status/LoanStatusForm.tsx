@@ -476,14 +476,18 @@ function LoanStatusContent() {
               </p>
 
               <a
-                href={`/verify-bank?applicationId=${encodeURIComponent(
-                  loan.id,
-                )}`}
+                href={`${
+                  loan.status === "bank_reverification"
+                    ? "/reconnect-bank-verification"
+                    : "/verify-bank"
+                }?applicationId=${encodeURIComponent(loan.id)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-md hover:shadow-lg"
               >
-                Verify My Bank
+                {loan.status === "bank_reverification"
+                  ? "Reconnect My Bank"
+                  : "Verify My Bank"}
               </a>
             </div>
           )}
