@@ -2295,38 +2295,38 @@ export default function ApplicationDetailPage() {
 
                 <Field label="User Agent" value={app.user_agent || "-"} />
 
-                <Field
+                {/* <Field
                   label="Device Fingerprint"
                   value={app.device_fingerprint || "-"}
-                />
+                /> */}
 
                 <Field label="Page URL" value={app.page_url || "-"} />
 
-                <Field label="Referrer URL" value={app.referrer_url || "-"} />
+                {/* <Field label="Referrer URL" value={app.referrer_url || "-"} /> */}
 
-                <Field
+                {/* <Field
                   label="Landing Page"
                   value={app.landing_page_first_touch || "-"}
-                />
+                /> */}
 
-                <Field
+                {/* <Field
                   label="Jornaya Lead ID"
                   value={app.jornaya_leadid || "-"}
-                />
+                /> */}
 
-                <Field
+                {/* <Field
                   label="TrustedForm Certificate"
                   value={app.trustedform_cert_url || "-"}
-                />
+                /> */}
 
-                <Field
+                {/* <Field
                   label="Assisted By Loan Agent"
                   value={app.assisted_by_loan_agent || "-"}
-                />
+                /> */}
               </Section>
             }
 
-            <Section title="Marketing Attribution">
+            {/* <Section title="Marketing Attribution">
               <Field label="UTM Source" value={app.utm_source || "-"} />
 
               <Field label="UTM Medium" value={app.utm_medium || "-"} />
@@ -2336,7 +2336,7 @@ export default function ApplicationDetailPage() {
               <Field label="UTM Content" value={app.utm_content || "-"} />
 
               <Field label="UTM Term" value={app.utm_term || "-"} />
-            </Section>
+            </Section> */}
 
             <Section title="Application Timeline">
               <Field
