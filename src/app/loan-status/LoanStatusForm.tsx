@@ -61,7 +61,7 @@ const STATUS_CONFIG: Record<
     color: "text-indigo-700",
     bg: "bg-indigo-50 border-indigo-200",
     description:
-      "Urgent action is required. Please call our underwriting team at (747) 200-5930 to discuss your application and next steps.",
+      "Urgent action is required. Please call our underwriting team at (747) 200-5934 to discuss your application and next steps.",
   },
 
   declined_pb: {
@@ -69,7 +69,7 @@ const STATUS_CONFIG: Record<
     color: "text-red-700",
     bg: "bg-red-50 border-red-200",
     description:
-      "Your application was declined because the bank account provided is an online-only or prepaid account. Contact us at (747) 200-5930 if you have a traditional checking account you would like to add.",
+      "Your application was declined because the bank account provided is an online-only or prepaid account. Contact us at (747) 200-5934 if you have a traditional checking account you would like to add.",
   },
   declined_hd: {
     label: "Declined HD",
@@ -90,7 +90,7 @@ const STATUS_CONFIG: Record<
     color: "text-green-700",
     bg: "bg-green-50 border-green-200",
     description:
-      "Call (747) 200-5930 to Move Forward With Your Loan. Your loan is approved, but not ready for funding.",
+      "Call (747) 200-5934 to Move Forward With Your Loan. Your loan is approved, but not ready for funding.",
   },
   funded: {
     label: "Loan Funded",
@@ -516,7 +516,7 @@ function LoanStatusContent() {
               </h3>
 
               <p className="text-base font-semibold text-text-primary mb-2">
-                Call (747) 200-5930 to Move Forward With Your Loan
+                Call (747) 200-5934 to Move Forward With Your Loan
               </p>
 
               <p className="text-sm text-text-secondary">
