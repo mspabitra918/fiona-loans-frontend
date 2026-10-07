@@ -13,10 +13,10 @@ import {
 export const metadata: Metadata = {
   title: {
     absolute:
-      "How to Get a Personal Loan — Apply, Verify, Get Funded | Fiona Loans",
+      "How to Get a Personal Loan — Apply, Verify, Get Funded | Oakhill Loans",
   },
   description:
-    "How a Fiona Loans personal loan works: apply online in five minutes, complete underwriting on one phone call, and receive funds typically within one business day.",
+    "How a Oakhill Loans personal loan works: apply online in five minutes, complete underwriting on one phone call, and receive funds typically within one business day.",
   keywords: [
     "how to get a personal loan",
     "personal loan application process",
@@ -64,7 +64,7 @@ const STEPS = [
     timeline: "Same day",
     image: "/images/how-it-works/phone-underwriting.jpg",
     imageAlt:
-      "Friendly Fiona Loans underwriting specialist assisting a customer over the phone",
+      "Friendly Oakhill Loans underwriting specialist assisting a customer over the phone",
     intro: (
       <>
         Call us at{" "}
@@ -202,7 +202,7 @@ export default function HowItWorksPage() {
       <section className="bg-gradient-to-br from-primary to-primary-dark text-white py-16 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl font-bold">
-            How to Get a Personal Loan From Fiona Loans
+            How to Get a Personal Loan From Oakhill Loans
           </h1>
           <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
             Three steps: apply online, complete underwriting by phone, receive

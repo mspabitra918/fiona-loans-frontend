@@ -4,8 +4,8 @@ import type { NextRequest } from "next/server";
 // const ALLOWED_COUNTRIES = ["US", "IN", "PK"];
 
 // // Canonicalization (www ↔ non-www) is owned entirely by nginx at the edge,
-// // which redirects www.fionaloans.com → fionaloans.com. The middleware must NOT
-// // redirect in the opposite direction, or every request on fionaloans.com ends
+// // which redirects www.oakhillloans.com → oakhillloans.com. The middleware must NOT
+// // redirect in the opposite direction, or every request on oakhillloans.com ends
 // // up in an nginx↔middleware redirect loop that also breaks client-side RSC
 // // navigation (e.g. admin <Link> clicks silently doing nothing).
 
@@ -44,9 +44,9 @@ const ALLOWED_COUNTRIES = ["US", "IN", "PK"];
 
 // / Only the canonical host should serve content; the apex domain
 // (and any www-less variant) is permanently redirected to it so that
-// both fionaloans.com and www.fionaloans.com resolve to one indexable URL.
-const CANONICAL_HOST = "www.fionaloans.com";
-const APEX_HOST = "fionaloans.com";
+// both oakhillloans.com and www.oakhillloans.com resolve to one indexable URL.
+const CANONICAL_HOST = "www.oakhillloans.com";
+const APEX_HOST = "oakhillloans.com";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

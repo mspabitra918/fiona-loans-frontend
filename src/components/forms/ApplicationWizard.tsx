@@ -168,11 +168,11 @@ export default function ApplicationWizard() {
     // moving between steps and is simply gone on a reload. Purge the keys older
     // builds wrote so no applicant data is left sitting in localStorage.
     for (const key of [
-      "fiona_application_draft",
-      "fiona_application_step",
-      "fiona_application_started",
-      "fiona_application_session",
-      "fiona_application_id",
+      "Oakhill_application_draft",
+      "Oakhill_application_step",
+      "Oakhill_application_started",
+      "Oakhill_application_session",
+      "Oakhill_application_id",
     ]) {
       try {
         localStorage.removeItem(key);
@@ -1741,7 +1741,7 @@ export default function ApplicationWizard() {
               {[
                 {
                   id: "tcpaConsent",
-                  text: "TCPA Consent: I agree to receive communications, calls, and SMS from Fiona Loans and its network of lenders using automated technology.",
+                  text: "TCPA Consent: I agree to receive communications, calls, and SMS from Oakhill Loans and its network of lenders using automated technology.",
                 },
                 {
                   id: "esignConsent",
@@ -1749,7 +1749,7 @@ export default function ApplicationWizard() {
                 },
                 {
                   id: "softCreditConsent",
-                  text: "Soft Credit Pull Authorization: I authorize Fiona Loans to perform a soft credit inquiry to pre-qualify me without affecting my credit score.",
+                  text: "Soft Credit Pull Authorization: I authorize Oakhill Loans to perform a soft credit inquiry to pre-qualify me without affecting my credit score.",
                 },
                 {
                   id: "privacyConsent",
@@ -1757,7 +1757,7 @@ export default function ApplicationWizard() {
                 },
                 {
                   id: "termsConsent",
-                  text: "Terms of Use: I agree to the Fiona Loans Terms of Use and platform policies.",
+                  text: "Terms of Use: I agree to the Oakhill Loans Terms of Use and platform policies.",
                 },
               ].map((c) => (
                 <label
@@ -1962,9 +1962,9 @@ export default function ApplicationWizard() {
                     className="mt-0.5 w-4 h-4 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-emerald-500"
                   />
                   <span>
-                    FCRA Hard Credit Authorization: I authorize Fiona Loans and
-                    its partner lenders to perform a formal hard credit inquiry
-                    with credit bureaus for full underwriting.
+                    FCRA Hard Credit Authorization: I authorize Oakhill Loans
+                    and its partner lenders to perform a formal hard credit
+                    inquiry with credit bureaus for full underwriting.
                   </span>
                 </label>
                 {errors.hardCreditConsent && (
@@ -2309,7 +2309,7 @@ export default function ApplicationWizard() {
                     className="mt-0.5 w-4 h-4 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-emerald-500"
                   />
                   <span>
-                    ACH Electronic Authorization: I authorize Fiona Loans to
+                    ACH Electronic Authorization: I authorize Oakhill Loans to
                     initiate electronic credit/debit entries for my personal
                     loan repayment.
                   </span>

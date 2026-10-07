@@ -29,14 +29,14 @@
     }
   },
   "include": [
-    "fiona-loans-frontend/next-env.d.ts",
+    "Oakhill-loans-frontend/next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "fiona-loans-frontend/node_modules",
+    "Oakhill-loans-frontend/node_modules",
     "backend"
   ]
 }

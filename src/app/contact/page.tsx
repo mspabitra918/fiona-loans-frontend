@@ -12,10 +12,10 @@ import { CiCircleCheck } from "react-icons/ci";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Contact Fiona Loans | Customer Support & Underwriting",
+    absolute: "Contact Oakhill Loans | Customer Support & Underwriting",
   },
   description:
-    "Get in touch with Fiona Loans. Call us to complete your underwriting process, or reach out via email or mail. View our business hours and full contact details.",
+    "Get in touch with Oakhill Loans. Call us to complete your underwriting process, or reach out via email or mail. View our business hours and full contact details.",
   alternates: { canonical: "/contact" },
 };
 

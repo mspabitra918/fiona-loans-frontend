@@ -21,9 +21,9 @@ export default function Header() {
               height={40}
               priority
             /> */}
-            {/* <h1>Fiona Loans</h1> */}
+            {/* <h1>Oakhill Loans</h1> */}
             <span className=" font-extrabold tracking-tight text-[#1b4d3e] text-3xl">
-              Fiona<span className="text-[#0f3329] font-normal"> Loans</span>
+              Oakhill<span className="text-[#0f3329] font-normal"> Loans</span>
             </span>
           </Link>
 

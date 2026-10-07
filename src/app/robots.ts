@@ -3,13 +3,13 @@
 // import { SITE_URL } from "@/lib/constants";
 
 // // Only the canonical production host should be indexable.
-// const CANONICAL_HOST = "www.fionaloans.com";
+// const CANONICAL_HOST = "www.oakhillloans.com";
 
 // export default async function robots(): Promise<MetadataRoute.Robots> {
 //   const host = (await headers()).get("host") ?? "";
 
-//   // Any non-canonical host (apex fionaloans.com, Vercel preview domains, etc.)
-//   // is fully disallowed so only www.fionaloans.com gets indexed.
+//   // Any non-canonical host (apex oakhillloans.com, Vercel preview domains, etc.)
+//   // is fully disallowed so only www.oakhillloans.com gets indexed.
 //   if (host !== CANONICAL_HOST) {
 //     return {
 //       rules: [{ userAgent: "*", disallow: "/" }],

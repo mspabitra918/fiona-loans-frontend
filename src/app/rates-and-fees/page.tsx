@@ -9,7 +9,7 @@ export const metadata: Metadata = {
       "Personal Loan Rates & Fees — 10.00% Fixed APR, No Origination Fee",
   },
   description:
-    "The complete Fiona Loans rate sheet: 10.00% fixed APR on $2,000–$10,000 loans, 12–48 month terms, $0 origination fee, no prepayment penalty. Full payment tables.",
+    "The complete Oakhill Loans rate sheet: 10.00% fixed APR on $2,000–$10,000 loans, 12–48 month terms, $0 origination fee, no prepayment penalty. Full payment tables.",
   keywords: [
     "personal loan rates",
     "personal loans no origination fee",
@@ -87,7 +87,7 @@ const PAYMENT_MATRIX = [
 
 const COMPARISON_ROWS = [
   {
-    apr: "10.00% — Fiona Loans",
+    apr: "10.00% — Oakhill Loans",
     payment: "$161.34",
     total: "$5,808.24",
     interest: "$808.24",
@@ -125,7 +125,7 @@ const COMPARISON_ROWS = [
 
 const RATES_FAQS = [
   {
-    question: "What is the APR on a Fiona Loans personal loan?",
+    question: "What is the APR on a Oakhill Loans personal loan?",
     answer: "10.00% fixed, for every approved borrower, in every state.",
   },
   {
@@ -189,8 +189,8 @@ export default function RatesAndFeesPage() {
           </h1>
           <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto leading-relaxed">
             The complete rate sheet on one page. In accordance with the Truth in
-            Lending Act, every cost associated with a Fiona Loans personal loan
-            is disclosed below — there is no second page of fine print.
+            Lending Act, every cost associated with a Oakhill Loans personal
+            loan is disclosed below — there is no second page of fine print.
           </p>
           <div className="mt-6 inline-block bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-sm sm:text-base font-semibold">
             10.00% Fixed APR &middot; $0 Origination &amp; Application Fees
@@ -268,9 +268,9 @@ export default function RatesAndFeesPage() {
             </p>
           </div>
 
-          {/* Section: What Fees Does Fiona Loans Charge? */}
+          {/* Section: What Fees Does Oakhill Loans Charge? */}
           <h2 className="text-2xl sm:text-3xl font-bold text-text-primary mb-6">
-            What Fees Does Fiona Loans Charge?
+            What Fees Does Oakhill Loans Charge?
           </h2>
           <div className="bg-white rounded-xl shadow-sm border border-surface-dark overflow-hidden mb-6">
             <table className="w-full text-sm">
@@ -431,7 +431,7 @@ export default function RatesAndFeesPage() {
             The Same Rate in Every State
           </h2>
           <p className="text-text-secondary mb-6 leading-relaxed">
-            Fiona Loans charges a fixed 10.00% APR to every approved borrower,
+            Oakhill Loans charges a fixed 10.00% APR to every approved borrower,
             in every state we serve. Geography does not change your cost of
             credit.
           </p>
@@ -564,7 +564,7 @@ export default function RatesAndFeesPage() {
               Pricing Disclosure
             </h3>
             <p>
-              Fiona Loans offers a fixed 10.00% Annual Percentage Rate on all
+              Oakhill Loans offers a fixed 10.00% Annual Percentage Rate on all
               personal loans from $2,000 to $10,000, with repayment terms of 12,
               24, 36, or 48 months. We do not charge origination fees,
               application fees, or processing fees. Your APR is fixed for the

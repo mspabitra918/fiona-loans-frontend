@@ -1,8 +1,8 @@
-export const SITE_NAME = "Fiona Loans";
-export const SITE_URL = "https://www.fionaloans.com";
+export const SITE_NAME = "Oakhill Loans";
+export const SITE_URL = "https://www.oakhillloans.com";
 export const SITE_DESCRIPTION =
-  "Fiona Loans is a direct personal loan provider offering competitive rates for debt consolidation, home improvement, medical expenses, and more. Apply online in minutes.";
-export const BUSINESS_EMAIL = "support@fionaloans.com";
+  "Oakhill Loans is a direct personal loan provider offering competitive rates for debt consolidation, home improvement, medical expenses, and more. Apply online in minutes.";
+export const BUSINESS_EMAIL = "support@oakhillloans.com";
 
 export const BUSINESS_PHONE = "(747) 200-5934";
 
@@ -10,10 +10,10 @@ export const BUSINESS_PHONE = "(747) 200-5934";
 export const BUSINESS_PHONE_TEL = "+17472005934";
 
 export const BUSINESS_ADDRESS = {
-  street: "22632 Golden Springs Dr Suite 315",
-  city: "Diamond Bar",
+  street: "448 S Hill St Ste 418",
+  city: "Los Angeles",
   state: "CA",
-  zip: "91765",
+  zip: "90013",
   country: "US",
 };
 

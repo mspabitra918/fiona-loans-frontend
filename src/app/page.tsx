@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: {
     // `absolute` bypasses the title template in the root layout
     absolute:
-      "Fixed Rate Personal Loans $2,000–$10,000 | 10% APR | Fiona Loans",
+      "Fixed Rate Personal Loans $2,000–$10,000 | 10% APR | Oakhill Loans",
   },
   description:
     "Direct lender personal loans from $2,000 to $10,000 at one fixed 10.00% APR. No origination fee, no prepayment penalty, 12–48 month terms. See your payment.",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "personal loans no origination fee",
     "online personal loans",
     "low interest personal loans",
-    "Fiona Loans",
+    "Oakhill Loans",
   ],
   alternates: {
     canonical: "/",
@@ -155,7 +155,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. Fiona Loans at a Glance */}
+      {/* 3. Oakhill Loans at a Glance */}
       <section className="bg-surface py-12 sm:py-16 border-b border-surface-dark">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-bold text-text-primary text-center">
@@ -335,7 +335,7 @@ export default function HomePage() {
               manageable payment are routinely the ones quoted above 30%.
             </p>
             <p className="mt-4 text-lg text-text-secondary leading-relaxed">
-              We removed the variable. Fiona Loans makes an approval decision
+              We removed the variable. Oakhill Loans makes an approval decision
               &mdash; yes or no &mdash; and every yes receives{" "}
               <span className="font-semibold text-primary">10.00% APR</span>. We
               won&apos;t always be able to approve an application, and we
@@ -346,7 +346,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. Why Choose Fiona Loans? */}
+      {/* 4. Why Choose Oakhill Loans? */}
       <section className="py-16 sm:py-24 bg-white border-b border-surface-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -448,7 +448,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center lg:text-left mb-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight">
-              What a Fiona Loans Personal Loan Costs
+              What a Oakhill Loans Personal Loan Costs
             </h2>
           </div>
 
@@ -667,7 +667,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-text-primary">
-              How to Get a Personal Loan From Fiona Loans
+              How to Get a Personal Loan From Oakhill Loans
             </h2>
           </div>
 
@@ -847,8 +847,8 @@ export default function HomePage() {
               Where We Lend
             </h2>
             <p className="mt-6 text-lg text-text-secondary leading-relaxed">
-              Fiona Loans serves qualified borrowers in all 50 U.S. states from
-              our corporate headquarters at{" "}
+              Oakhill Loans serves qualified borrowers in all 50 U.S. states
+              from our corporate headquarters at{" "}
               <span className="font-medium text-text-primary">
                 22632 Golden Springs Dr, Suite 315, Diamond Bar, California
               </span>

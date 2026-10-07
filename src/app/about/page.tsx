@@ -5,9 +5,9 @@ import { BreadcrumbSchema } from "@/components/ui/JsonLd";
 import { SITE_NAME, LOAN_LIMITS } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "About Fiona Loans | Nationwide Direct Lender",
+  title: "About Oakhill Loans | Nationwide Direct Lender",
   description:
-    "Learn about Fiona Loans. We are a direct lender providing $2k-$10k personal loans with a fixed 10% APR to borrowers in all 50 states, regardless of credit score.",
+    "Learn about Oakhill Loans. We are a direct lender providing $2k-$10k personal loans with a fixed 10% APR to borrowers in all 50 states, regardless of credit score.",
   alternates: { canonical: "/about" },
 };
 
@@ -139,7 +139,7 @@ export default function AboutPage() {
           <figure className="rounded-3xl overflow-hidden shadow-xl">
             <Image
               src="/images/about/our-team.jpeg"
-              alt="The Fiona Loans team at our Los Angeles office"
+              alt="The Oakhill Loans team at our Los Angeles office"
               width={1200}
               height={600}
               className="w-full h-80 sm:h-110 object-cover"

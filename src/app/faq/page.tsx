@@ -7,13 +7,14 @@ import FAQAccordion from "./FAQAccordion";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Personal Loan FAQs — Rates, Credit, Funding Times | Fiona Loans",
+    absolute:
+      "Personal Loan FAQs — Rates, Credit, Funding Times | Oakhill Loans",
   },
   description:
-    "Answers on Fiona Loans personal loans: the fixed 10.00% APR, credit requirements, funding timelines, fees, early payoff, and the application process.",
+    "Answers on Oakhill Loans personal loans: the fixed 10.00% APR, credit requirements, funding timelines, fees, early payoff, and the application process.",
   keywords: [
     "personal loan FAQ",
-    "fiona loans FAQ",
+    "Oakhill Loans FAQ",
     "personal loan credit score requirement",
     "personal loan funding time",
   ],
@@ -45,7 +46,7 @@ export default function FAQPage() {
             Frequently Asked Questions About Personal Loans
           </h1>
           <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
-            Everything we get asked about Fiona Loans personal loans. If your
+            Everything we get asked about Oakhill Loans personal loans. If your
             question isn&apos;t here, call us at{" "}
             <a
               href={`tel:${BUSINESS_PHONE_TEL}`}

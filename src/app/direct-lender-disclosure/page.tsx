@@ -55,7 +55,7 @@ export default function DirectLenderDisclosurePage() {
                   {
                     title: "One Application, One Lender",
                     description:
-                      "Your application is reviewed only by Fiona Loans. We do not sell or share your application with other lenders.",
+                      "Your application is reviewed only by Oakhill Loans. We do not sell or share your application with other lenders.",
                   },
                   {
                     title: "Faster Decisions",

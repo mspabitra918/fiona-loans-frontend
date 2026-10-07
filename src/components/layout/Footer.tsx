@@ -21,14 +21,14 @@ export default function Footer() {
           <div>
             <div className="mb-4">
               <span className="font-extrabold tracking-tight text-white text-3xl">
-                Fiona<span className="text-white font-normal"> Loans</span>
+                Oakhill<span className="text-white font-normal"> Loans</span>
               </span>
             </div>
 
             <p className="text-white/70 text-sm leading-relaxed">
-              Fiona Loans is a direct lender offering fixed-rate personal loans
-              to qualified borrowers across the United States. One rate for
-              every approved borrower, disclosed in full before you sign.
+              Oakhill Loans is a direct lender offering fixed-rate personal
+              loans to qualified borrowers across the United States. One rate
+              for every approved borrower, disclosed in full before you sign.
             </p>
           </div>
 
@@ -176,7 +176,7 @@ export default function Footer() {
         {/* APR & Disclosures */}
         <div className="mt-8 pt-8 border-t border-white/10 space-y-4">
           <p className="text-xs text-white/50 leading-relaxed">
-            Fiona Loans offers a fixed 10.00% APR on all personal loans. Loan
+            Oakhill Loans offers a fixed 10.00% APR on all personal loans. Loan
             amounts range from $2,000 to $10,000 with terms of 12, 24, 36, or 48
             months. Origination fee: $0.00. Application fee: $0.00. Prepayment
             penalty: none. Representative example: a $5,000 loan repaid over 36
@@ -188,10 +188,10 @@ export default function Footer() {
           </p>
 
           <p className="text-xs text-white/50 leading-relaxed">
-            Fiona Loans is an equal opportunity lender and does not discriminate
-            on the basis of race, color, religion, national origin, sex, marital
-            status, age, disability, or receipt of public assistance. State
-            license information is available at{" "}
+            Oakhill Loans is an equal opportunity lender and does not
+            discriminate on the basis of race, color, religion, national origin,
+            sex, marital status, age, disability, or receipt of public
+            assistance. State license information is available at{" "}
             <Link
               href="/state-licenses"
               className="underline hover:text-white transition-colors"

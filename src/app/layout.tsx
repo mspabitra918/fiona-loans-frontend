@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     "online loans",
     "fast personal loans",
     "low interest loans",
-    "Fiona Loans",
+    "Oakhill Loans",
   ],
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
@@ -88,7 +88,7 @@ export default function RootLayout({
       <head>
         <link
           rel="preconnect"
-          href="https://api.fionaloans.com"
+          href="https://api.oakhillloans.com"
           crossOrigin="anonymous"
         />
         <link

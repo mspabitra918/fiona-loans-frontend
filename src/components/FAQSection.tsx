@@ -1,7 +1,7 @@
 export default function FAQSection() {
   const faqs = [
     {
-      question: "What is the interest rate on a Fiona Loans personal loan?",
+      question: "What is the interest rate on a Oakhill Loans personal loan?",
       answer:
         "A fixed 10.00% APR for every approved borrower, regardless of loan amount, term, credit profile, or state.",
     },

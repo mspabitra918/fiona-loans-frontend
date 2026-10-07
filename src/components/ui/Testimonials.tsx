@@ -27,14 +27,14 @@ const TESTIMONIALS: Testimonial[] = [
     rating: 5,
     headline: "A lifesaver for unexpected expenses.",
     quote:
-      "I needed $3,000 for an emergency home repair and my credit isn't perfect. Fiona Loans didn't just approve me; they gave me the exact same 10% rate they advertise. The money was in my account the next morning.",
+      "I needed $3,000 for an emergency home repair and my credit isn't perfect. Oakhill Loans didn't just approve me; they gave me the exact same 10% rate they advertise. The money was in my account the next morning.",
     attribution: "— Sarah M., Texas",
   },
   {
     rating: 5,
     headline: "Finally, a lender with no hidden fees.",
     quote:
-      "I was tired of variable rates and hidden charges from other online lenders. The Fiona Loans process was incredibly straightforward. I borrowed $8,000, and my repayment schedule was crystal clear from day one.",
+      "I was tired of variable rates and hidden charges from other online lenders. The Oakhill Loans process was incredibly straightforward. I borrowed $8,000, and my repayment schedule was crystal clear from day one.",
     attribution: "— David R., Ohio",
   },
   {

@@ -240,7 +240,7 @@ function UsersListContent() {
             href="/admin/dashboard"
             className="text-xl font-bold text-primary"
           >
-            Fiona Loans
+            Oakhill Loans
           </Link>
           <div className="hidden sm:flex items-center gap-4 text-sm">
             <Link

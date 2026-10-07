@@ -227,7 +227,7 @@ export default function PrivacyPolicyPage() {
                 <br />
                 {SITE_NAME}
                 <br />
-                22632 Golden Springs Dr Suite 315, Diamond Bar, CA 91765
+                448 S Hill St Ste 418, Los Angeles, CA 90013
               </p>
             </div>
           </div>

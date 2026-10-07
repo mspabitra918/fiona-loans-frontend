@@ -160,7 +160,7 @@ export default function AdminDashboard() {
               priority
             /> */}
             <span className=" font-extrabold tracking-tight text-[#1b4d3e] text-3xl">
-              Fiona<span className="text-[#0f3329] font-normal"> Loans</span>
+              Oakhill<span className="text-[#0f3329] font-normal"> Loans</span>
             </span>
           </Link>
           <div className="hidden sm:flex items-center gap-4 text-sm">

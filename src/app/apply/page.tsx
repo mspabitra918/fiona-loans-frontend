@@ -5,10 +5,10 @@ import { BUSINESS_PHONE, BUSINESS_PHONE_TEL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Apply for a Personal Loan | Quick Application | Fiona Loans",
+    absolute: "Apply for a Personal Loan | Quick Application | Oakhill Loans",
   },
   description:
-    "Start your Fiona Loans application today. Borrow up to $10k with a fixed 10% APR. All credit scores accepted. Submit your form and call for instant underwriting.",
+    "Start your Oakhill Loans application today. Borrow up to $10k with a fixed 10% APR. All credit scores accepted. Submit your form and call for instant underwriting.",
   alternates: { canonical: "/apply" },
 };
 

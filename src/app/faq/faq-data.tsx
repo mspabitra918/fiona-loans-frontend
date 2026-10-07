@@ -17,9 +17,9 @@ export const FAQ_DATA: FAQSection[] = [
     category: "About the Loan",
     items: [
       {
-        question: "What is Fiona Loans?",
+        question: "What is Oakhill Loans?",
         plainAnswer:
-          "Fiona Loans is a direct lender offering fixed-rate personal loans from $2,000 to $10,000, repayable over 12 to 48 months at a fixed 10.00% APR. We fund our own loans and make our own credit decisions — we are not a marketplace or a broker.",
+          "Oakhill Loans is a direct lender offering fixed-rate personal loans from $2,000 to $10,000, repayable over 12 to 48 months at a fixed 10.00% APR. We fund our own loans and make our own credit decisions — we are not a marketplace or a broker.",
         answer: (
           <>
             {SITE_NAME} is a direct lender offering fixed-rate personal loans
@@ -68,7 +68,7 @@ export const FAQ_DATA: FAQSection[] = [
         question:
           "Do you offer payday loans, title loans, or no-credit-check loans?",
         plainAnswer:
-          "No. Fiona Loans offers fixed-rate installment loans only. We check credit on every application.",
+          "No. Oakhill Loans offers fixed-rate installment loans only. We check credit on every application.",
         answer: (
           <>
             No. {SITE_NAME} offers fixed-rate installment loans only. We check
@@ -82,7 +82,7 @@ export const FAQ_DATA: FAQSection[] = [
     category: "Rates and Fees",
     items: [
       {
-        question: "What is the interest rate on a Fiona Loan?",
+        question: "What is the interest rate on a Oakhill Loan?",
         plainAnswer:
           "A fixed 10.00% APR. Every approved borrower receives the same rate, regardless of loan amount, term, credit profile, or state. It never adjusts.",
         answer: (
@@ -130,7 +130,7 @@ export const FAQ_DATA: FAQSection[] = [
         ),
       },
       {
-        question: "What fees does Fiona Loans charge?",
+        question: "What fees does Oakhill Loans charge?",
         plainAnswer:
           "No application fee, no origination fee, no processing fee, and no prepayment penalty. A late payment fee applies after a five-day grace period, and a returned payment fee may apply. Both are disclosed in full in your loan agreement.",
         answer: (
@@ -235,7 +235,7 @@ export const FAQ_DATA: FAQSection[] = [
         answer: <>No. We don't currently offer cosigned loans.</>,
       },
       {
-        question: "What states does Fiona Loans operate in?",
+        question: "What states does Oakhill Loans operate in?",
         plainAnswer: "All 50 U.S. states.",
         answer: <>All 50 U.S. states.</>,
       },
@@ -398,16 +398,16 @@ export const FAQ_DATA: FAQSection[] = [
       },
       {
         question: "How do I stop marketing calls or texts?",
-        plainAnswer: `Reply STOP to any text, use the unsubscribe link in any email, or contact us at support@fionaloans.com or ${BUSINESS_PHONE}. Opting out of marketing has no effect on your application or your loan.`,
+        plainAnswer: `Reply STOP to any text, use the unsubscribe link in any email, or contact us at support@oakhillloans.com or ${BUSINESS_PHONE}. Opting out of marketing has no effect on your application or your loan.`,
         answer: (
           <>
             Reply STOP to any text, use the unsubscribe link in any email, or
             contact us at{" "}
             <a
-              href="mailto:support@fionaloans.com"
+              href="mailto:support@oakhillloans.com"
               className="text-primary hover:underline font-medium"
             >
-              support@fionaloans.com
+              support@oakhillloans.com
             </a>{" "}
             or{" "}
             <a

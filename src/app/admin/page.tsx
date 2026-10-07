@@ -50,13 +50,13 @@ export default function AdminLoginPage() {
           <div className="text-center mb-8">
             {/* <Image
               src="/logo-dark.png"
-              alt="Fiona Loans"
+              alt="Oakhill Loans"
               width={180}
               height={45}
               className="mx-auto"
             /> */}
             <span className=" font-extrabold tracking-tight text-[#1b4d3e] text-3xl">
-              Fiona<span className="text-[#0f3329] font-normal"> Loans</span>
+              Oakhill<span className="text-[#0f3329] font-normal"> Loans</span>
             </span>
             <p className="text-text-secondary mt-3">Admin Portal</p>
           </div>
@@ -82,7 +82,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition"
-                placeholder="admin@fionaloans.com"
+                placeholder="admin@oakhillloans.com"
               />
             </div>
 
