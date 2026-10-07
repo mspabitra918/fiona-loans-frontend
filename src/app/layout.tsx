@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import {
-  GoogleAnalytics,
   GoogleTagManager,
   GTMNoScript,
 } from "@/components/analytics/GoogleAnalytics";
@@ -86,6 +86,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-29CN39N8X5"
+          strategy="beforeInteractive"
+        />
+        <Script id="google-analytics" strategy="beforeInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-29CN39N8X5');`}
+        </Script>
         <link
           rel="preconnect"
           href="https://api.oakhillloans.com"
@@ -103,7 +113,6 @@ export default function RootLayout({
         <FinancialServiceSchema />
         <GTMNoScript />
         <GoogleTagManager />
-        <GoogleAnalytics />
         <MetaPixel />
         <Toaster position="top-center" toastOptions={{ duration: 4000 }} />
         <ConditionalLayout>{children}</ConditionalLayout>
