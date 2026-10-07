@@ -37,8 +37,8 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   icons: {
-    icon: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: "/logoos.svg",
+    apple: "/logoos.svg",
   },
   openGraph: {
     type: "website",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/favicon.svg",
+        url: "/logoos.svg",
         width: 512,
         height: 512,
         alt: `${SITE_NAME} Logo`,
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE_NAME} — Personal Loans`,
     description: SITE_DESCRIPTION,
-    images: ["/favicon.svg"],
+    images: ["/logoos.svg"],
   },
   robots: {
     index: true,
