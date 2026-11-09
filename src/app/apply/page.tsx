@@ -42,7 +42,7 @@ export default function ApplyPage() {
       </section>
 
       {/* Next Steps */}
-      <section className="bg-surface py-12 sm:py-16 border-t border-surface-dark">
+      {/* <section className="bg-surface py-12 sm:py-16 border-t border-surface-dark">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-text-primary">
             Next Steps: Call Us Immediately
@@ -66,7 +66,7 @@ export default function ApplyPage() {
             Call {BUSINESS_PHONE}
           </a>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

@@ -105,7 +105,7 @@ export default function ThankYouContent() {
             </div> */}
 
             {/* Actions */}
-            <div className="mt-7 space-y-3">
+            {/* <div className="mt-7 space-y-3">
               <a
                 href={`/loan-status?applicationId=${applicationId}&email=${email}`}
                 className="flex items-center justify-center w-full rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 px-6 transition-all duration-200 shadow-lg shadow-slate-900/10"
@@ -131,6 +131,48 @@ export default function ThankYouContent() {
                 className="flex items-center justify-center w-full rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium py-3.5 px-6 transition-colors"
               >
                 Return to Home
+              </a>
+            </div> */}
+            {/* Actions */}
+            <div className="mt-7 space-y-3">
+              <a
+                href={`/loan-status?applicationId=${encodeURIComponent(applicationId || "")}&email=${encodeURIComponent(email || "")}`}
+                className="flex items-center justify-center w-full rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 px-6 transition-all duration-200 shadow-lg shadow-slate-900/10"
+              >
+                Check Loan Status
+                <svg
+                  className="w-4 h-4 ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 12h14m-6-6 6 6"
+                  />
+                </svg>
+              </a>
+
+              <a
+                href="tel:+17472005934"
+                className="flex items-center justify-center w-full rounded-xl border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold py-3.5 px-6 transition-all duration-200"
+              >
+                <svg
+                  className="w-5 h-5 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.95.68l1.1 3.3a1 1 0 01-.5 1.21l-2.12 1.06a11.04 11.04 0 005.04 5.04l1.06-2.12a1 1 0 011.21-.5l3.3 1.1a1 1 0 01.68.95V17a2 2 0 01-2 2h-1C8.16 19 5 15.84 5 12V5z"
+                  />
+                </svg>
+                Call Our Team
               </a>
             </div>
           </div>
