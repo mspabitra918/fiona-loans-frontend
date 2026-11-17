@@ -156,7 +156,7 @@ export default function ThankYouContent() {
               </a>
 
               <a
-                href="tel:+17472005934"
+                href="tel:+17472005935"
                 className="flex items-center justify-center w-full rounded-xl border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold py-3.5 px-6 transition-all duration-200"
               >
                 <svg

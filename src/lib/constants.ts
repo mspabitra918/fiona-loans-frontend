@@ -4,10 +4,10 @@ export const SITE_DESCRIPTION =
   "Oakhill Loans is a direct personal loan provider offering competitive rates for debt consolidation, home improvement, medical expenses, and more. Apply online in minutes.";
 export const BUSINESS_EMAIL = "support@oakhillloans.com";
 
-export const BUSINESS_PHONE = "(747) 200-5934";
+export const BUSINESS_PHONE = "(747) 200-5935";
 
 /** E.164 form of BUSINESS_PHONE, for use in `tel:` hrefs. */
-export const BUSINESS_PHONE_TEL = "+17472005934";
+export const BUSINESS_PHONE_TEL = "+17472005935";
 
 export const BUSINESS_ADDRESS = {
   street: "448 S Hill St Ste 418",
@@ -28,7 +28,7 @@ export const BUSINESS_HOURS = {
 /** Single-line business hours string used across header, footer, and contact pages. */
 export const BUSINESS_HOURS_LINE = `Mon - Fri: ${BUSINESS_HOURS.monday_friday}`;
 
-export const BUSINESS_TOLL_FREE = "(747) 200-5934";
+export const BUSINESS_TOLL_FREE = "(747) 200-5935";
 
 export const LOAN_LIMITS = {
   minAmount: 2000,
